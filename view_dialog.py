@@ -378,8 +378,8 @@ def show_login_page():
             /* 登录页面容器 */
             .login-container {
                 max-width: 400px;
-                margin: 100px auto;
-                padding: 30px;
+                margin: 80px auto 20px auto;  /* 调整上边距 */
+                padding: 40px;  /* 增加内边距 */
                 background: white;
                 border-radius: 15px;
                 box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -397,16 +397,21 @@ def show_login_page():
             
             /* 登录图标 */
             .login-icon {
-                font-size: 50px;
-                margin-bottom: 20px;
+                font-size: 60px;  /* 增大图标 */
+                margin-bottom: 25px;
             }
             
             /* 输入框容器 */
+            .stTextInput {
+                max-width: 300px;  /* 限制输入框宽度 */
+                margin: 0 auto;    /* 水平居中 */
+            }
+            
             .stTextInput > div > div {
                 background: #f8f9fa;
                 border: 2px solid #e9ecef;
                 border-radius: 8px;
-                padding: 5px 10px;
+                padding: 8px 12px;  /* 增加输入框高度 */
                 transition: all 0.3s ease;
             }
             
@@ -426,12 +431,20 @@ def show_login_page():
             
             /* 错误消息样式 */
             .stAlert {
+                max-width: 300px;  /* 限制错误消息宽度 */
+                margin: 10px auto;  /* 水平居中 */
                 background-color: rgba(255, 92, 92, 0.1);
                 border: 1px solid #ff5c5c;
                 border-radius: 8px;
                 color: #ff5c5c;
                 padding: 10px;
-                margin-top: 10px;
+            }
+            
+            /* 帮助文本样式 */
+            .stTextInput > div > div > div > small {
+                color: #666;
+                font-size: 0.85em;
+                margin-top: 5px;
             }
         </style>
         
@@ -441,18 +454,21 @@ def show_login_page():
         </div>
     """, unsafe_allow_html=True)
     
-    # 创建一个空的占位符来调整密码输入框的位置
-    password_container = st.empty()
-    password = password_container.text_input("Enter password", type="password", 
-                                           placeholder="Please enter your password",
-                                           help="Contact administrator if you need access")
-    
-    if password:
-        if password == "next2025":
-            st.session_state.authenticated = True
-            st.rerun()
-        else:
-            st.error("❌ Incorrect password. Please try again.")
+    # 使用列来控制输入框的宽度和位置
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        password = st.text_input("Enter password", 
+                               type="password", 
+                               placeholder="Please enter your password",
+                               help="Contact administrator if you need access",
+                               key="password_input")
+        
+        if password:
+            if password == "next2025":
+                st.session_state.authenticated = True
+                st.rerun()
+            else:
+                st.error("❌ Incorrect password. Please try again.")
 
 def main():
     st.set_page_config(page_title="Dialog Visualization", layout="wide")
