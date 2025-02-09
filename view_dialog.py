@@ -246,6 +246,37 @@ def format_dialog(dialog_data):
             height: 1px;
             background: linear-gradient(to right, transparent, #e0e0e0, transparent);
         }
+        
+        /* 按钮容器样式 */
+        .stButton > button {
+            background: linear-gradient(135deg, #6c5ce7, #a367dc);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .stButton > button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #5b4cc4, #8b4dc9);
+        }
+        
+        .stButton > button:active {
+            transform: translateY(0px);
+        }
+        
+        /* 按钮行样式 */
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
     </style>
     """, unsafe_allow_html=True)
 
@@ -367,18 +398,25 @@ def main():
     REPO_NAME = "dialog-visualizer"
     DATA_PATH = "data/conversation_history"
 
-    st.title("Dialog Visualization")
+    # 添加 logout 按钮到标题行
+    col1, col2 = st.columns([10, 2])
+    with col1:
+        st.title("Dialog Visualization")
+    with col2:
+        if st.button("🚪 Logout", key="logout"):
+            st.session_state.authenticated = False
+            st.rerun()
     
     available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
     if not available_files:
         st.error("No dialog files found.")
         return
 
-    selected_file = st.selectbox(
-        "Select Dialog File", 
-        available_files,
-        format_func=format_file_name
-    )
+    selected_file = st.selectbox("Select Dialog File", available_files, format_func=format_file_name)
+    
+    # 添加刷新按钮
+    if st.button("🔄 Refresh Dialog"):
+        st.rerun()
     
     if selected_file:
         dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
