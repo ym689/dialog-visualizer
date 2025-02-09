@@ -162,11 +162,12 @@ def format_dialog(dialog_data):
 
     messages = dialog_data["full_state"]
     
-    # 显示第一个 Seeker 的 Hello 消息
-    if messages and messages[0]["role"] == "Seeker" and messages[0]["content"] == "Hello":
+    # 显示第一个 Seeker 消息
+    if messages:
+        first_msg = messages[0]
         st.markdown(f"""
-            <div class="hello-message">
-                {html.escape(messages[0]["content"])}
+            <div class="message seeker">
+                {html.escape(first_msg["content"])}
             </div>
         """, unsafe_allow_html=True)
         
@@ -225,8 +226,6 @@ def format_dialog(dialog_data):
                     with st.expander("Critique Prompt"):
                         st.write(msg.get("critic_prompt", ""))
                 i += 1
-    else:
-        st.error("Invalid dialog format: Dialog should start with Seeker saying 'Hello'")
 
 def view_dialog(file_path):
     try:
