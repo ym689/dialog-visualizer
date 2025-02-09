@@ -52,17 +52,11 @@ def get_github_files(repo_owner, repo_name, path, token):
     }
     response = requests.get(url, headers=headers)
     
-    # 添加调试信息
-    st.write("GitHub API Response Status:", response.status_code)
-    st.write("GitHub API Response:", response.text[:200])  # 显示响应内容的前200个字符
-    
     if response.status_code != 200:
         st.error(f"GitHub API Error: {response.status_code}")
         return []
         
-    files = [file['name'] for file in response.json() if file['type'] == 'file' and file['name'].endswith('.txt')]
-    st.write("Found files:", files)  # 显示找到的文件
-    return files
+    return [file['name'] for file in response.json() if file['type'] == 'file' and file['name'].endswith('.txt')]
 
 def read_github_file(repo_owner, repo_name, file_path, token):
     """从 GitHub 读取文件内容"""
@@ -278,18 +272,21 @@ def main():
     selected_file = st.selectbox("Select Dialog File", available_files)
     
     if selected_file:
-        dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
-        
-        if dialogs:
-            st.success(f"Successfully loaded {len(dialogs)} dialogs")
-            
-            dialog_index = st.selectbox(
-                "Select Dialog",
-                range(len(dialogs)),
-                format_func=lambda x: f"Dialog {x+1}"
-            )
-            
-            format_dialog(dialogs[dialog_index])
+        content = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
+        if content:
+            try:
+                dialogs = [json.loads(line.strip()) for line in content.split('\n') if line.strip()]
+                if dialogs:
+                    dialog_index = st.selectbox(
+                        "Select Dialog",
+                        range(len(dialogs)),
+                        format_func=lambda x: f"Dialog {x+1}"
+                    )
+                    format_dialog(dialogs[dialog_index])
+                else:
+                    st.error("No valid dialogs found in the file.")
+            except Exception as e:
+                st.error(f"Error processing dialogs: {str(e)}")
 
 if __name__ == "__main__":
     main()
