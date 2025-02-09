@@ -181,26 +181,25 @@ def format_dialog(dialog_data):
             
             # Create message container
             with st.container():
-                col1, col2 = st.columns([10, 2])
-                
-                with col1:
-                    st.markdown(f"""
-                        <div class="message {role.lower()}">
-                            {html.escape(str(msg["content"]))}
-                        </div>
-                    """, unsafe_allow_html=True)
+                st.markdown(f"""
+                    <div class="message {role.lower()}">
+                        {html.escape(str(msg["content"]))}
+                    </div>
+                """, unsafe_allow_html=True)
                 
                 # 只为非Hello消息添加展开选项
-                with col2:
-                    if role == "Recommender":
-                        with st.expander("Show", expanded=False):
-                            st.markdown("**User Preference:**")
+                if role == "Recommender":
+                    col1, col2 = st.columns([2, 10])
+                    with col1:
+                        with st.expander("User Preference"):
                             st.write(msg.get("user_preference", ""))
-                            st.markdown("**Recommender Prompt:**")
+                    with col1:
+                        with st.expander("Recommender Prompt"):
                             st.write(msg.get("Recommender_prompt", ""))
-                    elif role == "Seeker" and msg["content"] != "Hello":
-                        with st.expander("Show", expanded=False):
-                            st.markdown("**Seeker Prompt:**")
+                elif role == "Seeker" and msg["content"] != "Hello":
+                    col1, col2 = st.columns([2, 10])
+                    with col1:
+                        with st.expander("Seeker Prompt"):
                             st.write(msg.get("Seeker_prompt", ""))
             
             # 如果是一轮完整对话，显示reward
@@ -213,26 +212,22 @@ def format_dialog(dialog_data):
                 
                 if critic_data:
                     reward = critic_data.get("reward", 0)
-                    with st.container():
-                        col1, col2, col3 = st.columns([8, 2, 2])
-                        
-                        with col1:
-                            st.markdown(f"""
-                                <div class="reward">
-                                    Reward: {reward}
-                                </div>
-                            """, unsafe_allow_html=True)
-                        
-                        with col2:
-                            with st.expander("Show", expanded=False):
-                                content_list = critic_data.get("content", [])
-                                for i, content in enumerate(content_list, 1):
-                                    st.markdown(f"**Output {i}:**")
-                                    st.write(content)
-                        
-                        with col3:
-                            with st.expander("Show", expanded=False):
-                                st.write(critic_data.get("critic_prompt", ""))
+                    st.markdown(f"""
+                        <div class="reward">
+                            Reward: {reward}
+                        </div>
+                    """, unsafe_allow_html=True)
+                    
+                    col1, col2, col3 = st.columns([2, 2, 8])
+                    with col1:
+                        with st.expander("Content"):
+                            content_list = critic_data.get("content", [])
+                            for i, content in enumerate(content_list, 1):
+                                st.markdown(f"**Output {i}:**")
+                                st.write(content)
+                    with col1:
+                        with st.expander("Critique Prompt"):
+                            st.write(critic_data.get("critic_prompt", ""))
                 
                 current_turn = []
 
