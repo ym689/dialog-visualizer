@@ -68,15 +68,16 @@ def read_github_file(repo_owner, repo_name, file_path, token):
     encoded_path = '/'.join(urllib.parse.quote(part) for part in file_path.split('/'))
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{encoded_path}"
     
-    st.write("Requesting file from:", url)
+    st.write("Requesting file info from:", url)
     
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json"
     }
     
+    # 首先获取文件信息
     response = requests.get(url, headers=headers)
-    st.write("File API Response Status:", response.status_code)
+    st.write("File info API Response Status:", response.status_code)
     
     if response.status_code != 200:
         st.error(f"GitHub API Error: {response.status_code}")
@@ -84,44 +85,41 @@ def read_github_file(repo_owner, repo_name, file_path, token):
         return None
         
     try:
-        # 显示原始响应数据
-        response_data = response.json()
-        st.write("Response keys:", list(response_data.keys()))
+        file_info = response.json()
+        download_url = file_info.get('download_url')
         
-        if 'content' not in response_data:
-            st.error("No content field in response")
-            st.write("Full response:", response_data)
+        if not download_url:
+            st.error("No download URL found")
             return None
             
-        content = response_data['content']
-        st.write("Raw content length:", len(content))
-        st.write("Raw content preview:", content[:100])
+        st.write("Downloading file from:", download_url)
         
-        # 尝试不同的解码方式
-        try:
-            # 标准base64解码
-            decoded_content = base64.b64decode(content).decode('utf-8')
-            st.write("Standard base64 decode successful")
-        except:
-            try:
-                # 移除可能的换行符后再解码
-                content_clean = content.replace('\n', '')
-                decoded_content = base64.b64decode(content_clean).decode('utf-8')
-                st.write("Cleaned base64 decode successful")
-            except Exception as e:
-                st.error(f"Both decode attempts failed: {str(e)}")
-                return None
-        
-        st.write("Decoded content preview:", decoded_content[:200])
+        # 直接下载文件内容
+        file_response = requests.get(download_url, headers=headers)
+        if file_response.status_code != 200:
+            st.error(f"File download failed: {file_response.status_code}")
+            return None
+            
+        content = file_response.text
+        st.write("File content length:", len(content))
+        st.write("Content preview:", content[:200])
         
         # 显示行数统计
-        lines = [line for line in decoded_content.split('\n') if line.strip()]
+        lines = [line for line in content.split('\n') if line.strip()]
         st.write(f"Number of non-empty lines in file: {len(lines)}")
         
         if lines:
             st.write("First line preview:", lines[0][:200])
-            
-        return decoded_content
+            try:
+                # 尝试解析第一行JSON
+                first_dialog = json.loads(lines[0])
+                st.write("Successfully parsed first line JSON")
+                st.write("First dialog keys:", list(first_dialog.keys()))
+            except json.JSONDecodeError as e:
+                st.error(f"Error parsing first line as JSON: {str(e)}")
+        
+        return content
+        
     except Exception as e:
         st.error(f"Error processing content: {str(e)}")
         st.write("Full error:", str(e))
@@ -272,7 +270,7 @@ def main():
 
     try:
         GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
-        st.write("GitHub token loaded successfully")  # 确认token已加载
+        st.write("GitHub token loaded successfully")
     except Exception as e:
         st.error(f"Error reading GitHub token: {str(e)}")
         return
@@ -283,7 +281,6 @@ def main():
 
     st.title("Dialog Visualization")
     
-    # 显示配置信息
     st.write("Accessing repository:", f"{REPO_OWNER}/{REPO_NAME}")
     st.write("Looking for files in:", DATA_PATH)
     
@@ -299,7 +296,6 @@ def main():
         content = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
         
         if content:
-            st.write("File content loaded successfully")
             try:
                 # 分行处理
                 lines = [line.strip() for line in content.split('\n') if line.strip()]
@@ -310,10 +306,6 @@ def main():
                     try:
                         dialog = json.loads(line)
                         dialogs.append(dialog)
-                        if i == 0:  # 显示第一个对话的结构
-                            st.write("First dialog structure:", {
-                                k: type(v).__name__ for k, v in dialog.items()
-                            })
                     except json.JSONDecodeError as e:
                         st.error(f"Error parsing line {i+1}: {str(e)}")
                         st.write(f"Problematic line preview: {line[:200]}")
