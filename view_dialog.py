@@ -101,6 +101,10 @@ def format_filename(filename):
         return f"Dialog Record - Epoch {epoch}"
     return filename.replace('.txt', '')
 
+def display_prompt_template(content):
+    """显示提示模板"""
+    st.text_area("Prompt Template", value=content, height=400, disabled=True)
+
 def main():
     # 设置页面配置
     st.set_page_config(
@@ -121,7 +125,7 @@ def main():
     if not st.session_state.authenticated:
         password = st.text_input("Enter password", type="password")
         if password:
-            if password == "next2025":
+            if password == "NeXT":
                 st.session_state.authenticated = True
                 st.rerun()
             else:
@@ -137,30 +141,89 @@ def main():
 
     REPO_OWNER = "ym689"
     REPO_NAME = "dialog-visualizer"
-    DATA_PATH = "data"
 
-    st.title("💬 Dialog Visualization")
-    st.markdown("""
-    Select a dialog file to visualize.
-    """)
-
-    # 获取可用的对话文件列表（不显示调试信息）
-    available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
-    
-    if not available_files:
-        st.error(f"No dialog files found in the repository at {DATA_PATH}/")
-        return
-
-    # 文件选择
-    selected_file = st.selectbox(
-        "Select Dialog File",
-        available_files,
-        format_func=format_filename
+    # 在侧边栏添加目录选择
+    selected_directory = st.sidebar.selectbox(
+        "Select Directory",
+        ["conversation_history", "prompt_template"],
+        format_func=lambda x: {
+            "conversation_history": "Conversation History",
+            "prompt_template": "Prompt Templates"
+        }[x]
     )
 
-    if selected_file:
+    if selected_directory == "conversation_history":
+        st.title("💬 Dialog Visualization")
+        DATA_PATH = "data/conversation_history"
+        
+        # 获取对话文件列表
+        available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
+        
+        if not available_files:
+            st.error(f"No dialog files found in the repository at {DATA_PATH}/")
+            return
+
+        # 文件选择
+        selected_file = st.selectbox(
+            "Select Dialog File",
+            available_files,
+            format_func=format_filename
+        )
+
+        if selected_file:
+            try:
+                file_content = read_github_file(
+                    REPO_OWNER, 
+                    REPO_NAME, 
+                    f"{DATA_PATH}/{selected_file}", 
+                    GITHUB_TOKEN
+                )
+                
+                if file_content is None:
+                    st.error("Failed to read the file from GitHub.")
+                    return
+
+                dialogs = parse_dialog_data(file_content)
+                
+                if not dialogs:
+                    st.error("No valid dialogs found in the file.")
+                    return
+                
+                st.success(f"Successfully loaded {len(dialogs)} dialogs!")
+                
+                col1, col2 = st.columns([1, 3])
+                with col1:
+                    dialog_index = st.selectbox(
+                        "Select Dialog",
+                        range(len(dialogs)),
+                        format_func=lambda x: f"Dialog {x+1}"
+                    )
+                
+                display_dialog(dialogs[dialog_index])
+                
+            except Exception as e:
+                st.error(f"Error processing file: {str(e)}")
+
+    else:  # prompt_template
+        st.title("📝 Prompt Templates")
+        DATA_PATH = "data/prompt_template"
+        
+        # 添加提示模板类型选择
+        template_type = st.selectbox(
+            "Select Template Type",
+            ["Recommender Prompt", "Seeker Prompt", "Critique Prompt"]
+        )
+        
+        # 根据选择的类型确定文件名
+        template_files = {
+            "Recommender Prompt": "recommender_prompt.txt",
+            "Seeker Prompt": "seeker_prompt.txt",
+            "Critique Prompt": "critique_prompt.txt"
+        }
+        
+        selected_file = template_files[template_type]
+        
         try:
-            # 读取选中的文件
             file_content = read_github_file(
                 REPO_OWNER, 
                 REPO_NAME, 
@@ -169,33 +232,13 @@ def main():
             )
             
             if file_content is None:
-                st.error("Failed to read the file from GitHub.")
-                return
-
-            # 解析对话数据
-            dialogs = parse_dialog_data(file_content)
-            
-            if not dialogs:
-                st.error("No valid dialogs found in the file.")
+                st.error("Failed to read the template file from GitHub.")
                 return
             
-            # 显示对话总数
-            st.success(f"Successfully loaded {len(dialogs)} dialogs!")
-            
-            # 添加对话选择器
-            col1, col2 = st.columns([1, 3])
-            with col1:
-                dialog_index = st.selectbox(
-                    "Select Dialog",
-                    range(len(dialogs)),
-                    format_func=lambda x: f"Dialog {x+1}"
-                )
-            
-            # 显示选中的对话
-            display_dialog(dialogs[dialog_index])
+            display_prompt_template(file_content)
             
         except Exception as e:
-            st.error(f"Error processing file: {str(e)}")
+            st.error(f"Error reading template: {str(e)}")
 
 if __name__ == "__main__":
     main()
