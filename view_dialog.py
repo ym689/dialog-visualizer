@@ -414,10 +414,6 @@ def main():
 
     selected_file = st.selectbox("Select Dialog File", available_files, format_func=format_file_name)
     
-    # 添加刷新按钮
-    if st.button("🔄 Refresh Dialog"):
-        st.rerun()
-    
     if selected_file:
         dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
         if dialogs:
@@ -426,6 +422,11 @@ def main():
                 range(len(dialogs)),
                 format_func=lambda x: f"Dialog {x+1}"
             )
+            
+            # 将 Refresh 按钮移到这里
+            if st.button("🔄 Refresh Dialog"):
+                st.rerun()
+                
             format_dialog(dialogs[dialog_index])
 
 if __name__ == "__main__":
