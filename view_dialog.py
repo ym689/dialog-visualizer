@@ -372,6 +372,88 @@ def view_dialog(file_path):
     except Exception as e:
         st.error(f"Error loading dialog: {str(e)}")
 
+def show_login_page():
+    st.markdown("""
+        <style>
+            /* 登录页面容器 */
+            .login-container {
+                max-width: 400px;
+                margin: 100px auto;
+                padding: 30px;
+                background: white;
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                text-align: center;
+            }
+            
+            /* 登录标题 */
+            .login-title {
+                color: #2c3e50;
+                font-size: 28px;
+                font-weight: 600;
+                margin-bottom: 30px;
+                font-family: 'Helvetica Neue', Arial, sans-serif;
+            }
+            
+            /* 登录图标 */
+            .login-icon {
+                font-size: 50px;
+                margin-bottom: 20px;
+            }
+            
+            /* 输入框容器 */
+            .stTextInput > div > div {
+                background: #f8f9fa;
+                border: 2px solid #e9ecef;
+                border-radius: 8px;
+                padding: 5px 10px;
+                transition: all 0.3s ease;
+            }
+            
+            .stTextInput > div > div:hover {
+                border-color: #6c5ce7;
+            }
+            
+            .stTextInput > div > div:focus-within {
+                border-color: #6c5ce7;
+                box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+            }
+            
+            /* 背景样式 */
+            .stApp {
+                background: linear-gradient(135deg, #a8c0ff, #3f2b96);
+            }
+            
+            /* 错误消息样式 */
+            .stAlert {
+                background-color: rgba(255, 92, 92, 0.1);
+                border: 1px solid #ff5c5c;
+                border-radius: 8px;
+                color: #ff5c5c;
+                padding: 10px;
+                margin-top: 10px;
+            }
+        </style>
+        
+        <div class="login-container">
+            <div class="login-icon">🔐</div>
+            <div class="login-title">Welcome to Dialog Visualization</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # 创建一个空的占位符来调整密码输入框的位置
+    password_container = st.empty()
+    password = password_container.text_input("Enter password", type="password", 
+                                           placeholder="Please enter your password",
+                                           help="Contact administrator if you need access")
+    
+    if password:
+        if password == "next2025":
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("❌ Incorrect password. Please try again.")
+
 def main():
     st.set_page_config(page_title="Dialog Visualization", layout="wide")
     
@@ -379,13 +461,7 @@ def main():
         st.session_state.authenticated = False
     
     if not st.session_state.authenticated:
-        password = st.text_input("Enter password", type="password")
-        if password:
-            if password == "next2025":
-                st.session_state.authenticated = True
-                st.rerun()
-            else:
-                st.error("Incorrect password")
+        show_login_page()
         return
 
     try:
