@@ -159,10 +159,11 @@ def format_dialog(dialog_data):
             
             # If we have a complete turn, show reward
             if len(current_turn) == 2:
+                # Find the next critic message after this turn
                 critic_data = None
-                for turn_msg in current_turn:
-                    if turn_msg.get("role") == "critic":
-                        critic_data = turn_msg
+                for i, next_msg in enumerate(dialog_data["full_state"]):
+                    if next_msg["role"] == "critic" and i > dialog_data["full_state"].index(current_turn[-1]):
+                        critic_data = next_msg
                         break
                 
                 if critic_data:
@@ -187,8 +188,15 @@ def format_dialog(dialog_data):
 def view_dialog(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
-            dialog_data = json.loads(f.read())
-        format_dialog(dialog_data)
+            content = f.read()
+            # 找到第一个有效的 JSON 对象
+            start = content.find('{')
+            end = content.rfind('}') + 1
+            if start >= 0 and end > start:
+                dialog_data = json.loads(content[start:end])
+                format_dialog(dialog_data)
+            else:
+                st.error("No valid JSON data found in file")
     except Exception as e:
         st.error(f"Error loading dialog: {str(e)}")
 
