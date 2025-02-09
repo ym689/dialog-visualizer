@@ -55,11 +55,11 @@ def get_github_files(repo_owner, repo_name, path, token):
     if response.status_code != 200:
         st.error(f"GitHub API Error: {response.status_code}")
         return []
-        
-    return [file['name'] for file in response.json() if file['type'] == 'file' and file['name'].endswith('.txt')]
+    
+    files = [file['name'] for file in response.json() if file['type'] == 'file' and file['name'].endswith('.txt')]
+    return files
 
 def read_github_file(repo_owner, repo_name, file_path, token):
-    """从 GitHub 读取文件内容"""
     encoded_path = '/'.join(urllib.parse.quote(part) for part in file_path.split('/'))
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{encoded_path}"
     
@@ -69,7 +69,6 @@ def read_github_file(repo_owner, repo_name, file_path, token):
     }
     
     response = requests.get(url, headers=headers)
-    
     if response.status_code != 200:
         st.error(f"GitHub API Error: {response.status_code}")
         return None
@@ -100,7 +99,6 @@ def read_github_file(repo_owner, repo_name, file_path, token):
                 dialog = ast.literal_eval(line)
                 dialogs.append(dialog)
             except Exception as e:
-                st.error(f"Error parsing line: {str(e)}")
                 continue
         
         return dialogs
@@ -272,21 +270,14 @@ def main():
     selected_file = st.selectbox("Select Dialog File", available_files)
     
     if selected_file:
-        content = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
-        if content:
-            try:
-                dialogs = [json.loads(line.strip()) for line in content.split('\n') if line.strip()]
-                if dialogs:
-                    dialog_index = st.selectbox(
-                        "Select Dialog",
-                        range(len(dialogs)),
-                        format_func=lambda x: f"Dialog {x+1}"
-                    )
-                    format_dialog(dialogs[dialog_index])
-                else:
-                    st.error("No valid dialogs found in the file.")
-            except Exception as e:
-                st.error(f"Error processing dialogs: {str(e)}")
+        dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
+        if dialogs:
+            dialog_index = st.selectbox(
+                "Select Dialog",
+                range(len(dialogs)),
+                format_func=lambda x: f"Dialog {x+1}"
+            )
+            format_dialog(dialogs[dialog_index])
 
 if __name__ == "__main__":
     main()
