@@ -129,9 +129,11 @@ def format_dialog(dialog_data):
     <style>
         .message {
             margin: 10px;
-            padding: 10px;
+            padding: 15px;
             border-radius: 5px;
             position: relative;
+            font-size: 18px;
+            line-height: 1.5;
         }
         
         .seeker {
@@ -146,18 +148,35 @@ def format_dialog(dialog_data):
         
         .reward {
             margin: 10px;
-            padding: 5px;
+            padding: 10px;
             background-color: #fff3e0;
             border-radius: 3px;
+            font-size: 16px;
         }
         
         .hello-message {
             margin: 10px;
-            padding: 10px;
+            padding: 15px;
             background-color: #e8eaf6;
             border-radius: 5px;
             margin-left: 20px;
             opacity: 0.8;
+            font-size: 18px;
+        }
+
+        /* 设置展开内容的字体大小 */
+        .stExpander {
+            font-size: 14px;
+        }
+        
+        /* 设置展开按钮的字体大小 */
+        .stExpander button {
+            font-size: 14px !important;
+        }
+        
+        /* 设置对话选择下拉框的字体大小 */
+        .stSelectbox {
+            font-size: 16px;
         }
     </style>
     """, unsafe_allow_html=True)
