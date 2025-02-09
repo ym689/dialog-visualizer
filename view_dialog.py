@@ -266,36 +266,35 @@ def main():
     )
 
     if selected_file:
-        try:
-            file_content = read_github_file(
-                REPO_OWNER, 
-                REPO_NAME, 
-                f"{DATA_PATH}/{selected_file}", 
-                GITHUB_TOKEN
-            )
+        content = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
+        if content:
+            # 添加调试信息
+            st.write("Raw content:", content[:200])  # 显示前200个字符
             
-            if file_content is None:
-                st.error("Failed to read the file from GitHub.")
-                return
-
-            dialogs = parse_dialog_data(file_content)
+            # 分割行并过滤空行
+            lines = [line.strip() for line in content.split('\n') if line.strip()]
+            st.write("Number of non-empty lines:", len(lines))
             
-            if not dialogs:
+            # 尝试解析每一行
+            dialogs = []
+            for i, line in enumerate(lines):
+                try:
+                    dialog = json.loads(line)
+                    dialogs.append(dialog)
+                except json.JSONDecodeError as e:
+                    st.error(f"Error parsing line {i+1}: {str(e)}")
+                    st.write("Problematic line:", line[:200])
+            
+            if dialogs:
+                st.write("Successfully parsed dialogs:", len(dialogs))
+                dialog_index = st.selectbox(
+                    "Select Dialog",
+                    range(len(dialogs)),
+                    format_func=lambda x: f"Dialog {x+1}"
+                )
+                format_dialog(dialogs[dialog_index])
+            else:
                 st.error("No valid dialogs found in the file.")
-                return
-            
-            st.success(f"Successfully loaded {len(dialogs)} dialogs!")
-            
-            dialog_index = st.selectbox(
-                "Select Dialog",
-                range(len(dialogs)),
-                format_func=lambda x: f"Dialog {x+1}"
-            )
-            
-            format_dialog(dialogs[dialog_index])
-            
-        except Exception as e:
-            st.error(f"Error processing file: {str(e)}")
 
 if __name__ == "__main__":
     main()
