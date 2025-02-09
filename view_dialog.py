@@ -3,8 +3,7 @@ import requests
 import json
 import ast
 import base64
-import urllib.parse  # 添加这个导入
-import gradio as gr
+import urllib.parse
 import html
 
 def parse_dialog_data(text):
@@ -67,7 +66,6 @@ def get_github_files(repo_owner, repo_name, path, token):
 
 def read_github_file(repo_owner, repo_name, file_path, token):
     """从 GitHub 读取文件内容"""
-    # URL 编码文件路径
     encoded_path = '/'.join(urllib.parse.quote(part) for part in file_path.split('/'))
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{encoded_path}"
     
@@ -76,15 +74,11 @@ def read_github_file(repo_owner, repo_name, file_path, token):
         "Accept": "application/vnd.github.v3+json"
     }
     
-    # 打印调试信息（不包含 token）
-    st.write(f"Attempting to read file: {file_path}")
-    
     response = requests.get(url, headers=headers)
     
     if response.status_code != 200:
         st.error(f"GitHub API Error: {response.status_code}")
         st.error(f"Response: {response.text}")
-        st.write("Full URL (without token):", url)
         return None
         
     try:
@@ -97,15 +91,10 @@ def read_github_file(repo_owner, repo_name, file_path, token):
 
 def format_filename(filename):
     """美化文件名显示"""
-    # 从文件名中提取 epoch 数字
     if 'epoch-' in filename:
         epoch = filename.split('epoch-')[1].split('-')[0]
         return f"Dialog Record - Epoch {epoch}"
     return filename.replace('.txt', '')
-
-def display_prompt_template(content):
-    """显示提示模板"""
-    st.text_area("Prompt Template", value=content, height=400, disabled=True)
 
 def format_dialog(dialog_data):
     st.markdown("""
@@ -202,16 +191,6 @@ def view_dialog(file_path):
         format_dialog(dialog_data)
     except Exception as e:
         st.error(f"Error loading dialog: {str(e)}")
-
-def launch_interface():
-    iface = gr.Interface(
-        fn=view_dialog,
-        inputs=gr.Textbox(label="Dialog file path"),
-        outputs=gr.HTML(),
-        title="Dialog Visualizer",
-        description="Enter the path to a dialog JSON file to visualize it."
-    )
-    iface.launch()
 
 def main():
     # 设置页面配置
