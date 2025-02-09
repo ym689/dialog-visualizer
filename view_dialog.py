@@ -54,23 +54,14 @@ def get_github_files(repo_owner, repo_name, path, token):
         "Accept": "application/vnd.github.v3+json"
     }
     
-    # 打印调试信息（不包含 token）
-    st.write(f"Checking repository: {repo_owner}/{repo_name}")
-    st.write(f"Path: {path}")
-    
     response = requests.get(url, headers=headers)
     
     if response.status_code != 200:
         st.error(f"GitHub API Error: {response.status_code}")
         st.error(f"Response: {response.text}")
-        # 打印更多调试信息
-        st.write("Headers used (excluding Authorization):", 
-                {k:v for k,v in headers.items() if k != 'Authorization'})
         return []
     
-    files = [file['name'] for file in response.json() if file['type'] == 'file' and file['name'].endswith('.txt')]
-    st.write(f"Found files: {files}")
-    return files
+    return [file['name'] for file in response.json() if file['type'] == 'file' and file['name'].endswith('.txt')]
 
 def read_github_file(repo_owner, repo_name, file_path, token):
     """从 GitHub 读取文件内容"""
@@ -153,7 +144,7 @@ def main():
     Select a dialog file to visualize.
     """)
 
-    # 获取可用的对话文件列表
+    # 获取可用的对话文件列表（不显示调试信息）
     available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
     
     if not available_files:
