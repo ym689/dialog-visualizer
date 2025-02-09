@@ -162,23 +162,20 @@ def format_dialog(dialog_data):
 
     messages = dialog_data["full_state"]
     
-    # 确保第一条消息是 Seeker 的 Hello
+    # 显示第一个 Seeker 的 Hello 消息
     if messages and messages[0]["role"] == "Seeker" and messages[0]["content"] == "Hello":
-        # 显示 Hello 消息，无需展开选项
         st.markdown(f"""
             <div class="hello-message">
                 {html.escape(messages[0]["content"])}
             </div>
         """, unsafe_allow_html=True)
         
-        # 处理后续的对话
-        current_turn = []
-        for i in range(1, len(messages)):
-            msg = messages[i]
-            role = msg["role"]
-            
-            if role == "Recommender":
-                # 显示 Recommender 消息
+        # 从第二条消息开始，按照 Recommender -> Seeker -> Critic 的顺序处理
+        i = 1
+        while i < len(messages):
+            # Recommender
+            if i < len(messages) and messages[i]["role"] == "Recommender":
+                msg = messages[i]
                 st.markdown(f"""
                     <div class="message recommender">
                         {html.escape(str(msg["content"]))}
@@ -192,11 +189,11 @@ def format_dialog(dialog_data):
                 with col2:
                     with st.expander("Recommender Prompt"):
                         st.write(msg.get("Recommender_prompt", ""))
-                        
-                current_turn = [msg]
-                
-            elif role == "Seeker" and current_turn:
-                # 显示 Seeker 消息
+                i += 1
+            
+            # Seeker
+            if i < len(messages) and messages[i]["role"] == "Seeker":
+                msg = messages[i]
                 st.markdown(f"""
                     <div class="message seeker">
                         {html.escape(str(msg["content"]))}
@@ -205,32 +202,29 @@ def format_dialog(dialog_data):
                 
                 with st.expander("Seeker Prompt"):
                     st.write(msg.get("Seeker_prompt", ""))
-                    
-                current_turn.append(msg)
+                i += 1
+            
+            # Critic
+            if i < len(messages) and messages[i]["role"] == "critic":
+                msg = messages[i]
+                reward = msg.get("reward", 0)
+                st.markdown(f"""
+                    <div class="reward">
+                        Reward: {reward}
+                    </div>
+                """, unsafe_allow_html=True)
                 
-                # 寻找下一个 critic 消息
-                for next_msg in messages[i+1:]:
-                    if next_msg["role"] == "critic":
-                        reward = next_msg.get("reward", 0)
-                        st.markdown(f"""
-                            <div class="reward">
-                                Reward: {reward}
-                            </div>
-                        """, unsafe_allow_html=True)
-                        
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            with st.expander("Content"):
-                                content_list = next_msg.get("content", [])
-                                for idx, content in enumerate(content_list, 1):
-                                    st.markdown(f"**Output {idx}:**")
-                                    st.write(content)
-                        with col2:
-                            with st.expander("Critique Prompt"):
-                                st.write(next_msg.get("critic_prompt", ""))
-                        break
-                
-                current_turn = []
+                col1, col2 = st.columns(2)
+                with col1:
+                    with st.expander("Content"):
+                        content_list = msg.get("content", [])
+                        for idx, content in enumerate(content_list, 1):
+                            st.markdown(f"**Output {idx}:**")
+                            st.write(content)
+                with col2:
+                    with st.expander("Critique Prompt"):
+                        st.write(msg.get("critic_prompt", ""))
+                i += 1
     else:
         st.error("Invalid dialog format: Dialog should start with Seeker saying 'Hello'")
 
