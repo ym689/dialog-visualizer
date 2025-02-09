@@ -108,218 +108,100 @@ def display_prompt_template(content):
     st.text_area("Prompt Template", value=content, height=400, disabled=True)
 
 def format_dialog(dialog_data):
-    dialog_html = ""
-    current_turn = []
-    
-    def create_popup_menu(options, content_map):
-        menu_id = f"menu_{hash(str(content_map))}"
-        options_html = "".join([
-            f'<div onclick="showContent(\'{menu_id}_{i}\', `{html.escape(str(content))}`)">{option}</div>'
-            for i, (option, content) in enumerate(zip(options, content_map))
-        ])
-        return f'''
-            <div class="popup-menu" id="{menu_id}">
-                {options_html}
-            </div>
-        '''
-
-    def format_message(role, content, additional_data=None):
-        class_name = role.lower()
-        hover_attr = f'onmouseover="showMenu(this, \'{class_name}\')" onmouseout="hideMenu(this, \'{class_name}\')"'
-        
-        message_html = f'<div class="message {class_name}" {hover_attr}>{content}'
-        
-        if additional_data:
-            if role == "Recommender":
-                options = ["user_preference", "Recommender_prompt"]
-                content_map = [additional_data.get("user_preference", ""), additional_data.get("Recommender_prompt", "")]
-                message_html += create_popup_menu(options, content_map)
-            elif role == "Seeker":
-                options = ["Seeker_prompt"]
-                content_map = [additional_data.get("Seeker_prompt", "")]
-                message_html += create_popup_menu(options, content_map)
-                
-        message_html += '</div>'
-        return message_html
-
-    def format_turn_reward(turn_data):
-        if not turn_data:
-            return ""
-        
-        reward = 0
-        critic_data = None
-        for msg in turn_data:
-            if msg["role"] == "critic":
-                critic_data = msg
-                reward = msg.get("reward", 0)
-                break
-                
-        if critic_data:
-            reward_id = f"reward_{hash(str(critic_data))}"
-            content_list = critic_data.get("content", [])
-            content_html = "<br>".join([html.escape(str(c)) for c in content_list])
-            critique_prompt = critic_data.get("critic_prompt", "")
-            
-            return f'''
-                <div class="reward" 
-                    onmouseover="showMenu(this, 'reward')" 
-                    onmouseout="hideMenu(this, 'reward')">
-                    Reward: {reward}
-                    <div class="popup-menu" id="{reward_id}">
-                        <div onclick="showContent('{reward_id}_content', `{content_html}`)">content</div>
-                        <div onclick="showContent('{reward_id}_prompt', `{html.escape(critique_prompt)}`)">critique_prompt</div>
-                    </div>
-                </div>
-            '''
-        return ""
-
-    for msg in dialog_data["full_state"]:
-        role = msg["role"]
-        if role in ["Seeker", "Recommender"]:
-            current_turn.append(msg)
-            dialog_html += format_message(role, msg["content"], msg)
-            
-            # If we have a complete turn (both Seeker and Recommender)
-            if len(current_turn) == 2:
-                dialog_html += format_turn_reward(current_turn)
-                current_turn = []
-                
-    return f'''
-    <div id="dialog">
-        {dialog_html}
-    </div>
-    
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <pre id="modal-text"></pre>
-        </div>
-    </div>
-    
-    <script>
-        function showMenu(element, type) {{
-            const menu = element.querySelector('.popup-menu');
-            if (menu) {{
-                menu.style.display = 'block';
-                menu.style.left = '100%';
-                menu.style.top = '0';
-            }}
-        }}
-        
-        function hideMenu(element, type) {{
-            const menu = element.querySelector('.popup-menu');
-            if (menu) {{
-                menu.style.display = 'none';
-            }}
-        }}
-        
-        function showContent(id, content) {{
-            const modal = document.getElementById('modal');
-            const modalText = document.getElementById('modal-text');
-            modalText.textContent = content;
-            modal.style.display = 'block';
-        }}
-        
-        // Close modal when clicking on X or outside
-        document.querySelector('.close').onclick = function() {{
-            document.getElementById('modal').style.display = 'none';
-        }}
-        
-        window.onclick = function(event) {{
-            const modal = document.getElementById('modal');
-            if (event.target == modal) {{
-                modal.style.display = 'none';
-            }}
-        }}
-    </script>
-    
+    st.markdown("""
     <style>
-        .message {{
+        .message {
             margin: 10px;
             padding: 10px;
             border-radius: 5px;
             position: relative;
-        }}
+        }
         
-        .seeker {{
+        .seeker {
             background-color: #e3f2fd;
             margin-left: 20px;
-        }}
+        }
         
-        .recommender {{
+        .recommender {
             background-color: #f5f5f5;
             margin-right: 20px;
-        }}
+        }
         
-        .reward {{
+        .reward {
             margin: 10px;
             padding: 5px;
             background-color: #fff3e0;
             border-radius: 3px;
-            position: relative;
-        }}
-        
-        .popup-menu {{
-            display: none;
-            position: absolute;
-            background-color: white;
-            border: 1px solid #ddd;
-            padding: 5px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-            z-index: 1000;
-        }}
-        
-        .popup-menu div {{
-            padding: 5px;
-            cursor: pointer;
-        }}
-        
-        .popup-menu div:hover {{
-            background-color: #f0f0f0;
-        }}
-        
-        .modal {{
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.4);
-            z-index: 1001;
-        }}
-        
-        .modal-content {{
-            background-color: white;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-height: 70vh;
-            overflow-y: auto;
-        }}
-        
-        .close {{
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }}
-        
-        .close:hover {{
-            color: black;
-        }}
+        }
     </style>
-    '''
+    """, unsafe_allow_html=True)
+
+    current_turn = []
+    
+    for msg in dialog_data["full_state"]:
+        role = msg["role"]
+        if role in ["Seeker", "Recommender"]:
+            current_turn.append(msg)
+            
+            # Create message container
+            with st.container():
+                col1, col2 = st.columns([10, 2])
+                
+                with col1:
+                    st.markdown(f"""
+                        <div class="message {role.lower()}">
+                            {html.escape(msg["content"])}
+                        </div>
+                    """, unsafe_allow_html=True)
+                
+                with col2:
+                    if role == "Recommender":
+                        if st.button("📋", key=f"rec_{hash(msg['content'])}"):
+                            with st.expander("Additional Info"):
+                                st.text("User Preference:")
+                                st.write(msg.get("user_preference", ""))
+                                st.text("Recommender Prompt:")
+                                st.write(msg.get("Recommender_prompt", ""))
+                    elif role == "Seeker":
+                        if st.button("📋", key=f"seek_{hash(msg['content'])}"):
+                            with st.expander("Additional Info"):
+                                st.text("Seeker Prompt:")
+                                st.write(msg.get("Seeker_prompt", ""))
+            
+            # If we have a complete turn, show reward
+            if len(current_turn) == 2:
+                critic_data = None
+                for turn_msg in current_turn:
+                    if turn_msg.get("role") == "critic":
+                        critic_data = turn_msg
+                        break
+                
+                if critic_data:
+                    reward = critic_data.get("reward", 0)
+                    st.markdown(f"""
+                        <div class="reward">
+                            Reward: {reward}
+                        </div>
+                    """, unsafe_allow_html=True)
+                    
+                    if st.button("📋", key=f"reward_{hash(str(current_turn))}"):
+                        with st.expander("Reward Details"):
+                            st.text("Content:")
+                            content_list = critic_data.get("content", [])
+                            for content in content_list:
+                                st.write(content)
+                            st.text("Critique Prompt:")
+                            st.write(critic_data.get("critic_prompt", ""))
+                
+                current_turn = []
 
 def view_dialog(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             dialog_data = json.loads(f.read())
-        return format_dialog(dialog_data)
+        format_dialog(dialog_data)
     except Exception as e:
-        return f"Error loading dialog: {str(e)}"
+        st.error(f"Error loading dialog: {str(e)}")
 
 def launch_interface():
     iface = gr.Interface(
