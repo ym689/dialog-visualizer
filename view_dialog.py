@@ -168,7 +168,6 @@ def format_dialog(dialog_data):
                 {html.escape(first_msg["content"])}
             </div>
         """, unsafe_allow_html=True)
-        # 跳过第一条消息，从第二条开始处理
         messages = dialog_data["full_state"][1:]
     else:
         messages = dialog_data["full_state"]
@@ -194,21 +193,18 @@ def format_dialog(dialog_data):
                 # 只为非Hello消息添加展开选项
                 with col2:
                     if role == "Recommender":
-                        if st.button("📋", key=f"rec_{hash(str(msg['content']))}"):
-                            with st.expander("Additional Info"):
-                                st.markdown("**User Preference:**")
-                                st.write(msg.get("user_preference", ""))
-                                st.markdown("**Recommender Prompt:**")
-                                st.write(msg.get("Recommender_prompt", ""))
+                        with st.expander("Show", expanded=False):
+                            st.markdown("**User Preference:**")
+                            st.write(msg.get("user_preference", ""))
+                            st.markdown("**Recommender Prompt:**")
+                            st.write(msg.get("Recommender_prompt", ""))
                     elif role == "Seeker" and msg["content"] != "Hello":
-                        if st.button("📋", key=f"seek_{hash(str(msg['content']))}"):
-                            with st.expander("Additional Info"):
-                                st.markdown("**Seeker Prompt:**")
-                                st.write(msg.get("Seeker_prompt", ""))
+                        with st.expander("Show", expanded=False):
+                            st.markdown("**Seeker Prompt:**")
+                            st.write(msg.get("Seeker_prompt", ""))
             
             # 如果是一轮完整对话，显示reward
             if len(current_turn) == 2:
-                # 寻找下一个critic消息
                 critic_data = None
                 for i, next_msg in enumerate(messages):
                     if next_msg["role"] == "critic" and messages.index(next_msg) > messages.index(current_turn[-1]):
@@ -228,17 +224,15 @@ def format_dialog(dialog_data):
                             """, unsafe_allow_html=True)
                         
                         with col2:
-                            if st.button("Content", key=f"content_{hash(str(current_turn))}"):
-                                with st.expander("Reward Content"):
-                                    content_list = critic_data.get("content", [])
-                                    for i, content in enumerate(content_list, 1):
-                                        st.markdown(f"**Output {i}:**")
-                                        st.write(content)
+                            with st.expander("Show", expanded=False):
+                                content_list = critic_data.get("content", [])
+                                for i, content in enumerate(content_list, 1):
+                                    st.markdown(f"**Output {i}:**")
+                                    st.write(content)
                         
                         with col3:
-                            if st.button("Critique", key=f"critique_{hash(str(current_turn))}"):
-                                with st.expander("Critique Prompt"):
-                                    st.write(critic_data.get("critic_prompt", ""))
+                            with st.expander("Show", expanded=False):
+                                st.write(critic_data.get("critic_prompt", ""))
                 
                 current_turn = []
 
