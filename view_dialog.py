@@ -117,7 +117,7 @@ def format_file_name(file_name):
     
     # 获取关键信息
     if len(parts) >= 4:
-        epoch = parts[1]  # epoch-1
+        epoch = parts[1] + parts[2] # epoch-1
         model = parts[-1]  # llama2
         return f"Dialog Record ({epoch}, {model})"
     
