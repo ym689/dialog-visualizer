@@ -65,11 +65,20 @@ def read_github_file(repo_owner, repo_name, file_path, token):
         "Accept": "application/vnd.github.v3+json"
     }
     response = requests.get(url, headers=headers)
-    if response.status_code == 200:
+    
+    # 添加错误信息打印
+    if response.status_code != 200:
+        st.error(f"GitHub API Error: {response.status_code}")
+        st.error(f"Response: {response.text}")
+        return None
+        
+    try:
         content = response.json()['content']
         decoded_content = base64.b64decode(content).decode('utf-8')
         return decoded_content
-    return None
+    except Exception as e:
+        st.error(f"Error decoding content: {str(e)}")
+        return None
 
 def main():
     # 设置页面配置
@@ -99,7 +108,12 @@ def main():
         return
 
     # GitHub 配置
-    GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]  # 从 Streamlit secrets 获取 token
+    try:
+        GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
+    except Exception as e:
+        st.error(f"Error reading GitHub token: {str(e)}")
+        return
+
     REPO_OWNER = "ym689"
     REPO_NAME = "dialog-visualizer"
     DATA_PATH = "data"
@@ -113,7 +127,7 @@ def main():
     available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
     
     if not available_files:
-        st.error("No dialog files found in the repository.")
+        st.error(f"No dialog files found in the repository at {DATA_PATH}/")
         return
 
     # 文件选择
