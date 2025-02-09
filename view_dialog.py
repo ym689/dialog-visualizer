@@ -125,7 +125,7 @@ def main():
     if not st.session_state.authenticated:
         password = st.text_input("Enter password", type="password")
         if password:
-            if password == "NeXT":
+            if password == "next2025":
                 st.session_state.authenticated = True
                 st.rerun()
             else:
