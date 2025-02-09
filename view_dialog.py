@@ -44,21 +44,24 @@ def display_dialog(dialog):
         st.divider()
 
 def get_github_files(repo_owner, repo_name, path, token):
-    """从 GitHub 仓库获取指定路径下的文件列表"""
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{path}"
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json"
     }
-    
     response = requests.get(url, headers=headers)
+    
+    # 添加调试信息
+    st.write("GitHub API Response Status:", response.status_code)
+    st.write("GitHub API Response:", response.text[:200])  # 显示响应内容的前200个字符
     
     if response.status_code != 200:
         st.error(f"GitHub API Error: {response.status_code}")
-        st.error(f"Response: {response.text}")
         return []
-    
-    return [file['name'] for file in response.json() if file['type'] == 'file' and file['name'].endswith('.txt')]
+        
+    files = [file['name'] for file in response.json() if file['type'] == 'file' and file['name'].endswith('.txt')]
+    st.write("Found files:", files)  # 显示找到的文件
+    return files
 
 def read_github_file(repo_owner, repo_name, file_path, token):
     """从 GitHub 读取文件内容"""
@@ -212,21 +215,10 @@ def view_dialog(file_path):
         st.error(f"Error loading dialog: {str(e)}")
 
 def main():
-    # 设置页面配置
-    st.set_page_config(
-        page_title="Dialog Visualization",
-        page_icon="💬",
-        layout="wide"
-    )
+    st.set_page_config(page_title="Dialog Visualization", layout="wide")
     
-    # 密码验证
     if 'authenticated' not in st.session_state:
         st.session_state.authenticated = False
-    
-    if st.session_state.authenticated:
-        if st.button("Logout"):
-            st.session_state.authenticated = False
-            st.rerun()
     
     if not st.session_state.authenticated:
         password = st.text_input("Enter password", type="password")
@@ -238,9 +230,9 @@ def main():
                 st.error("Incorrect password")
         return
 
-    # GitHub 配置
     try:
         GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
+        st.write("GitHub token loaded successfully")  # 确认token已加载
     except Exception as e:
         st.error(f"Error reading GitHub token: {str(e)}")
         return
@@ -249,52 +241,40 @@ def main():
     REPO_NAME = "dialog-visualizer"
     DATA_PATH = "data/conversation_history"
 
-    st.title("💬 Dialog Visualization")
+    st.title("Dialog Visualization")
     
-    # 获取对话文件列表
+    # 显示配置信息
+    st.write("Accessing repository:", f"{REPO_OWNER}/{REPO_NAME}")
+    st.write("Looking for files in:", DATA_PATH)
+    
     available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
-    
     if not available_files:
-        st.error(f"No dialog files found in the repository at {DATA_PATH}/")
+        st.error("No dialog files found.")
         return
 
-    # 文件选择
-    selected_file = st.selectbox(
-        "Select Dialog File",
-        available_files,
-        format_func=format_filename
-    )
-
+    selected_file = st.selectbox("Select Dialog File", available_files)
+    
     if selected_file:
+        st.write("Selected file:", selected_file)  # 显示选中的文件
         content = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
         if content:
-            # 添加调试信息
-            st.write("Raw content:", content[:200])  # 显示前200个字符
-            
-            # 分割行并过滤空行
-            lines = [line.strip() for line in content.split('\n') if line.strip()]
-            st.write("Number of non-empty lines:", len(lines))
-            
-            # 尝试解析每一行
-            dialogs = []
-            for i, line in enumerate(lines):
-                try:
-                    dialog = json.loads(line)
-                    dialogs.append(dialog)
-                except json.JSONDecodeError as e:
-                    st.error(f"Error parsing line {i+1}: {str(e)}")
-                    st.write("Problematic line:", line[:200])
-            
-            if dialogs:
-                st.write("Successfully parsed dialogs:", len(dialogs))
-                dialog_index = st.selectbox(
-                    "Select Dialog",
-                    range(len(dialogs)),
-                    format_func=lambda x: f"Dialog {x+1}"
-                )
-                format_dialog(dialogs[dialog_index])
-            else:
-                st.error("No valid dialogs found in the file.")
+            st.write("File content loaded successfully")  # 确认文件内容已加载
+            try:
+                dialogs = [json.loads(line.strip()) for line in content.split('\n') if line.strip()]
+                st.write(f"Found {len(dialogs)} dialogs in the file")  # 显示找到的对话数量
+                
+                if dialogs:
+                    dialog_index = st.selectbox(
+                        "Select Dialog",
+                        range(len(dialogs)),
+                        format_func=lambda x: f"Dialog {x+1}"
+                    )
+                    format_dialog(dialogs[dialog_index])
+                else:
+                    st.error("No valid dialogs found in the file.")
+            except Exception as e:
+                st.error(f"Error parsing dialogs: {str(e)}")
+                st.write("Raw content preview:", content[:200])  # 显示原始内容预览
 
 if __name__ == "__main__":
     main()
