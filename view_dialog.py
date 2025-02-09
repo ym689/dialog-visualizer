@@ -1,26 +1,22 @@
 import streamlit as st
 import requests
 import json
-import ast
 import base64
 import urllib.parse
 import html
 
 def parse_dialog_data(text):
-    # 分割对话数据
-    dialogs = text.strip().split('\n\n')
-    parsed_dialogs = []
-    
-    for dialog in dialogs:
-        try:
-            # 解析每个对话的字典格式
-            dialog_dict = ast.literal_eval(dialog)
-            if 'dialog' in dialog_dict:
-                parsed_dialogs.append(dialog_dict)
-        except:
-            continue
-            
-    return parsed_dialogs
+    """解析多行JSON数据，每行是一个独立的对话"""
+    dialogs = []
+    for line in text.strip().split('\n'):
+        if line.strip():  # 忽略空行
+            try:
+                dialog = json.loads(line.strip())
+                dialogs.append(dialog)
+            except json.JSONDecodeError as e:
+                st.error(f"Error parsing line: {e}")
+                continue
+    return dialogs
 
 def display_dialog(dialog):
     # 添加一个容器来展示对话
@@ -281,7 +277,7 @@ def main():
                 format_func=lambda x: f"Dialog {x+1}"
             )
             
-            display_dialog(dialogs[dialog_index])
+            format_dialog(dialogs[dialog_index])
             
         except Exception as e:
             st.error(f"Error processing file: {str(e)}")
