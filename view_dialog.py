@@ -68,12 +68,15 @@ def read_github_file(repo_owner, repo_name, file_path, token):
     encoded_path = '/'.join(urllib.parse.quote(part) for part in file_path.split('/'))
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{encoded_path}"
     
+    st.write("Requesting file from:", url)  # 显示请求URL
+    
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json"
     }
     
     response = requests.get(url, headers=headers)
+    st.write("File API Response Status:", response.status_code)  # 显示响应状态码
     
     if response.status_code != 200:
         st.error(f"GitHub API Error: {response.status_code}")
@@ -82,9 +85,29 @@ def read_github_file(repo_owner, repo_name, file_path, token):
         
     try:
         content = response.json()['content']
-        return base64.b64decode(content).decode('utf-8')
+        decoded_content = base64.b64decode(content).decode('utf-8')
+        
+        # 显示解码后的内容预览
+        st.write("File content preview (first 200 chars):", decoded_content[:200])
+        
+        # 显示行数统计
+        lines = [line for line in decoded_content.split('\n') if line.strip()]
+        st.write(f"Number of non-empty lines in file: {len(lines)}")
+        
+        # 尝试解析第一行
+        if lines:
+            try:
+                first_dialog = json.loads(lines[0])
+                st.write("Successfully parsed first line")
+                st.write("First dialog keys:", list(first_dialog.keys()))
+            except json.JSONDecodeError as e:
+                st.error(f"Error parsing first line: {str(e)}")
+                st.write("First line content:", lines[0][:200])
+        
+        return decoded_content
     except Exception as e:
         st.error(f"Error decoding content: {str(e)}")
+        st.write("Full error:", str(e))
         return None
 
 def format_filename(filename):
@@ -255,15 +278,31 @@ def main():
     selected_file = st.selectbox("Select Dialog File", available_files)
     
     if selected_file:
-        st.write("Selected file:", selected_file)  # 显示选中的文件
+        st.write("Selected file:", selected_file)
         content = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
+        
         if content:
-            st.write("File content loaded successfully")  # 确认文件内容已加载
+            st.write("File content loaded successfully")
             try:
-                dialogs = [json.loads(line.strip()) for line in content.split('\n') if line.strip()]
-                st.write(f"Found {len(dialogs)} dialogs in the file")  # 显示找到的对话数量
+                # 分行处理
+                lines = [line.strip() for line in content.split('\n') if line.strip()]
+                st.write(f"Processing {len(lines)} lines")
+                
+                dialogs = []
+                for i, line in enumerate(lines):
+                    try:
+                        dialog = json.loads(line)
+                        dialogs.append(dialog)
+                        if i == 0:  # 显示第一个对话的结构
+                            st.write("First dialog structure:", {
+                                k: type(v).__name__ for k, v in dialog.items()
+                            })
+                    except json.JSONDecodeError as e:
+                        st.error(f"Error parsing line {i+1}: {str(e)}")
+                        st.write(f"Problematic line preview: {line[:200]}")
                 
                 if dialogs:
+                    st.write(f"Successfully parsed {len(dialogs)} dialogs")
                     dialog_index = st.selectbox(
                         "Select Dialog",
                         range(len(dialogs)),
@@ -273,8 +312,8 @@ def main():
                 else:
                     st.error("No valid dialogs found in the file.")
             except Exception as e:
-                st.error(f"Error parsing dialogs: {str(e)}")
-                st.write("Raw content preview:", content[:200])  # 显示原始内容预览
+                st.error(f"Error processing dialogs: {str(e)}")
+                st.write("Full error:", str(e))
 
 if __name__ == "__main__":
     main()
