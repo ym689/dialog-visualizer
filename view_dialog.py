@@ -160,76 +160,79 @@ def format_dialog(dialog_data):
     </style>
     """, unsafe_allow_html=True)
 
-    # 显示初始的 Hello 消息
-    first_msg = dialog_data["full_state"][0]
-    if first_msg["role"] == "Seeker" and first_msg["content"] == "Hello":
+    messages = dialog_data["full_state"]
+    
+    # 确保第一条消息是 Seeker 的 Hello
+    if messages and messages[0]["role"] == "Seeker" and messages[0]["content"] == "Hello":
+        # 显示 Hello 消息，无需展开选项
         st.markdown(f"""
             <div class="hello-message">
-                {html.escape(first_msg["content"])}
+                {html.escape(messages[0]["content"])}
             </div>
         """, unsafe_allow_html=True)
-        messages = dialog_data["full_state"][1:]
-    else:
-        messages = dialog_data["full_state"]
-
-    current_turn = []
-    
-    for msg in messages:
-        role = msg["role"]
-        if role in ["Seeker", "Recommender"]:
-            current_turn.append(msg)
+        
+        # 处理后续的对话
+        current_turn = []
+        for i in range(1, len(messages)):
+            msg = messages[i]
+            role = msg["role"]
             
-            # Create message container
-            with st.container():
+            if role == "Recommender":
+                # 显示 Recommender 消息
                 st.markdown(f"""
-                    <div class="message {role.lower()}">
+                    <div class="message recommender">
                         {html.escape(str(msg["content"]))}
                     </div>
                 """, unsafe_allow_html=True)
                 
-                # 只为非Hello消息添加展开选项
-                if role == "Recommender":
-                    col1, col2 = st.columns([2, 10])
-                    with col1:
-                        with st.expander("User Preference"):
-                            st.write(msg.get("user_preference", ""))
-                    with col1:
-                        with st.expander("Recommender Prompt"):
-                            st.write(msg.get("Recommender_prompt", ""))
-                elif role == "Seeker" and msg["content"] != "Hello":
-                    col1, col2 = st.columns([2, 10])
-                    with col1:
-                        with st.expander("Seeker Prompt"):
-                            st.write(msg.get("Seeker_prompt", ""))
-            
-            # 如果是一轮完整对话，显示reward
-            if len(current_turn) == 2:
-                critic_data = None
-                for i, next_msg in enumerate(messages):
-                    if next_msg["role"] == "critic" and messages.index(next_msg) > messages.index(current_turn[-1]):
-                        critic_data = next_msg
+                col1, col2 = st.columns(2)
+                with col1:
+                    with st.expander("User Preference"):
+                        st.write(msg.get("user_preference", ""))
+                with col2:
+                    with st.expander("Recommender Prompt"):
+                        st.write(msg.get("Recommender_prompt", ""))
+                        
+                current_turn = [msg]
+                
+            elif role == "Seeker" and current_turn:
+                # 显示 Seeker 消息
+                st.markdown(f"""
+                    <div class="message seeker">
+                        {html.escape(str(msg["content"]))}
+                    </div>
+                """, unsafe_allow_html=True)
+                
+                with st.expander("Seeker Prompt"):
+                    st.write(msg.get("Seeker_prompt", ""))
+                    
+                current_turn.append(msg)
+                
+                # 寻找下一个 critic 消息
+                for next_msg in messages[i+1:]:
+                    if next_msg["role"] == "critic":
+                        reward = next_msg.get("reward", 0)
+                        st.markdown(f"""
+                            <div class="reward">
+                                Reward: {reward}
+                            </div>
+                        """, unsafe_allow_html=True)
+                        
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            with st.expander("Content"):
+                                content_list = next_msg.get("content", [])
+                                for idx, content in enumerate(content_list, 1):
+                                    st.markdown(f"**Output {idx}:**")
+                                    st.write(content)
+                        with col2:
+                            with st.expander("Critique Prompt"):
+                                st.write(next_msg.get("critic_prompt", ""))
                         break
                 
-                if critic_data:
-                    reward = critic_data.get("reward", 0)
-                    st.markdown(f"""
-                        <div class="reward">
-                            Reward: {reward}
-                        </div>
-                    """, unsafe_allow_html=True)
-                    
-                    col1, col2, col3 = st.columns([2, 2, 8])
-                    with col1:
-                        with st.expander("Content"):
-                            content_list = critic_data.get("content", [])
-                            for i, content in enumerate(content_list, 1):
-                                st.markdown(f"**Output {i}:**")
-                                st.write(content)
-                    with col1:
-                        with st.expander("Critique Prompt"):
-                            st.write(critic_data.get("critic_prompt", ""))
-                
                 current_turn = []
+    else:
+        st.error("Invalid dialog format: Dialog should start with Seeker saying 'Hello'")
 
 def view_dialog(file_path):
     try:
