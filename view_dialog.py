@@ -134,6 +134,19 @@ def format_dialog(dialog_data):
             position: relative;
             font-size: 18px;
             line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .message-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .message-content {
+            flex-grow: 1;
         }
         
         .seeker {
@@ -152,6 +165,13 @@ def format_dialog(dialog_data):
             background-color: #fff3e0;
             border-radius: 3px;
             font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .reward-icon {
+            font-size: 20px;
+            margin-right: 10px;
         }
         
         .hello-message {
@@ -162,6 +182,8 @@ def format_dialog(dialog_data):
             margin-left: 20px;
             opacity: 0.8;
             font-size: 18px;
+            display: flex;
+            align-items: flex-start;
         }
 
         /* 设置展开内容的字体大小 */
@@ -188,7 +210,10 @@ def format_dialog(dialog_data):
         first_msg = messages[0]
         st.markdown(f"""
             <div class="message seeker">
-                {html.escape(first_msg["content"])}
+                <div class="message-icon">👤</div>
+                <div class="message-content">
+                    {html.escape(first_msg["content"])}
+                </div>
             </div>
         """, unsafe_allow_html=True)
         
@@ -200,7 +225,10 @@ def format_dialog(dialog_data):
                 msg = messages[i]
                 st.markdown(f"""
                     <div class="message recommender">
-                        {html.escape(str(msg["content"]))}
+                        <div class="message-icon">🤖</div>
+                        <div class="message-content">
+                            {html.escape(str(msg["content"]))}
+                        </div>
                     </div>
                 """, unsafe_allow_html=True)
                 
@@ -218,7 +246,10 @@ def format_dialog(dialog_data):
                 msg = messages[i]
                 st.markdown(f"""
                     <div class="message seeker">
-                        {html.escape(str(msg["content"]))}
+                        <div class="message-icon">👤</div>
+                        <div class="message-content">
+                            {html.escape(str(msg["content"]))}
+                        </div>
                     </div>
                 """, unsafe_allow_html=True)
                 
@@ -232,7 +263,8 @@ def format_dialog(dialog_data):
                 reward = msg.get("reward", 0)
                 st.markdown(f"""
                     <div class="reward">
-                        Reward: {reward}
+                        <div class="reward-icon">⭐</div>
+                        <div>Reward: {reward}</div>
                     </div>
                 """, unsafe_allow_html=True)
                 
