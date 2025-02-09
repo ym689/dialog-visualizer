@@ -79,8 +79,7 @@ def read_github_file(repo_owner, repo_name, file_path, token):
         
     try:
         content = response.json()['content']
-        decoded_content = base64.b64decode(content).decode('utf-8')
-        return decoded_content
+        return base64.b64decode(content).decode('utf-8')
     except Exception as e:
         st.error(f"Error decoding content: {str(e)}")
         return None
@@ -117,67 +116,83 @@ def format_dialog(dialog_data):
             padding: 5px;
             background-color: #fff3e0;
             border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .popup-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 5px;
+            z-index: 1000;
+        }
+        
+        .message:hover .popup-menu {
+            display: block;
+        }
+        
+        .reward:hover .popup-menu {
+            display: block;
         }
     </style>
     """, unsafe_allow_html=True)
 
     current_turn = []
+    turn_count = 0
     
     for msg in dialog_data["full_state"]:
         role = msg["role"]
         if role in ["Seeker", "Recommender"]:
             current_turn.append(msg)
             
+            # Skip the initial "Hello" message
+            if role == "Seeker" and msg["content"] == "Hello" and turn_count == 0:
+                continue
+                
+            # Create unique keys for each message
+            msg_key = f"{role}_{turn_count}_{hash(str(msg['content']))}"
+            
             # Create message container
             with st.container():
-                col1, col2 = st.columns([10, 2])
-                
-                with col1:
-                    st.markdown(f"""
-                        <div class="message {role.lower()}">
-                            {html.escape(msg["content"])}
-                        </div>
-                    """, unsafe_allow_html=True)
-                
-                with col2:
-                    if role == "Recommender":
-                        if st.button("📋", key=f"rec_{hash(msg['content'])}"):
-                            with st.expander("Additional Info"):
-                                st.text("User Preference:")
-                                st.write(msg.get("user_preference", ""))
-                                st.text("Recommender Prompt:")
-                                st.write(msg.get("Recommender_prompt", ""))
-                    elif role == "Seeker":
-                        if st.button("📋", key=f"seek_{hash(msg['content'])}"):
-                            with st.expander("Additional Info"):
-                                st.text("Seeker Prompt:")
-                                st.write(msg.get("Seeker_prompt", ""))
+                if role == "Recommender":
+                    with st.expander(msg["content"], expanded=True):
+                        st.write("User Preference:")
+                        if st.button("Show", key=f"pref_{msg_key}"):
+                            st.write(msg.get("user_preference", ""))
+                        st.write("Recommender Prompt:")
+                        if st.button("Show", key=f"prompt_{msg_key}"):
+                            st.write(msg.get("Recommender_prompt", ""))
+                else:  # Seeker
+                    with st.expander(msg["content"], expanded=True):
+                        st.write("Seeker Prompt:")
+                        if st.button("Show", key=f"prompt_{msg_key}"):
+                            st.write(msg.get("Seeker_prompt", ""))
             
             # If we have a complete turn, show reward
             if len(current_turn) == 2:
-                # Find the next critic message after this turn
+                turn_count += 1
+                # Find the next critic message
                 critic_data = None
-                for i, next_msg in enumerate(dialog_data["full_state"]):
-                    if next_msg["role"] == "critic" and i > dialog_data["full_state"].index(current_turn[-1]):
+                for next_msg in dialog_data["full_state"]:
+                    if next_msg["role"] == "critic" and dialog_data["full_state"].index(next_msg) > dialog_data["full_state"].index(current_turn[-1]):
                         critic_data = next_msg
                         break
                 
                 if critic_data:
                     reward = critic_data.get("reward", 0)
-                    st.markdown(f"""
-                        <div class="reward">
-                            Reward: {reward}
-                        </div>
-                    """, unsafe_allow_html=True)
+                    reward_key = f"reward_{turn_count}_{hash(str(critic_data))}"
                     
-                    if st.button("📋", key=f"reward_{hash(str(current_turn))}"):
-                        with st.expander("Reward Details"):
-                            st.text("Content:")
-                            content_list = critic_data.get("content", [])
-                            for content in content_list:
-                                st.write(content)
-                            st.text("Critique Prompt:")
-                            st.write(critic_data.get("critic_prompt", ""))
+                    with st.expander(f"Reward: {reward}", expanded=True):
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            if st.button("Content", key=f"content_{reward_key}"):
+                                content_list = critic_data.get("content", [])
+                                for content in content_list:
+                                    st.write(content)
+                        with col2:
+                            if st.button("Critique Prompt", key=f"critique_{reward_key}"):
+                                st.write(critic_data.get("critic_prompt", ""))
                 
                 current_turn = []
 
