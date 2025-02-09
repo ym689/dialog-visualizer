@@ -127,78 +127,124 @@ def format_file_name(file_name):
 def format_dialog(dialog_data):
     st.markdown("""
     <style>
+        /* 整体页面背景 */
+        .stApp {
+            background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+        }
+        
+        /* 标题样式 */
+        .main .block-container h1 {
+            color: #2c3e50;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 30px;
+        }
+        
+        /* 消息基础样式 */
         .message {
-            margin: 10px;
-            padding: 15px;
-            border-radius: 5px;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 15px;
             position: relative;
             font-size: 18px;
-            line-height: 1.5;
+            line-height: 1.6;
             display: flex;
             align-items: flex-start;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+        
+        .message:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .message-icon {
             font-size: 24px;
-            margin-right: 10px;
-            min-width: 30px;
+            margin-right: 15px;
+            min-width: 35px;
             text-align: center;
+            padding-top: 3px;
         }
         
         .message-content {
             flex-grow: 1;
+            color: #2c3e50;
         }
         
+        /* Seeker 消息样式 */
         .seeker {
-            background-color: #e3f2fd;
-            margin-left: 20px;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            margin-left: 40px;
+            border-top-left-radius: 5px;
         }
         
+        /* Recommender 消息样式 */
         .recommender {
-            background-color: #f5f5f5;
-            margin-right: 20px;
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            margin-right: 40px;
+            border-top-right-radius: 5px;
         }
         
+        /* Reward 样式 */
         .reward {
-            margin: 10px;
-            padding: 10px;
-            background-color: #fff3e0;
-            border-radius: 3px;
+            margin: 15px 40px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            border-radius: 10px;
             font-size: 16px;
             display: flex;
             align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
         }
         
         .reward-icon {
             font-size: 20px;
-            margin-right: 10px;
+            margin-right: 12px;
+            color: #ffa000;
         }
         
-        .hello-message {
-            margin: 10px;
-            padding: 15px;
-            background-color: #e8eaf6;
-            border-radius: 5px;
-            margin-left: 20px;
-            opacity: 0.8;
-            font-size: 18px;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        /* 设置展开内容的字体大小 */
+        /* 展开器样式 */
         .stExpander {
             font-size: 14px;
+            margin: 5px 40px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
         }
         
-        /* 设置展开按钮的字体大小 */
         .stExpander button {
             font-size: 14px !important;
+            color: #546e7a !important;
+            background-color: transparent !important;
+            border-radius: 6px !important;
         }
         
-        /* 设置对话选择下拉框的字体大小 */
+        .stExpander button:hover {
+            background-color: #f5f5f5 !important;
+        }
+        
+        /* 选择框样式 */
         .stSelectbox {
             font-size: 16px;
+            margin-bottom: 25px;
+        }
+        
+        .stSelectbox > div > div {
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        /* 分割线样式 */
+        hr {
+            margin: 30px 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e0e0e0, transparent);
         }
     </style>
     """, unsafe_allow_html=True)
@@ -217,7 +263,6 @@ def format_dialog(dialog_data):
             </div>
         """, unsafe_allow_html=True)
         
-        # 从第二条消息开始，按照 Recommender -> Seeker -> Critic 的顺序处理
         i = 1
         while i < len(messages):
             # Recommender
@@ -234,10 +279,10 @@ def format_dialog(dialog_data):
                 
                 col1, col2 = st.columns(2)
                 with col1:
-                    with st.expander("User Preference"):
+                    with st.expander("📋 User Preference"):
                         st.write(msg.get("user_preference", ""))
                 with col2:
-                    with st.expander("Recommender Prompt"):
+                    with st.expander("💭 Recommender Prompt"):
                         st.write(msg.get("Recommender_prompt", ""))
                 i += 1
             
@@ -253,7 +298,7 @@ def format_dialog(dialog_data):
                     </div>
                 """, unsafe_allow_html=True)
                 
-                with st.expander("Seeker Prompt"):
+                with st.expander("💬 Seeker Prompt"):
                     st.write(msg.get("Seeker_prompt", ""))
                 i += 1
             
@@ -270,15 +315,16 @@ def format_dialog(dialog_data):
                 
                 col1, col2 = st.columns(2)
                 with col1:
-                    with st.expander("Content"):
+                    with st.expander("📊 Content"):
                         content_list = msg.get("content", [])
                         for idx, content in enumerate(content_list, 1):
                             st.markdown(f"**Output {idx}:**")
                             st.write(content)
                 with col2:
-                    with st.expander("Critique Prompt"):
+                    with st.expander("📝 Critique Prompt"):
                         st.write(msg.get("critic_prompt", ""))
                 i += 1
+                st.markdown("<hr/>", unsafe_allow_html=True)
 
 def view_dialog(file_path):
     try:
