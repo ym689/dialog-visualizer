@@ -102,6 +102,14 @@ def read_github_file(repo_owner, repo_name, file_path, token):
         st.error(f"Error decoding content: {str(e)}")
         return None
 
+def format_filename(filename):
+    """美化文件名显示"""
+    # 从文件名中提取 epoch 数字
+    if 'epoch-' in filename:
+        epoch = filename.split('epoch-')[1].split('-')[0]
+        return f"Dialog Record - Epoch {epoch}"
+    return filename.replace('.txt', '')
+
 def main():
     # 设置页面配置
     st.set_page_config(
@@ -156,7 +164,7 @@ def main():
     selected_file = st.selectbox(
         "Select Dialog File",
         available_files,
-        format_func=lambda x: x.replace('.txt', '')
+        format_func=format_filename
     )
 
     if selected_file:
