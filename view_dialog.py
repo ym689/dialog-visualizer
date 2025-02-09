@@ -86,14 +86,14 @@ def main():
     if st.session_state.authenticated:
         if st.sidebar.button("Logout"):
             st.session_state.authenticated = False
-            st.experimental_rerun()
+            st.rerun()
     
     if not st.session_state.authenticated:
         password = st.text_input("Enter password", type="password")
         if password:
-            if password == "NeXT":
+            if password == "next2025":
                 st.session_state.authenticated = True
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.error("Incorrect password")
         return
