@@ -4,6 +4,7 @@ import json
 import base64
 import urllib.parse
 import html
+import ast
 
 def parse_dialog_data(text):
     """解析多行JSON数据，每行是一个独立的对话"""
@@ -68,20 +69,15 @@ def read_github_file(repo_owner, repo_name, file_path, token):
     encoded_path = '/'.join(urllib.parse.quote(part) for part in file_path.split('/'))
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{encoded_path}"
     
-    st.write("Requesting file info from:", url)
-    
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json"
     }
     
-    # 首先获取文件信息
     response = requests.get(url, headers=headers)
-    st.write("File info API Response Status:", response.status_code)
     
     if response.status_code != 200:
         st.error(f"GitHub API Error: {response.status_code}")
-        st.error(f"Response: {response.text}")
         return None
         
     try:
@@ -92,8 +88,6 @@ def read_github_file(repo_owner, repo_name, file_path, token):
             st.error("No download URL found")
             return None
             
-        st.write("Downloading file from:", download_url)
-        
         # 直接下载文件内容
         file_response = requests.get(download_url, headers=headers)
         if file_response.status_code != 200:
@@ -101,28 +95,24 @@ def read_github_file(repo_owner, repo_name, file_path, token):
             return None
             
         content = file_response.text
-        st.write("File content length:", len(content))
-        st.write("Content preview:", content[:200])
         
         # 显示行数统计
         lines = [line for line in content.split('\n') if line.strip()]
-        st.write(f"Number of non-empty lines in file: {len(lines)}")
         
-        if lines:
-            st.write("First line preview:", lines[0][:200])
+        # 使用 ast.literal_eval 来解析 Python 字典格式
+        dialogs = []
+        for line in lines:
             try:
-                # 尝试解析第一行JSON
-                first_dialog = json.loads(lines[0])
-                st.write("Successfully parsed first line JSON")
-                st.write("First dialog keys:", list(first_dialog.keys()))
-            except json.JSONDecodeError as e:
-                st.error(f"Error parsing first line as JSON: {str(e)}")
+                dialog = ast.literal_eval(line)
+                dialogs.append(dialog)
+            except Exception as e:
+                st.error(f"Error parsing line: {str(e)}")
+                continue
         
-        return content
+        return dialogs
         
     except Exception as e:
         st.error(f"Error processing content: {str(e)}")
-        st.write("Full error:", str(e))
         return None
 
 def format_filename(filename):
@@ -270,7 +260,6 @@ def main():
 
     try:
         GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
-        st.write("GitHub token loaded successfully")
     except Exception as e:
         st.error(f"Error reading GitHub token: {str(e)}")
         return
@@ -281,9 +270,6 @@ def main():
 
     st.title("Dialog Visualization")
     
-    st.write("Accessing repository:", f"{REPO_OWNER}/{REPO_NAME}")
-    st.write("Looking for files in:", DATA_PATH)
-    
     available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
     if not available_files:
         st.error("No dialog files found.")
@@ -292,37 +278,18 @@ def main():
     selected_file = st.selectbox("Select Dialog File", available_files)
     
     if selected_file:
-        st.write("Selected file:", selected_file)
-        content = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
+        dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
         
-        if content:
-            try:
-                # 分行处理
-                lines = [line.strip() for line in content.split('\n') if line.strip()]
-                st.write(f"Processing {len(lines)} lines")
-                
-                dialogs = []
-                for i, line in enumerate(lines):
-                    try:
-                        dialog = json.loads(line)
-                        dialogs.append(dialog)
-                    except json.JSONDecodeError as e:
-                        st.error(f"Error parsing line {i+1}: {str(e)}")
-                        st.write(f"Problematic line preview: {line[:200]}")
-                
-                if dialogs:
-                    st.write(f"Successfully parsed {len(dialogs)} dialogs")
-                    dialog_index = st.selectbox(
-                        "Select Dialog",
-                        range(len(dialogs)),
-                        format_func=lambda x: f"Dialog {x+1}"
-                    )
-                    format_dialog(dialogs[dialog_index])
-                else:
-                    st.error("No valid dialogs found in the file.")
-            except Exception as e:
-                st.error(f"Error processing dialogs: {str(e)}")
-                st.write("Full error:", str(e))
+        if dialogs:
+            st.success(f"Successfully loaded {len(dialogs)} dialogs")
+            
+            dialog_index = st.selectbox(
+                "Select Dialog",
+                range(len(dialogs)),
+                format_func=lambda x: f"Dialog {x+1}"
+            )
+            
+            format_dialog(dialogs[dialog_index])
 
 if __name__ == "__main__":
     main()
