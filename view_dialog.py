@@ -3,6 +3,7 @@ import requests
 import json
 import ast
 import base64
+import urllib.parse  # 添加这个导入
 
 def parse_dialog_data(text):
     # 分割对话数据
@@ -73,7 +74,10 @@ def get_github_files(repo_owner, repo_name, path, token):
 
 def read_github_file(repo_owner, repo_name, file_path, token):
     """从 GitHub 读取文件内容"""
-    url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}"
+    # URL 编码文件路径
+    encoded_path = '/'.join(urllib.parse.quote(part) for part in file_path.split('/'))
+    url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{encoded_path}"
+    
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json"
@@ -128,8 +132,6 @@ def main():
     # GitHub 配置
     try:
         GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
-        # 验证 token 格式（不打印完整 token）
-        st.write(f"Token starts with: {GITHUB_TOKEN[:4]}...")
     except Exception as e:
         st.error(f"Error reading GitHub token: {str(e)}")
         return
@@ -137,10 +139,6 @@ def main():
     REPO_OWNER = "ym689"
     REPO_NAME = "dialog-visualizer"
     DATA_PATH = "data"
-
-    st.write("Checking GitHub configuration:")
-    st.write(f"Repository: {REPO_OWNER}/{REPO_NAME}")
-    st.write(f"Data path: {DATA_PATH}")
 
     st.title("💬 Dialog Visualization")
     st.markdown("""
