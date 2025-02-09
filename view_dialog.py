@@ -107,12 +107,22 @@ def read_github_file(repo_owner, repo_name, file_path, token):
         st.error(f"Error processing content: {str(e)}")
         return None
 
-def format_filename(filename):
-    """美化文件名显示"""
-    if 'epoch-' in filename:
-        epoch = filename.split('epoch-')[1].split('-')[0]
-        return f"Dialog Record - Epoch {epoch}"
-    return filename.replace('.txt', '')
+def format_file_name(file_name):
+    """简化文件名显示"""
+    # 移除 .txt 后缀
+    name = file_name.replace('.txt', '')
+    
+    # 分割文件名
+    parts = name.split('-')
+    
+    # 获取关键信息
+    if len(parts) >= 4:
+        epoch = parts[1]  # epoch-1
+        model = parts[-1]  # llama2
+        return f"Dialog Record ({epoch}, {model})"
+    
+    # 如果格式不匹配，返回简化的原始名称
+    return name
 
 def format_dialog(dialog_data):
     st.markdown("""
@@ -267,7 +277,11 @@ def main():
         st.error("No dialog files found.")
         return
 
-    selected_file = st.selectbox("Select Dialog File", available_files)
+    selected_file = st.selectbox(
+        "Select Dialog File", 
+        available_files,
+        format_func=format_file_name
+    )
     
     if selected_file:
         dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
