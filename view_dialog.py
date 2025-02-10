@@ -602,6 +602,7 @@ def display_metrics_analysis(data_path, github_token):
         
     # 添加加载提示
     with st.spinner('Loading metrics data...'):
+        # 存储所有指标数据
         metrics_data = {
             'overall': {
                 'Success Rate': [],
@@ -628,30 +629,26 @@ def display_metrics_analysis(data_path, github_token):
                     content = base64.b64decode(response.json()['content']).decode('utf-8')
                     lines = content.split('\n')
                     
-                    # 提取epoch数字
-                    epoch_match = re.search(r'epoch-(\d+)', file)
-                    if epoch_match:
-                        file_id = int(epoch_match.group(1))
-                    else:
-                        continue  # 跳过无法解析epoch数字的文件
+                    # 提取文件标识（例如：epoch number）
+                    file_id = file.split('.')[0].replace('epoch', '')  # 提取数字部分
                     
                     # 解析数据
                     for line in lines:
                         if "Testing SR:" in line:
                             sr = float(line.split("Testing SR:")[1].strip().split()[0])
-                            metrics_data['overall']['Success Rate'].append((file_id, sr))
+                            metrics_data['overall']['Success Rate'].append((int(file_id), sr))
                         elif "Testing Avg@T:" in line:
                             avg_t = float(line.split("Testing Avg@T:")[1].strip().split()[0])
-                            metrics_data['overall']['Average Turns'].append((file_id, avg_t))
+                            metrics_data['overall']['Average Turns'].append((int(file_id), avg_t))
                         elif "Testing Rewards:" in line:
                             rewards = float(line.split("Testing Rewards:")[1].strip().split()[0])
-                            metrics_data['overall']['Rewards'].append((file_id, rewards))
+                            metrics_data['overall']['Rewards'].append((int(file_id), rewards))
                         elif "Testing SR-turn@" in line:
                             turn_num = line.split("@")[1].split(":")[0]
                             value = float(line.split(":")[1].strip())
                             if turn_num not in metrics_data['turn_based']:
                                 metrics_data['turn_based'][turn_num] = []
-                            metrics_data['turn_based'][turn_num].append((file_id, value))
+                            metrics_data['turn_based'][turn_num].append((int(file_id), value))
             except Exception as e:
                 st.error(f"Error processing file {file}: {str(e)}")
                 continue
@@ -894,22 +891,15 @@ def main():
     if selected_view == "Conversation History":
         DATA_PATH = "data/conversation_history"
         display_conversation = True
-    elif selected_view == "Eval Metrics":
-        DATA_PATH = "data/eval_metrics"
-        display_conversation = False
-    else:
-        DATA_PATH = "data/eval_metrics"
-        display_conversation = False
+        
+        available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
+        if not available_files:
+            st.error(f"No files found in {DATA_PATH}.")
+            return
 
-    available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
-    if not available_files:
-        st.error(f"No files found in {DATA_PATH}.")
-        return
-
-    selected_file = st.selectbox("Select File", available_files, format_func=format_file_name)
-    
-    if selected_file:
-        if display_conversation:
+        selected_file = st.selectbox("Select File", available_files, format_func=format_file_name)
+        
+        if selected_file:
             dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
             if dialogs:
                 dialog_index = st.selectbox(
@@ -922,8 +912,19 @@ def main():
                     st.rerun()
                     
                 format_dialog(dialogs[dialog_index])
-        else:
-            # Display eval metrics
+                
+    elif selected_view == "Eval Metrics":
+        DATA_PATH = "data/eval_metrics"
+        display_conversation = False
+        
+        available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
+        if not available_files:
+            st.error(f"No files found in {DATA_PATH}.")
+            return
+
+        selected_file = st.selectbox("Select File", available_files, format_func=format_file_name)
+        
+        if selected_file:
             file_path = f"{DATA_PATH}/{selected_file}"
             encoded_path = urllib.parse.quote(file_path)
             url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{encoded_path}"
@@ -939,9 +940,9 @@ def main():
                 display_eval_metrics(content)
             else:
                 st.error(f"Error fetching file: {response.status_code}")
-
-    # 添加新的视图处理逻辑
-    if selected_view == "Metrics Analysis":
+                
+    else:  # Metrics Analysis
+        DATA_PATH = "data/eval_metrics"
         display_metrics_analysis(DATA_PATH, GITHUB_TOKEN)
 
 if __name__ == "__main__":
