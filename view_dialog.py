@@ -357,6 +357,69 @@ def format_dialog(dialog_data):
                 i += 1
                 st.markdown("<hr/>", unsafe_allow_html=True)
 
+def display_eval_metrics(file_content):
+    """Display evaluation metrics in a formatted way"""
+    st.markdown("""
+        <style>
+        .metric-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 10px 0;
+        }
+        .metric-header {
+            color: #2c3e50;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        .metric-value {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .metric-label {
+            color: #666;
+            min-width: 150px;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    # Parse the content
+    sections = file_content.split("===========")
+    
+    for section in sections:
+        if not section.strip():
+            continue
+            
+        # Create a container for each section
+        st.markdown('<div class="metric-container">', unsafe_allow_html=True)
+        
+        # Extract section title
+        title = section.split("===============")[0].strip()
+        if title:
+            st.markdown(f'<div class="metric-header">{title}</div>', unsafe_allow_html=True)
+        
+        # Extract metrics
+        lines = section.split('\n')
+        for line in lines:
+            if ':' in line:
+                label, value = line.split(':', 1)
+                st.markdown(f"""
+                    <div class="metric-value">
+                        <span class="metric-label">{label.strip()}</span>
+                        <span>{value.strip()}</span>
+                    </div>
+                """, unsafe_allow_html=True)
+                
+        st.markdown('</div>', unsafe_allow_html=True)
+
 def view_dialog(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -488,38 +551,65 @@ def main():
 
     REPO_OWNER = "ym689"
     REPO_NAME = "dialog-visualizer"
-    DATA_PATH = "data/conversation_history"
 
-    # 添加 logout 按钮到标题行
-    col1, col2 = st.columns([10, 2])
+    # Add menu selection
+    col1, col2, col3 = st.columns([10, 2, 2])
     with col1:
         st.title("Dialog Visualization")
     with col2:
+        selected_view = st.selectbox(
+            "Select View",
+            ["Conversation History", "Eval Metrics"],
+            key="view_selector"
+        )
+    with col3:
         if st.button("🚪 Logout", key="logout"):
             st.session_state.authenticated = False
             st.rerun()
-    
+
+    # Set the appropriate data path based on selection
+    if selected_view == "Conversation History":
+        DATA_PATH = "data/conversation_history"
+        display_conversation = True
+    else:
+        DATA_PATH = "data/eval_metrics"
+        display_conversation = False
+
     available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
     if not available_files:
-        st.error("No dialog files found.")
+        st.error(f"No files found in {DATA_PATH}.")
         return
 
-    selected_file = st.selectbox("Select Dialog File", available_files, format_func=format_file_name)
+    selected_file = st.selectbox("Select File", available_files, format_func=format_file_name)
     
     if selected_file:
-        dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
-        if dialogs:
-            dialog_index = st.selectbox(
-                "Select Dialog",
-                range(len(dialogs)),
-                format_func=lambda x: f"Dialog {x+1}"
-            )
-            
-            # 将 Refresh 按钮移到这里
-            if st.button("🔄 Refresh Dialog"):
-                st.rerun()
+        if display_conversation:
+            dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
+            if dialogs:
+                dialog_index = st.selectbox(
+                    "Select Dialog",
+                    range(len(dialogs)),
+                    format_func=lambda x: f"Dialog {x+1}"
+                )
                 
-            format_dialog(dialogs[dialog_index])
+                if st.button("🔄 Refresh Dialog"):
+                    st.rerun()
+                    
+                format_dialog(dialogs[dialog_index])
+        else:
+            # Display eval metrics
+            url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{DATA_PATH}/{selected_file}"
+            headers = {
+                "Authorization": f"token {GITHUB_TOKEN}",
+                "Accept": "application/vnd.github.v3+json"
+            }
+            response = requests.get(url, headers=headers)
+            
+            if response.status_code == 200:
+                content = base64.b64decode(response.json()['content']).decode('utf-8')
+                display_eval_metrics(content)
+            else:
+                st.error(f"Error fetching file: {response.status_code}")
 
 if __name__ == "__main__":
     main()
