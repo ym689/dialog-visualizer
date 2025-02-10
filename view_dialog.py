@@ -553,6 +553,10 @@ def display_eval_metrics(file_content):
 
 def display_metrics_analysis(data_path, github_token):
     """Display metrics analysis with line charts"""
+    # 添加刷新按钮
+    if st.button("🔄 Refresh Analysis"):
+        st.rerun()
+        
     st.markdown("""
         <style>
         /* 图表容器样式 */
@@ -590,133 +594,145 @@ def display_metrics_analysis(data_path, github_token):
     if not files:
         st.error("No files found for analysis.")
         return
-
-    # 存储所有指标数据
-    metrics_data = {
-        'overall': {
-            'Success Rate': [],
-            'Average Turns': [],
-            'Rewards': []
-        },
-        'turn_based': {}
-    }
-    
-    # 读取所有文件数据
-    for file in files:
-        file_path = f"{data_path}/{file}"
-        encoded_path = urllib.parse.quote(file_path)
-        url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{encoded_path}"
         
-        headers = {
-            "Authorization": f"token {github_token}",
-            "Accept": "application/vnd.github.v3+json"
+    # 添加加载提示
+    with st.spinner('Loading metrics data...'):
+        # 存储所有指标数据
+        metrics_data = {
+            'overall': {
+                'Success Rate': [],
+                'Average Turns': [],
+                'Rewards': []
+            },
+            'turn_based': {}
         }
-        response = requests.get(url, headers=headers)
         
-        if response.status_code == 200:
-            content = base64.b64decode(response.json()['content']).decode('utf-8')
-            lines = content.split('\n')
-            
-            # 提取文件标识（例如：epoch number）
-            file_id = file.split('.')[0]  # 假设文件名格式为 "epochX.txt"
-            
-            # 解析数据
-            for line in lines:
-                if "Testing SR:" in line:
-                    sr = float(line.split("Testing SR:")[1].strip().split()[0])
-                    metrics_data['overall']['Success Rate'].append((file_id, sr))
-                elif "Testing Avg@T:" in line:
-                    avg_t = float(line.split("Testing Avg@T:")[1].strip().split()[0])
-                    metrics_data['overall']['Average Turns'].append((file_id, avg_t))
-                elif "Testing Rewards:" in line:
-                    rewards = float(line.split("Testing Rewards:")[1].strip().split()[0])
-                    metrics_data['overall']['Rewards'].append((file_id, rewards))
-                elif "Testing SR-turn@" in line:
-                    turn_num = line.split("@")[1].split(":")[0]
-                    value = float(line.split(":")[1].strip())
-                    if turn_num not in metrics_data['turn_based']:
-                        metrics_data['turn_based'][turn_num] = []
-                    metrics_data['turn_based'][turn_num].append((file_id, value))
+        # 读取所有文件数据
+        for file in files:
+            try:
+                file_path = f"{data_path}/{file}"
+                encoded_path = urllib.parse.quote(file_path)
+                url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{encoded_path}"
+                
+                headers = {
+                    "Authorization": f"token {github_token}",
+                    "Accept": "application/vnd.github.v3+json"
+                }
+                response = requests.get(url, headers=headers)
+                
+                if response.status_code == 200:
+                    content = base64.b64decode(response.json()['content']).decode('utf-8')
+                    lines = content.split('\n')
+                    
+                    # 提取文件标识（例如：epoch number）
+                    file_id = file.split('.')[0].replace('epoch', '')  # 提取数字部分
+                    
+                    # 解析数据
+                    for line in lines:
+                        if "Testing SR:" in line:
+                            sr = float(line.split("Testing SR:")[1].strip().split()[0])
+                            metrics_data['overall']['Success Rate'].append((int(file_id), sr))
+                        elif "Testing Avg@T:" in line:
+                            avg_t = float(line.split("Testing Avg@T:")[1].strip().split()[0])
+                            metrics_data['overall']['Average Turns'].append((int(file_id), avg_t))
+                        elif "Testing Rewards:" in line:
+                            rewards = float(line.split("Testing Rewards:")[1].strip().split()[0])
+                            metrics_data['overall']['Rewards'].append((int(file_id), rewards))
+                        elif "Testing SR-turn@" in line:
+                            turn_num = line.split("@")[1].split(":")[0]
+                            value = float(line.split(":")[1].strip())
+                            if turn_num not in metrics_data['turn_based']:
+                                metrics_data['turn_based'][turn_num] = []
+                            metrics_data['turn_based'][turn_num].append((int(file_id), value))
+            except Exception as e:
+                st.error(f"Error processing file {file}: {str(e)}")
+                continue
 
-    # 创建整体指标图表
-    st.markdown('<div class="metrics-container">', unsafe_allow_html=True)
-    st.markdown('<div class="chart-title">Overall Metrics</div>', unsafe_allow_html=True)
-    
-    col1, col2 = st.columns(2)
-    
-    # 绘制整体指标图表
-    for i, (metric_name, metric_data) in enumerate(metrics_data['overall'].items()):
-        with col1 if i % 2 == 0 else col2:
-            if metric_data:
-                x_values = [x[0] for x in metric_data]
-                y_values = [x[1] for x in metric_data]
-                
-                fig = go.Figure()
-                fig.add_trace(go.Scatter(
-                    x=x_values,
-                    y=y_values,
-                    mode='lines+markers',
-                    name=metric_name,
-                    line=dict(color='#6c5ce7', width=2),
-                    marker=dict(size=8)
-                ))
-                
-                fig.update_layout(
-                    title=metric_name,
-                    xaxis_title="Epoch",
-                    yaxis_title="Value",
-                    showlegend=False,
-                    height=300,
-                    margin=dict(l=40, r=40, t=40, b=40)
-                )
-                
-                st.plotly_chart(fig, use_container_width=True)
+        # 对数据点进行排序
+        for metric in metrics_data['overall'].values():
+            metric.sort(key=lambda x: x[0])
+        for turn_data in metrics_data['turn_based'].values():
+            turn_data.sort(key=lambda x: x[0])
 
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    # 添加分割线
-    st.markdown('<div class="metrics-divider"></div>', unsafe_allow_html=True)
-    
-    # 创建回合指标图表
-    st.markdown('<div class="metrics-container">', unsafe_allow_html=True)
-    st.markdown('<div class="chart-title">Turn-based Success Rate</div>', unsafe_allow_html=True)
-    
-    # 对回合指标进行排序
-    sorted_turns = sorted(metrics_data['turn_based'].keys(), key=lambda x: int(x))
-    
-    # 创建两列布局
-    col1, col2 = st.columns(2)
-    
-    # 绘制回合指标图表
-    for i, turn_num in enumerate(sorted_turns):
-        with col1 if i % 2 == 0 else col2:
-            turn_data = metrics_data['turn_based'][turn_num]
-            if turn_data:
-                x_values = [x[0] for x in turn_data]
-                y_values = [x[1] for x in turn_data]
-                
-                fig = go.Figure()
-                fig.add_trace(go.Scatter(
-                    x=x_values,
-                    y=y_values,
-                    mode='lines+markers',
-                    name=f'Turn {turn_num}',
-                    line=dict(color='#6c5ce7', width=2),
-                    marker=dict(size=8)
-                ))
-                
-                fig.update_layout(
-                    title=f'Success Rate at Turn {turn_num}',
-                    xaxis_title="Epoch",
-                    yaxis_title="Success Rate",
-                    showlegend=False,
-                    height=300,
-                    margin=dict(l=40, r=40, t=40, b=40)
-                )
-                
-                st.plotly_chart(fig, use_container_width=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+        # 创建整体指标图表
+        st.markdown('<div class="metrics-container">', unsafe_allow_html=True)
+        st.markdown('<div class="chart-title">Overall Metrics</div>', unsafe_allow_html=True)
+        
+        col1, col2 = st.columns(2)
+        
+        # 绘制整体指标图表
+        for i, (metric_name, metric_data) in enumerate(metrics_data['overall'].items()):
+            with col1 if i % 2 == 0 else col2:
+                if metric_data:
+                    x_values = [x[0] for x in metric_data]
+                    y_values = [x[1] for x in metric_data]
+                    
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(
+                        x=x_values,
+                        y=y_values,
+                        mode='lines+markers',
+                        name=metric_name,
+                        line=dict(color='#6c5ce7', width=2),
+                        marker=dict(size=8)
+                    ))
+                    
+                    fig.update_layout(
+                        title=metric_name,
+                        xaxis_title="Epoch",
+                        yaxis_title="Value",
+                        showlegend=False,
+                        height=300,
+                        margin=dict(l=40, r=40, t=40, b=40)
+                    )
+                    
+                    st.plotly_chart(fig, use_container_width=True)
+
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # 添加分割线
+        st.markdown('<div class="metrics-divider"></div>', unsafe_allow_html=True)
+        
+        # 创建回合指标图表
+        st.markdown('<div class="metrics-container">', unsafe_allow_html=True)
+        st.markdown('<div class="chart-title">Turn-based Success Rate</div>', unsafe_allow_html=True)
+        
+        # 对回合指标进行排序
+        sorted_turns = sorted(metrics_data['turn_based'].keys(), key=lambda x: int(x))
+        
+        # 创建两列布局
+        col1, col2 = st.columns(2)
+        
+        # 绘制回合指标图表
+        for i, turn_num in enumerate(sorted_turns):
+            with col1 if i % 2 == 0 else col2:
+                turn_data = metrics_data['turn_based'][turn_num]
+                if turn_data:
+                    x_values = [x[0] for x in turn_data]
+                    y_values = [x[1] for x in turn_data]
+                    
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(
+                        x=x_values,
+                        y=y_values,
+                        mode='lines+markers',
+                        name=f'Turn {turn_num}',
+                        line=dict(color='#6c5ce7', width=2),
+                        marker=dict(size=8)
+                    ))
+                    
+                    fig.update_layout(
+                        title=f'Success Rate at Turn {turn_num}',
+                        xaxis_title="Epoch",
+                        yaxis_title="Success Rate",
+                        showlegend=False,
+                        height=300,
+                        margin=dict(l=40, r=40, t=40, b=40)
+                    )
+                    
+                    st.plotly_chart(fig, use_container_width=True)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
 
 def view_dialog(file_path):
     try:
