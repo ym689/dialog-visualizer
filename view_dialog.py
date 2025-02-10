@@ -553,6 +553,10 @@ def display_eval_metrics(file_content):
 
 def display_metrics_analysis(data_path, github_token):
     """Display metrics analysis with line charts"""
+    # 定义 GitHub 仓库信息
+    REPO_OWNER = "ym689"
+    REPO_NAME = "dialog-visualizer"
+    
     # 添加刷新按钮
     if st.button("🔄 Refresh Analysis"):
         st.rerun()
