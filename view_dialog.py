@@ -414,21 +414,16 @@ def display_eval_metrics(file_content):
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            margin: 1rem 0;  /* 调整边距 */
+            margin: 2rem 0;  /* 增加上下边距 */
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: transform 0.2s ease;
         }
         
-        /* 移除streamlit默认的空白容器 */
-        .css-1544g2n {
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-        
-        .css-1q1n0ol {
-            padding: 0 !important;
-            margin: 0 !important;
+        /* 标题和页面顶部样式 */
+        h1 {
+            padding-top: 2rem !important;  /* 增加标题顶部间距 */
+            margin-bottom: 2rem !important;
         }
         
         /* 其他样式保持不变 */
