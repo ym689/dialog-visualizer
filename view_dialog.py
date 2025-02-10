@@ -908,14 +908,17 @@ def main():
             st.session_state.authenticated = False
             st.rerun()
 
+    if selected_view == "Metrics Analysis":
+        # Only show analysis graphs
+        DATA_PATH = "data/eval_metrics"
+        display_metrics_analysis(DATA_PATH, GITHUB_TOKEN)
+        return  # Exit early to avoid showing other content
+
     # Set the appropriate data path based on selection
     if selected_view == "Conversation History":
         DATA_PATH = "data/conversation_history"
         display_conversation = True
-    elif selected_view == "Eval Metrics":
-        DATA_PATH = "data/eval_metrics"
-        display_conversation = False
-    else:
+    else:  # Eval Metrics
         DATA_PATH = "data/eval_metrics"
         display_conversation = False
 
@@ -957,10 +960,6 @@ def main():
                 display_eval_metrics(content)
             else:
                 st.error(f"Error fetching file: {response.status_code}")
-
-    # 添加新的视图处理逻辑
-    if selected_view == "Metrics Analysis":
-        display_metrics_analysis(DATA_PATH, GITHUB_TOKEN)
 
 if __name__ == "__main__":
     main()
