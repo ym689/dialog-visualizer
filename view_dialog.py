@@ -60,7 +60,8 @@ def get_github_files(repo_owner, repo_name, path, token):
     return files
 
 def read_github_file(repo_owner, repo_name, file_path, token):
-    encoded_path = '/'.join(urllib.parse.quote(part) for part in file_path.split('/'))
+    # URL encode each path component separately
+    encoded_path = '/'.join(urllib.parse.quote(part, safe='') for part in file_path.split('/'))
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{encoded_path}"
     
     headers = {
@@ -70,7 +71,7 @@ def read_github_file(repo_owner, repo_name, file_path, token):
     
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
-        st.error(f"GitHub API Error: {response.status_code}")
+        st.error(f"Error fetching file: {response.status_code}")
         return None
         
     try:
@@ -112,14 +113,20 @@ def format_file_name(file_name):
     # 移除 .txt 后缀
     name = file_name.replace('.txt', '')
     
-    # 分割文件名
-    parts = name.split('-')
-    
-    # 获取关键信息
-    if len(parts) >= 4:
-        epoch = parts[1] + parts[2] # epoch-1
-        model = parts[-1]  # llama2
-        return f"Dialog Record ({epoch}, {model})"
+    if name.startswith('Evaluate'):
+        # 处理评估文件名
+        parts = name.split('-')
+        if len(parts) >= 4:
+            epoch = f"{parts[1]}{parts[2]}"  # epoch-1
+            model = parts[-1]    # llama2
+            return f"Eval Metrics ({epoch}, {model})"
+    else:
+        # 处理对话文件名
+        parts = name.split('-')
+        if len(parts) >= 4:
+            epoch = parts[1] + parts[2]  # epoch-1
+            model = parts[-1]  # llama2
+            return f"Dialog Record ({epoch}, {model})"
     
     # 如果格式不匹配，返回简化的原始名称
     return name
