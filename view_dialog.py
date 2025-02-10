@@ -669,6 +669,23 @@ def show_login_page():
 def main():
     st.set_page_config(page_title="Dialog Visualization", layout="wide")
     
+    # 检查认证状态
+    if 'authenticated' not in st.session_state:
+        st.session_state.authenticated = False
+    
+    if not st.session_state.authenticated:
+        show_login_page()
+        return
+
+    # 获取 GitHub 配置
+    try:
+        GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
+        REPO_OWNER = "ym689"
+        REPO_NAME = "dialog-visualizer"
+    except Exception as e:
+        st.error(f"Error reading GitHub token: {str(e)}")
+        return
+    
     # 添加全局样式
     st.markdown("""
         <style>
