@@ -673,6 +673,35 @@ def show_login_page():
 def main():
     st.set_page_config(page_title="Dialog Visualization", layout="wide")
     
+    # 添加全局样式来移除空白容器
+    st.markdown("""
+        <style>
+        /* 隐藏 Streamlit 的默认空白容器 */
+        [data-testid="stVerticalBlock"] {
+            gap: 0rem !important;
+            padding-top: 0rem !important;
+        }
+        
+        /* 移除 stMarkdown 的默认边距 */
+        .element-container {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        /* 调整选择框容器的样式 */
+        .stSelectbox {
+            margin-bottom: 1rem !important;
+        }
+        
+        /* 移除主容器的额外空白 */
+        .main .block-container {
+            padding-top: 1rem !important;
+            padding-bottom: 0rem !important;
+            max-width: 95% !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    
     if 'authenticated' not in st.session_state:
         st.session_state.authenticated = False
     
@@ -689,7 +718,7 @@ def main():
     REPO_OWNER = "ym689"
     REPO_NAME = "dialog-visualizer"
 
-    # Add menu selection
+    # 使用列布局来组织标题和选择器
     col1, col2, col3 = st.columns([10, 2, 2])
     with col1:
         st.title("Dialog Visualization")
@@ -697,14 +726,15 @@ def main():
         selected_view = st.selectbox(
             "Select View",
             ["Conversation History", "Eval Metrics"],
-            key="view_selector"
+            key="view_selector",
+            label_visibility="collapsed"  # 隐藏标签
         )
     with col3:
         if st.button("🚪 Logout", key="logout"):
             st.session_state.authenticated = False
             st.rerun()
 
-    # Set the appropriate data path based on selection
+    # 设置数据路径
     if selected_view == "Conversation History":
         DATA_PATH = "data/conversation_history"
         display_conversation = True
@@ -712,13 +742,21 @@ def main():
         DATA_PATH = "data/eval_metrics"
         display_conversation = False
 
+    # 获取文件列表
     available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
     if not available_files:
         st.error(f"No files found in {DATA_PATH}.")
         return
 
-    selected_file = st.selectbox("Select File", available_files, format_func=format_file_name)
+    # 文件选择器
+    selected_file = st.selectbox(
+        "Select File",
+        available_files,
+        format_func=format_file_name,
+        label_visibility="visible"  # 显示标签
+    )
     
+    # 显示内容
     if selected_file:
         if display_conversation:
             dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
@@ -734,7 +772,6 @@ def main():
                     
                 format_dialog(dialogs[dialog_index])
         else:
-            # Display eval metrics
             file_path = f"{DATA_PATH}/{selected_file}"
             encoded_path = urllib.parse.quote(file_path)
             url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{encoded_path}"
