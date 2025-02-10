@@ -368,45 +368,115 @@ def display_eval_metrics(file_content):
     """Display evaluation metrics in a formatted way"""
     st.markdown("""
         <style>
+        /* 整体页面样式 */
+        .stApp {
+            background: linear-gradient(135deg, #f5f7fa, #e4e8eb);
+        }
+        
+        /* 容器样式 */
         .metric-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s ease;
         }
+        
+        .metric-container:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* 标题样式 */
         .metric-header {
-            color: #2c3e50;
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
+            color: #1a237e;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e3f2fd;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            letter-spacing: 0.5px;
         }
+        
+        /* 指标值样式 */
         .metric-value {
             display: flex;
             align-items: center;
-            margin: 8px 0;
-            padding: 8px;
-            background: #f8f9fa;
-            border-radius: 6px;
+            margin: 12px 0;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: 10px;
+            border: 1px solid #e3f2fd;
+            transition: all 0.2s ease;
         }
+        
+        .metric-value:hover {
+            background: linear-gradient(135deg, #e3f2fd, #f5f7fa);
+            border-color: #bbdefb;
+        }
+        
+        /* 标签样式 */
         .metric-label {
-            color: #666;
-            min-width: 150px;
+            color: #37474f;
+            min-width: 160px;
+            font-weight: 500;
+            font-size: 0.95em;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
+        
+        /* 数值样式 */
+        .metric-number {
+            color: #1565c0;
+            font-weight: 600;
+            font-size: 1.1em;
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        /* 网格布局样式 */
         .turn-metrics {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        /* 选择框样式 */
+        .stSelectbox {
+            margin-bottom: 25px;
+        }
+        
+        .stSelectbox > div > div {
+            background-color: white;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            padding: 5px;
+        }
+        
+        /* 图标样式 */
+        .metric-icon {
+            margin-right: 12px;
+            color: #5c6bc0;
+            font-size: 1.2em;
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .metric-container {
+            animation: fadeIn 0.5s ease-out;
         }
         </style>
     """, unsafe_allow_html=True)
 
     # 创建主要指标容器
     st.markdown('<div class="metric-container">', unsafe_allow_html=True)
-    st.markdown('<div class="metric-header">Overall Metrics</div>', unsafe_allow_html=True)
+    st.markdown('<div class="metric-header">📊 Overall Metrics</div>', unsafe_allow_html=True)
     
     # 提取主要指标
     lines = file_content.split('\n')
@@ -415,31 +485,34 @@ def display_eval_metrics(file_content):
             sr = line.split("Testing SR:")[1].strip().split()[0]
             st.markdown(f"""
                 <div class="metric-value">
+                    <span class="metric-icon">🎯</span>
                     <span class="metric-label">Success Rate</span>
-                    <span>{sr}</span>
+                    <span class="metric-number">{sr}</span>
                 </div>
             """, unsafe_allow_html=True)
         elif "Testing Avg@T:" in line:
             avg_t = line.split("Testing Avg@T:")[1].strip().split()[0]
             st.markdown(f"""
                 <div class="metric-value">
+                    <span class="metric-icon">⏱️</span>
                     <span class="metric-label">Average Turns</span>
-                    <span>{avg_t}</span>
+                    <span class="metric-number">{avg_t}</span>
                 </div>
             """, unsafe_allow_html=True)
         elif "Testing Rewards:" in line:
             rewards = line.split("Testing Rewards:")[1].strip().split()[0]
             st.markdown(f"""
                 <div class="metric-value">
+                    <span class="metric-icon">🌟</span>
                     <span class="metric-label">Rewards</span>
-                    <span>{rewards}</span>
+                    <span class="metric-number">{rewards}</span>
                 </div>
             """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
     # 创建回合指标容器
     st.markdown('<div class="metric-container">', unsafe_allow_html=True)
-    st.markdown('<div class="metric-header">Turn-based Success Rate</div>', unsafe_allow_html=True)
+    st.markdown('<div class="metric-header">📈 Turn-based Success Rate</div>', unsafe_allow_html=True)
     
     # 创建网格布局来展示回合指标
     st.markdown('<div class="turn-metrics">', unsafe_allow_html=True)
@@ -449,8 +522,9 @@ def display_eval_metrics(file_content):
             value = line.split(":")[1].strip()
             st.markdown(f"""
                 <div class="metric-value">
+                    <span class="metric-icon">🔄</span>
                     <span class="metric-label">Turn {turn_num}</span>
-                    <span>{value}</span>
+                    <span class="metric-number">{value}</span>
                 </div>
             """, unsafe_allow_html=True)
     st.markdown('</div></div>', unsafe_allow_html=True)
