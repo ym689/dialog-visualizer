@@ -606,24 +606,14 @@ def main():
         else:
             # Display eval metrics
             file_path = f"{DATA_PATH}/{selected_file}"
-            # Add debug information
-            st.write("Debug - File path:", file_path)
-            
-            # URL encode the entire path
             encoded_path = urllib.parse.quote(file_path)
             url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{encoded_path}"
-            # Add debug information
-            st.write("Debug - URL:", url)
             
             headers = {
                 "Authorization": f"token {GITHUB_TOKEN}",
                 "Accept": "application/vnd.github.v3+json"
             }
             response = requests.get(url, headers=headers)
-            # Add debug information
-            st.write("Debug - Status code:", response.status_code)
-            if response.status_code != 200:
-                st.write("Debug - Response:", response.text)
             
             if response.status_code == 200:
                 content = base64.b64decode(response.json()['content']).decode('utf-8')
