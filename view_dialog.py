@@ -373,6 +373,33 @@ def display_eval_metrics(file_content):
             background: linear-gradient(135deg, #f5f7fa, #e4e8eb);
         }
         
+        /* 移除空白容器 */
+        .block-container {
+            padding-top: 1rem;
+            padding-bottom: 0rem;
+            max-width: 95%;
+        }
+        
+        /* 选择框样式 */
+        .stSelectbox {
+            margin-bottom: 25px;
+        }
+        
+        .stSelectbox > div > div {
+            background-color: white;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            padding: 8px;  /* 增加内边距 */
+            min-height: 48px;  /* 设置最小高度 */
+        }
+        
+        /* 选择框文本样式 */
+        .stSelectbox > div > div > div {
+            line-height: 1.5;  /* 增加行高 */
+            white-space: normal !important;  /* 允许文本换行 */
+            overflow: visible !important;  /* 允许内容溢出 */
+        }
+        
         /* 容器样式 */
         .metric-container {
             background: rgba(255, 255, 255, 0.95);
@@ -443,18 +470,6 @@ def display_eval_metrics(file_content):
             margin-top: 20px;
         }
         
-        /* 选择框样式 */
-        .stSelectbox {
-            margin-bottom: 25px;
-        }
-        
-        .stSelectbox > div > div {
-            background-color: white;
-            border-radius: 10px;
-            border: 1px solid #e0e0e0;
-            padding: 5px;
-        }
-        
         /* 图标样式 */
         .metric-icon {
             margin-right: 12px;
@@ -470,6 +485,15 @@ def display_eval_metrics(file_content):
         
         .metric-container {
             animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* 移除不必要的空白 */
+        .css-1544g2n {
+            padding-top: 0rem;
+        }
+        
+        .css-1q1n0ol {
+            padding-top: 0rem;
         }
         </style>
     """, unsafe_allow_html=True)
