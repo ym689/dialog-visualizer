@@ -373,31 +373,39 @@ def display_eval_metrics(file_content):
             background: linear-gradient(135deg, #f5f7fa, #e4e8eb);
         }
         
-        /* 移除空白容器 */
+        /* 移除空白容器和调整页面布局 */
         .block-container {
-            padding-top: 1rem;
-            padding-bottom: 0rem;
-            max-width: 95%;
+            padding: 1rem 1rem 0rem 1rem !important;
+            max-width: 95% !important;
         }
         
-        /* 选择框样式 */
-        .stSelectbox {
-            margin-bottom: 25px;
+        /* 移除额外的空白区域 */
+        .css-18e3th9 {
+            padding: 1rem 1rem 0rem 1rem !important;
+        }
+        
+        .css-1d391kg {
+            padding: 1rem 1rem 0rem 1rem !important;
+        }
+        
+        /* 选择框样式优化 */
+        .stSelectbox > div {
+            padding-bottom: 1rem;
         }
         
         .stSelectbox > div > div {
             background-color: white;
             border-radius: 10px;
             border: 1px solid #e0e0e0;
-            padding: 8px;  /* 增加内边距 */
-            min-height: 48px;  /* 设置最小高度 */
+            min-height: 60px !important;  /* 增加最小高度 */
+            padding: 0.5rem !important;
         }
         
-        /* 选择框文本样式 */
         .stSelectbox > div > div > div {
-            line-height: 1.5;  /* 增加行高 */
-            white-space: normal !important;  /* 允许文本换行 */
-            overflow: visible !important;  /* 允许内容溢出 */
+            line-height: 1.5;
+            white-space: normal !important;
+            overflow: visible !important;
+            padding: 0.5rem 0;
         }
         
         /* 容器样式 */
@@ -406,17 +414,28 @@ def display_eval_metrics(file_content):
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            margin: 20px 0;
+            margin: 1rem 0;  /* 调整边距 */
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: transform 0.2s ease;
         }
         
+        /* 移除streamlit默认的空白容器 */
+        .css-1544g2n {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        .css-1q1n0ol {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        /* 其他样式保持不变 */
         .metric-container:hover {
             transform: translateY(-2px);
         }
         
-        /* 标题样式 */
         .metric-header {
             color: #1a237e;
             font-size: 1.4em;
@@ -428,7 +447,6 @@ def display_eval_metrics(file_content):
             letter-spacing: 0.5px;
         }
         
-        /* 指标值样式 */
         .metric-value {
             display: flex;
             align-items: center;
@@ -445,7 +463,6 @@ def display_eval_metrics(file_content):
             border-color: #bbdefb;
         }
         
-        /* 标签样式 */
         .metric-label {
             color: #37474f;
             min-width: 160px;
@@ -454,7 +471,6 @@ def display_eval_metrics(file_content):
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
         
-        /* 数值样式 */
         .metric-number {
             color: #1565c0;
             font-weight: 600;
@@ -462,7 +478,6 @@ def display_eval_metrics(file_content):
             font-family: 'Roboto Mono', monospace;
         }
         
-        /* 网格布局样式 */
         .turn-metrics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -470,14 +485,12 @@ def display_eval_metrics(file_content):
             margin-top: 20px;
         }
         
-        /* 图标样式 */
         .metric-icon {
             margin-right: 12px;
             color: #5c6bc0;
             font-size: 1.2em;
         }
         
-        /* 动画效果 */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -485,15 +498,6 @@ def display_eval_metrics(file_content):
         
         .metric-container {
             animation: fadeIn 0.5s ease-out;
-        }
-        
-        /* 移除不必要的空白 */
-        .css-1544g2n {
-            padding-top: 0rem;
-        }
-        
-        .css-1q1n0ol {
-            padding-top: 0rem;
         }
         </style>
     """, unsafe_allow_html=True)
