@@ -395,37 +395,65 @@ def display_eval_metrics(file_content):
             color: #666;
             min-width: 150px;
         }
+        .turn-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
         </style>
     """, unsafe_allow_html=True)
 
-    # Parse the content
-    sections = file_content.split("===========")
+    # 创建主要指标容器
+    st.markdown('<div class="metric-container">', unsafe_allow_html=True)
+    st.markdown('<div class="metric-header">Overall Metrics</div>', unsafe_allow_html=True)
     
-    for section in sections:
-        if not section.strip():
-            continue
-            
-        # Create a container for each section
-        st.markdown('<div class="metric-container">', unsafe_allow_html=True)
-        
-        # Extract section title
-        title = section.split("===============")[0].strip()
-        if title:
-            st.markdown(f'<div class="metric-header">{title}</div>', unsafe_allow_html=True)
-        
-        # Extract metrics
-        lines = section.split('\n')
-        for line in lines:
-            if ':' in line:
-                label, value = line.split(':', 1)
-                st.markdown(f"""
-                    <div class="metric-value">
-                        <span class="metric-label">{label.strip()}</span>
-                        <span>{value.strip()}</span>
-                    </div>
-                """, unsafe_allow_html=True)
-                
-        st.markdown('</div>', unsafe_allow_html=True)
+    # 提取主要指标
+    lines = file_content.split('\n')
+    for line in lines:
+        if "Testing SR:" in line:
+            sr = line.split("Testing SR:")[1].strip().split()[0]
+            st.markdown(f"""
+                <div class="metric-value">
+                    <span class="metric-label">Success Rate</span>
+                    <span>{sr}</span>
+                </div>
+            """, unsafe_allow_html=True)
+        elif "Testing Avg@T:" in line:
+            avg_t = line.split("Testing Avg@T:")[1].strip().split()[0]
+            st.markdown(f"""
+                <div class="metric-value">
+                    <span class="metric-label">Average Turns</span>
+                    <span>{avg_t}</span>
+                </div>
+            """, unsafe_allow_html=True)
+        elif "Testing Rewards:" in line:
+            rewards = line.split("Testing Rewards:")[1].strip().split()[0]
+            st.markdown(f"""
+                <div class="metric-value">
+                    <span class="metric-label">Rewards</span>
+                    <span>{rewards}</span>
+                </div>
+            """, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # 创建回合指标容器
+    st.markdown('<div class="metric-container">', unsafe_allow_html=True)
+    st.markdown('<div class="metric-header">Turn-based Success Rate</div>', unsafe_allow_html=True)
+    
+    # 创建网格布局来展示回合指标
+    st.markdown('<div class="turn-metrics">', unsafe_allow_html=True)
+    for line in lines:
+        if "Testing SR-turn@" in line:
+            turn_num = line.split("@")[1].split(":")[0]
+            value = line.split(":")[1].strip()
+            st.markdown(f"""
+                <div class="metric-value">
+                    <span class="metric-label">Turn {turn_num}</span>
+                    <span>{value}</span>
+                </div>
+            """, unsafe_allow_html=True)
+    st.markdown('</div></div>', unsafe_allow_html=True)
 
 def view_dialog(file_path):
     try:
