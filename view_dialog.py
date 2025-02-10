@@ -373,57 +373,55 @@ def display_eval_metrics(file_content):
             background: linear-gradient(135deg, #f5f7fa, #e4e8eb);
         }
         
-        /* 移除空白容器和调整页面布局 */
+        /* 调整页面顶部和容器布局 */
         .block-container {
-            padding: 1rem 1rem 0rem 1rem !important;
+            padding: 5rem 1rem 0rem 1rem !important;  /* 显著增加顶部间距 */
             max-width: 95% !important;
         }
         
-        /* 移除额外的空白区域 */
+        /* 移除默认的空白区域 */
         .css-18e3th9 {
-            padding: 1rem 1rem 0rem 1rem !important;
+            padding: 0 !important;
         }
         
         .css-1d391kg {
-            padding: 1rem 1rem 0rem 1rem !important;
+            padding: 0 !important;
         }
         
         /* 选择框样式优化 */
         .stSelectbox > div {
-            padding-bottom: 1rem;
+            padding-bottom: 1.5rem;  /* 增加选择框底部间距 */
         }
         
         .stSelectbox > div > div {
             background-color: white;
             border-radius: 10px;
             border: 1px solid #e0e0e0;
-            min-height: 60px !important;  /* 增加最小高度 */
+            min-height: 60px !important;
             padding: 0.5rem !important;
+            margin-top: 0.5rem !important;  /* 增加选择框顶部间距 */
         }
         
-        .stSelectbox > div > div > div {
-            line-height: 1.5;
-            white-space: normal !important;
-            overflow: visible !important;
-            padding: 0.5rem 0;
+        /* 标题样式调整 */
+        h1 {
+            padding-top: 3rem !important;  /* 增加标题顶部间距 */
+            margin-bottom: 2rem !important;
+            position: relative;  /* 确保标题正确定位 */
+            z-index: 1;  /* 提高标题层级 */
         }
         
-        /* 容器样式 */
+        /* 度量指标容器样式 */
         .metric-container {
             background: rgba(255, 255, 255, 0.95);
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            margin: 2rem 0;  /* 增加上下边距 */
+            margin: 3rem 0 2rem 0;  /* 调整容器边距 */
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: transform 0.2s ease;
-        }
-        
-        /* 标题和页面顶部样式 */
-        h1 {
-            padding-top: 2rem !important;  /* 增加标题顶部间距 */
-            margin-bottom: 2rem !important;
+            position: relative;  /* 确保容器正确定位 */
+            z-index: 0;  /* 降低容器层级 */
         }
         
         /* 其他样式保持不变 */
