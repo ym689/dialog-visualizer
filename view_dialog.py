@@ -672,78 +672,113 @@ def main():
     # 添加全局样式
     st.markdown("""
         <style>
-        /* 调整页面顶部间距 */
-        header {
-            background: transparent !important;
+        /* 页面基础样式 */
+        .stApp {
+            background: linear-gradient(135deg, #f5f7fa, #e4e8eb);
         }
         
-        /* 移除默认的页面边距 */
+        /* 主容器样式 */
         .main .block-container {
-            padding-top: 2rem !important;
-            padding-bottom: 0rem !important;
+            padding: 2rem 1rem 1rem 1rem !important;
             max-width: 95% !important;
         }
         
-        /* 调整标题样式 */
-        .main .block-container h1 {
-            margin-top: 0.5rem !important;
-            padding-top: 0 !important;
-            margin-bottom: 1rem !important;
+        /* 页面头部样式 */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
         }
         
-        /* 调整选择框样式 */
-        .stSelectbox > div {
-            margin-bottom: 1rem;
+        .header-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1a237e;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* 选择框通用样式 */
+        .stSelectbox {
+            margin-bottom: 1.5rem;
         }
         
         .stSelectbox > div > div {
-            min-height: 45px !important;
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            min-height: 48px;
+            padding: 0.5rem;
         }
         
-        /* 移除多余的空白容器 */
+        .stSelectbox > div > div > div {
+            line-height: 1.5;
+            white-space: normal !important;
+            overflow: visible !important;
+        }
+        
+        /* 文件选择框特殊样式 */
+        .file-select {
+            margin: 1rem 0 2rem 0;
+        }
+        
+        .file-select > div > div {
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            min-height: 48px;
+        }
+        
+        /* 按钮样式 */
+        .stButton > button {
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .stButton > button:hover {
+            background-color: #283593;
+        }
+        
+        /* 移除不必要的空白 */
         [data-testid="stVerticalBlock"] > div:empty {
             display: none !important;
         }
         
-        /* 调整按钮样式 */
-        .stButton > button {
-            margin-top: 0.5rem;
+        /* 内容区域样式 */
+        .content-container {
+            margin-top: 1rem;
         }
         </style>
     """, unsafe_allow_html=True)
 
-    if 'authenticated' not in st.session_state:
-        st.session_state.authenticated = False
-    
-    if not st.session_state.authenticated:
-        show_login_page()
-        return
+    # 页面头部布局
+    st.markdown("""
+        <div class="header-container">
+            <h1 class="header-title">Dialog Visualization</h1>
+        </div>
+    """, unsafe_allow_html=True)
 
-    try:
-        GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
-    except Exception as e:
-        st.error(f"Error reading GitHub token: {str(e)}")
-        return
-
-    REPO_OWNER = "ym689"
-    REPO_NAME = "dialog-visualizer"
-
-    # 使用固定高度的列布局
-    col1, col2, col3 = st.columns([8, 2, 2])
-    with col1:
-        st.markdown("<h1 style='margin: 0; padding: 0;'>Dialog Visualization</h1>", unsafe_allow_html=True)
+    # 使用列布局组织顶部控件
+    col1, col2, col3 = st.columns([6, 2, 1])
     with col2:
         selected_view = st.selectbox(
-            "",  # 空标签
+            "",
             ["Conversation History", "Eval Metrics"],
-            key="view_selector"
+            key="view_selector",
+            label_visibility="collapsed"
         )
     with col3:
         if st.button("🚪 Logout", key="logout"):
             st.session_state.authenticated = False
             st.rerun()
 
-    # Set the appropriate data path based on selection
+    # 设置数据路径
     if selected_view == "Conversation History":
         DATA_PATH = "data/conversation_history"
         display_conversation = True
@@ -751,15 +786,25 @@ def main():
         DATA_PATH = "data/eval_metrics"
         display_conversation = False
 
+    # 文件选择区域
     available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
     if not available_files:
         st.error(f"No files found in {DATA_PATH}.")
         return
 
-    selected_file = st.selectbox("Select File", available_files, format_func=format_file_name)
-    
+    st.markdown('<div class="file-select">', unsafe_allow_html=True)
+    selected_file = st.selectbox(
+        "Select File",
+        available_files,
+        format_func=format_file_name
+    )
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # 内容区域
     if selected_file:
+        st.markdown('<div class="content-container">', unsafe_allow_html=True)
         if display_conversation:
+            # 对话历史显示逻辑
             dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
             if dialogs:
                 dialog_index = st.selectbox(
@@ -773,7 +818,7 @@ def main():
                     
                 format_dialog(dialogs[dialog_index])
         else:
-            # Display eval metrics
+            # 评估指标显示逻辑
             file_path = f"{DATA_PATH}/{selected_file}"
             encoded_path = urllib.parse.quote(file_path)
             url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{encoded_path}"
@@ -789,6 +834,7 @@ def main():
                 display_eval_metrics(content)
             else:
                 st.error(f"Error fetching file: {response.status_code}")
+        st.markdown('</div>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
