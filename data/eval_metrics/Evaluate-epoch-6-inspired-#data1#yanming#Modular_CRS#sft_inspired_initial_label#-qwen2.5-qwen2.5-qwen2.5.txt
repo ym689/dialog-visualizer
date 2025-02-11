@@ -1,0 +1,21 @@
+===========Test===============
+Testing 19 user tuples
+Testing SR: 0.8
+Testing Avg@T: 6.1
+Testing Rewards: 0.3875
+================================
+Training epocch:6
+===========Test Turn===============
+Testing 19 user tuples
+Testing SR-turn@0: 0.0
+Testing SR-turn@1: 0.0
+Testing SR-turn@2: 0.0
+Testing SR-turn@3: 0.0
+Testing SR-turn@4: 0.25
+Testing SR-turn@5: 0.5
+Testing SR-turn@6: 0.75
+Testing SR-turn@7: 0.8
+Testing SR-turn@8: 0.8
+Testing SR-turn@9: 0.8
+================================
+6	0.8	6.1	0.3875
