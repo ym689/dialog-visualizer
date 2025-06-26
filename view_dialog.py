@@ -101,7 +101,8 @@ def read_github_file(repo_owner, repo_name, file_path, token):
         for line in lines:
             try:
                 dialog = ast.literal_eval(line)
-                dialogs.append(dialog)
+                if isinstance(dialog, dict):
+                    dialogs.append(dialog)
             except Exception as e:
                 continue
         
