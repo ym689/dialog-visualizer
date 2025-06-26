@@ -66,48 +66,57 @@ def read_github_file(repo_owner, repo_name, file_path, token):
     # URL encode each path component separately
     encoded_path = '/'.join(urllib.parse.quote(part, safe='') for part in file_path.split('/'))
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{encoded_path}"
-    
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json"
     }
-    
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
         st.error(f"Error fetching file: {response.status_code}")
         return None
-        
+
     try:
         file_info = response.json()
         download_url = file_info.get('download_url')
-        
         if not download_url:
             st.error("No download URL found")
             return None
-            
-        # 直接下载文件内容
         file_response = requests.get(download_url, headers=headers)
         if file_response.status_code != 200:
             st.error(f"File download failed: {file_response.status_code}")
             return None
-            
-        content = file_response.text
-        
-        # 显示行数统计
-        lines = [line for line in content.split('\n') if line.strip()]
-        
-        # 使用 ast.literal_eval 来解析 Python 字典格式
+        content = file_response.text.strip()
+
+        # 1. 先尝试整体解析为 JSON（新格式）
+        try:
+            data = json.loads(content)
+            # 如果是 dict，且有 full_state，直接返回 [data]
+            if isinstance(data, dict) and "full_state" in data:
+                return [data]
+            # 如果是 list，且每个元素是 dict，直接返回
+            if isinstance(data, list) and all(isinstance(x, dict) for x in data):
+                return data
+        except Exception:
+            pass
+
+        # 2. 否则按老格式每行一个 dict 解析
         dialogs = []
-        for line in lines:
+        for line in content.split('\n'):
+            line = line.strip()
+            if not line:
+                continue
             try:
-                dialog = ast.literal_eval(line)
+                # 优先用 json 解析，失败再用 ast
+                try:
+                    dialog = json.loads(line)
+                except Exception:
+                    dialog = ast.literal_eval(line)
                 if isinstance(dialog, dict):
                     dialogs.append(dialog)
-            except Exception as e:
+            except Exception:
                 continue
-        
         return dialogs
-        
+
     except Exception as e:
         st.error(f"Error processing content: {str(e)}")
         return None
