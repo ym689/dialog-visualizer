@@ -92,9 +92,11 @@ def read_github_file(repo_owner, repo_name, file_path, token):
             data = json.loads(content)
             # 如果是 dict，且有 full_state，直接返回 [data]
             if isinstance(data, dict) and "full_state" in data:
+                st.write("DEBUG: dialogs=", data)
                 return [data]
             # 如果是 list，且每个元素是 dict，直接返回
             if isinstance(data, list) and all(isinstance(x, dict) for x in data):
+                st.write("DEBUG: dialogs=", data)
                 return data
         except Exception:
             pass
@@ -115,6 +117,7 @@ def read_github_file(repo_owner, repo_name, file_path, token):
                     dialogs.append(dialog)
             except Exception:
                 continue
+        st.write("DEBUG: dialogs=", dialogs)
         return dialogs
 
     except Exception as e:
@@ -145,6 +148,11 @@ def format_file_name(file_name):
     return name
 
 def format_dialog(dialog_data):
+    if not isinstance(dialog_data, dict) or "full_state" not in dialog_data:
+        st.error("This dialog does not contain 'full_state' key. Please check your data format.")
+        st.write(dialog_data)
+        return
+
     st.markdown("""
     <style>
         /* 整体页面背景 */
@@ -376,6 +384,9 @@ def format_dialog(dialog_data):
                         st.write(msg.get("critic_prompt", ""))
                 i += 1
                 st.markdown("<hr/>", unsafe_allow_html=True)
+
+    else:
+        st.warning("No dialogs found or failed to parse any dialog.")
 
 def display_eval_metrics(file_content):
     """Display evaluation metrics in a formatted way"""
