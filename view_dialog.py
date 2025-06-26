@@ -7,6 +7,7 @@ import html
 import ast
 import plotly.graph_objects as go
 import re
+import os
 
 def parse_dialog_data(text):
     """解析多行JSON数据，每行是一个独立的对话"""
@@ -873,6 +874,15 @@ def show_login_page():
             else:
                 st.error("❌ Incorrect password. Please try again.")
 
+def get_all_settings(data_dir="data"):
+    # 返回所有可用setting名
+    dirs = os.listdir(data_dir)
+    conv_settings = [d.replace("conversation_history", "").strip("_") for d in dirs if d.startswith("conversation_history")]
+    eval_settings = [d.replace("eval_metrics", "").strip("_") for d in dirs if d.startswith("eval_metrics")]
+    # 取交集或并集都可，这里用并集
+    all_settings = sorted(set(conv_settings + eval_settings))
+    return all_settings
+
 def main():
     st.set_page_config(page_title="Dialog Visualization", layout="wide")
     
@@ -892,74 +902,67 @@ def main():
     REPO_OWNER = "ym689"
     REPO_NAME = "dialog-visualizer"
 
-    # Add menu selection
-    col1, col2, col3 = st.columns([10, 2, 2])
-    with col1:
-        st.title("Dialog Visualization")
-    with col2:
-        selected_view = st.selectbox(
-            "Select View",
-            ["Conversation History", "Eval Metrics", "Metrics Analysis"],
-            key="view_selector",
-            label_visibility="collapsed"
-        )
-    with col3:
-        if st.button("🚪 Logout", key="logout"):
-            st.session_state.authenticated = False
-            st.rerun()
-
-    if selected_view == "Metrics Analysis":
-        # Only show analysis graphs
-        DATA_PATH = "data/eval_metrics"
-        display_metrics_analysis(DATA_PATH, GITHUB_TOKEN)
-        return  # Exit early to avoid showing other content
-
-    # Set the appropriate data path based on selection
-    if selected_view == "Conversation History":
-        DATA_PATH = "data/conversation_history"
-        display_conversation = True
-    else:  # Eval Metrics
-        DATA_PATH = "data/eval_metrics"
-        display_conversation = False
-
-    available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
-    if not available_files:
-        st.error(f"No files found in {DATA_PATH}.")
+    # 获取所有setting
+    all_settings = get_all_settings("data")
+    if not all_settings:
+        st.error("No settings found in data directory.")
         return
 
-    selected_file = st.selectbox("Select File", available_files, format_func=format_file_name)
-    
-    if selected_file:
-        if display_conversation:
-            dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
-            if dialogs:
-                dialog_index = st.selectbox(
-                    "Select Dialog",
-                    range(len(dialogs)),
-                    format_func=lambda x: f"Dialog {x+1}"
-                )
-                
-                if st.button("🔄 Refresh Dialog"):
-                    st.rerun()
-                    
-                format_dialog(dialogs[dialog_index])
-        else:
-            # Display eval metrics
-            file_path = f"{DATA_PATH}/{selected_file}"
-            encoded_path = urllib.parse.quote(file_path)
-            url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{encoded_path}"
-            
-            headers = {
-                "Authorization": f"token {GITHUB_TOKEN}",
-                "Accept": "application/vnd.github.v3+json"
-            }
-            response = requests.get(url, headers=headers)
-            
-            if response.status_code == 200:
-                content = base64.b64decode(response.json()['content']).decode('utf-8')
-                display_eval_metrics(content)
+    st.title("Dialog Visualization (Ablation Comparison)")
+
+    col_left, col_right = st.columns(2)
+    for col, side in zip([col_left, col_right], ["Left", "Right"]):
+        with col:
+            st.header(f"{side} Setting")
+            setting = st.selectbox(f"Select Setting ({side})", all_settings, key=f"setting_{side}")
+            view = st.selectbox(f"Select View ({side})", ["Conversation History", "Eval Metrics"], key=f"view_{side}")
+
+            # 目录名拼接
+            conv_dir = f"data/conversation_history{('_' + setting) if setting else ''}"
+            eval_dir = f"data/eval_metrics{('_' + setting) if setting else ''}"
+
+            if view == "Conversation History":
+                DATA_PATH = conv_dir
+                display_conversation = True
             else:
-                st.error(f"Error fetching file: {response.status_code}")
+                DATA_PATH = eval_dir
+                display_conversation = False
+
+            available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
+            if not available_files:
+                st.error(f"No files found in {DATA_PATH}.")
+                continue
+
+            selected_file = st.selectbox(f"Select File ({side})", available_files, format_func=format_file_name, key=f"file_{side}")
+
+            if selected_file:
+                if display_conversation:
+                    dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
+                    if dialogs:
+                        dialog_index = st.selectbox(
+                            f"Select Dialog ({side})",
+                            range(len(dialogs)),
+                            format_func=lambda x: f"Dialog {x+1}",
+                            key=f"dialog_{side}"
+                        )
+                        if st.button(f"🔄 Refresh Dialog ({side})"):
+                            st.rerun()
+                        format_dialog(dialogs[dialog_index])
+                else:
+                    # Display eval metrics
+                    file_path = f"{DATA_PATH}/{selected_file}"
+                    encoded_path = urllib.parse.quote(file_path)
+                    url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{encoded_path}"
+                    headers = {
+                        "Authorization": f"token {GITHUB_TOKEN}",
+                        "Accept": "application/vnd.github.v3+json"
+                    }
+                    response = requests.get(url, headers=headers)
+                    if response.status_code == 200:
+                        content = base64.b64decode(response.json()['content']).decode('utf-8')
+                        display_eval_metrics(content)
+                    else:
+                        st.error(f"Error fetching file: {response.status_code}")
 
 if __name__ == "__main__":
     main()
