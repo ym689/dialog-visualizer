@@ -108,15 +108,16 @@ def read_github_file(repo_owner, repo_name, file_path, token):
             if not line:
                 continue
             try:
-                # 优先用 json 解析，失败再用 ast
                 try:
                     dialog = json.loads(line)
                 except Exception:
                     dialog = ast.literal_eval(line)
-                if isinstance(dialog, dict):
+                # 只保留 dict 且有 full_state
+                if isinstance(dialog, dict) and "full_state" in dialog:
                     dialogs.append(dialog)
             except Exception:
                 continue
+        dialogs = [d for d in dialogs if isinstance(d, dict) and "full_state" in d]
         st.write("DEBUG: dialogs=", dialogs)
         return dialogs
 
@@ -791,6 +792,10 @@ def view_dialog(file_path):
             end = content.rfind('}') + 1
             if start >= 0 and end > start:
                 dialog_data = json.loads(content[start:end])
+                if not isinstance(dialog_data, dict) or "full_state" not in dialog_data:
+                    st.error("This dialog does not contain 'full_state' key. Please check your data format.")
+                    st.write(dialog_data)
+                    return
                 format_dialog(dialog_data)
             else:
                 st.error("No valid JSON data found in file")
@@ -968,6 +973,7 @@ def main():
                         )
                         if st.button(f"🔄 Refresh Dialog ({side})"):
                             st.rerun()
+                        st.write("DEBUG: dialog type:", type(dialogs[dialog_index]), dialogs[dialog_index])
                         format_dialog(dialogs[dialog_index])
                 else:
                     # Display eval metrics
