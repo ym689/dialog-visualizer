@@ -63,7 +63,6 @@ def get_github_files(repo_owner, repo_name, path, token):
     return files
 
 def read_github_file(repo_owner, repo_name, file_path, token):
-    # URL encode each path component separately
     encoded_path = '/'.join(urllib.parse.quote(part, safe='') for part in file_path.split('/'))
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{encoded_path}"
     headers = {
@@ -85,39 +84,11 @@ def read_github_file(repo_owner, repo_name, file_path, token):
         if file_response.status_code != 200:
             st.error(f"File download failed: {file_response.status_code}")
             return None
-        content = file_response.text.strip()
-
-        # 1. 先尝试整体解析为 JSON（新格式）
-        try:
-            data = json.loads(content)
-            # 如果是 dict，且有 full_state，直接返回 [data]
-            if isinstance(data, dict) and "full_state" in data:
-                return [data]
-            # 如果是 list，且每个元素是 dict，直接返回
-            if isinstance(data, list) and all(isinstance(x, dict) for x in data):
-                return data
-        except Exception:
-            pass
-
-        # 2. 否则按老格式每行一个 dict 解析
-        dialogs = []
-        for line in content.split('\n'):
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                try:
-                    dialog = json.loads(line)
-                except Exception:
-                    dialog = ast.literal_eval(line)
-                # 只保留 dict 且有 full_state
-                if isinstance(dialog, dict) and "full_state" in dialog:
-                    dialogs.append(dialog)
-            except Exception:
-                continue
-        dialogs = [d for d in dialogs if isinstance(d, dict) and "full_state" in d]
+        content = file_response.text
+        dialogs = extract_dicts_from_file(content)
+        if not dialogs:
+            st.error("No valid dialogs with 'full_state' found in file.")
         return dialogs
-
     except Exception as e:
         st.error(f"Error processing content: {str(e)}")
         return None
@@ -986,6 +957,37 @@ def main():
                         display_eval_metrics(content)
                     else:
                         st.error(f"Error fetching file: {response.status_code}")
+
+def extract_dicts_from_file(content):
+    """
+    提取文件中所有完整的 dict（支持多行），返回 dict 列表
+    """
+    dicts = []
+    brace_stack = []
+    current = []
+    for line in content.splitlines():
+        # 跳过空行
+        if not line.strip() and not brace_stack:
+            continue
+        # 检查每一行的每个字符
+        for c in line:
+            if c == '{':
+                brace_stack.append('{')
+            elif c == '}':
+                if brace_stack:
+                    brace_stack.pop()
+        current.append(line)
+        # 如果 brace_stack 为空，说明一个 dict 结束
+        if not brace_stack and current:
+            dict_str = '\n'.join(current).strip()
+            try:
+                d = ast.literal_eval(dict_str)
+                if isinstance(d, dict) and "full_state" in d:
+                    dicts.append(d)
+            except Exception:
+                pass
+            current = []
+    return dicts
 
 if __name__ == "__main__":
     main()
