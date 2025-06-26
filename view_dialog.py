@@ -963,26 +963,36 @@ def extract_dicts_from_file(content):
     提取文件中所有完整的 dict（支持多行），返回 dict 列表
     """
     dicts = []
-    # 用正则提取所有 {...} 块，支持嵌套
-    pattern = re.compile(r'({(?:[^{}]|(?R))*})', re.DOTALL)
-    matches = pattern.findall(content)
-    for dict_str in matches:
-        dict_str = dict_str.strip()
-        # 先尝试 json.loads
-        try:
-            d = json.loads(dict_str)
-            if isinstance(d, dict) and "full_state" in d:
-                dicts.append(d)
-                continue
-        except Exception:
-            pass
-        # 再尝试 ast.literal_eval
-        try:
-            d = ast.literal_eval(dict_str)
-            if isinstance(d, dict) and "full_state" in d:
-                dicts.append(d)
-        except Exception:
-            pass
+    buf = []
+    brace_count = 0
+    for line in content.splitlines():
+        # 跳过空行
+        if not line.strip() and brace_count == 0:
+            continue
+        # 统计本行大括号
+        brace_count += line.count('{')
+        brace_count -= line.count('}')
+        buf.append(line)
+        # 如果 brace_count 回到0，说明一个 dict 结束
+        if brace_count == 0 and buf:
+            dict_str = '\n'.join(buf).strip()
+            # 先尝试 json.loads
+            try:
+                d = json.loads(dict_str)
+                if isinstance(d, dict) and "full_state" in d:
+                    dicts.append(d)
+                    buf = []
+                    continue
+            except Exception:
+                pass
+            # 再尝试 ast.literal_eval
+            try:
+                d = ast.literal_eval(dict_str)
+                if isinstance(d, dict) and "full_state" in d:
+                    dicts.append(d)
+            except Exception:
+                pass
+            buf = []
     return dicts
 
 if __name__ == "__main__":
