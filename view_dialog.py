@@ -963,30 +963,26 @@ def extract_dicts_from_file(content):
     提取文件中所有完整的 dict（支持多行），返回 dict 列表
     """
     dicts = []
-    brace_stack = []
-    current = []
-    for line in content.splitlines():
-        # 跳过空行
-        if not line.strip() and not brace_stack:
-            continue
-        # 检查每一行的每个字符
-        for c in line:
-            if c == '{':
-                brace_stack.append('{')
-            elif c == '}':
-                if brace_stack:
-                    brace_stack.pop()
-        current.append(line)
-        # 如果 brace_stack 为空，说明一个 dict 结束
-        if not brace_stack and current:
-            dict_str = '\n'.join(current).strip()
-            try:
-                d = ast.literal_eval(dict_str)
-                if isinstance(d, dict) and "full_state" in d:
-                    dicts.append(d)
-            except Exception:
-                pass
-            current = []
+    # 用正则提取所有 {...} 块，支持嵌套
+    pattern = re.compile(r'({(?:[^{}]|(?R))*})', re.DOTALL)
+    matches = pattern.findall(content)
+    for dict_str in matches:
+        dict_str = dict_str.strip()
+        # 先尝试 json.loads
+        try:
+            d = json.loads(dict_str)
+            if isinstance(d, dict) and "full_state" in d:
+                dicts.append(d)
+                continue
+        except Exception:
+            pass
+        # 再尝试 ast.literal_eval
+        try:
+            d = ast.literal_eval(dict_str)
+            if isinstance(d, dict) and "full_state" in d:
+                dicts.append(d)
+        except Exception:
+            pass
     return dicts
 
 if __name__ == "__main__":
