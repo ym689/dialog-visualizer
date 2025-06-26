@@ -92,11 +92,9 @@ def read_github_file(repo_owner, repo_name, file_path, token):
             data = json.loads(content)
             # 如果是 dict，且有 full_state，直接返回 [data]
             if isinstance(data, dict) and "full_state" in data:
-                st.write("DEBUG: dialogs=", data)
                 return [data]
             # 如果是 list，且每个元素是 dict，直接返回
             if isinstance(data, list) and all(isinstance(x, dict) for x in data):
-                st.write("DEBUG: dialogs=", data)
                 return data
         except Exception:
             pass
@@ -118,7 +116,6 @@ def read_github_file(repo_owner, repo_name, file_path, token):
             except Exception:
                 continue
         dialogs = [d for d in dialogs if isinstance(d, dict) and "full_state" in d]
-        st.write("DEBUG: dialogs=", dialogs)
         return dialogs
 
     except Exception as e:
@@ -973,7 +970,6 @@ def main():
                         )
                         if st.button(f"🔄 Refresh Dialog ({side})"):
                             st.rerun()
-                        st.write("DEBUG: dialog type:", type(dialogs[dialog_index]), dialogs[dialog_index])
                         format_dialog(dialogs[dialog_index])
                 else:
                     # Display eval metrics
