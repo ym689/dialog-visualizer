@@ -8,6 +8,8 @@ import ast
 import plotly.graph_objects as go
 import re
 import os
+import ast
+import json
 
 def parse_dialog_data(text):
     """解析多行JSON数据，每行是一个独立的对话"""
@@ -957,42 +959,30 @@ def main():
                         display_eval_metrics(content)
                     else:
                         st.error(f"Error fetching file: {response.status_code}")
-
 def extract_dicts_from_file(content):
     """
-    提取文件中所有完整的 dict（支持多行），返回 dict 列表
+    按空行分割，提取所有有 full_state 的 dict
     """
     dicts = []
-    buf = []
-    brace_count = 0
-    for line in content.splitlines():
-        # 跳过空行
-        if not line.strip() and brace_count == 0:
-            continue
-        # 统计本行大括号
-        brace_count += line.count('{')
-        brace_count -= line.count('}')
-        buf.append(line)
-        # 如果 brace_count 回到0，说明一个 dict 结束
-        if brace_count == 0 and buf:
-            dict_str = '\n'.join(buf).strip()
-            # 先尝试 json.loads
-            try:
-                d = json.loads(dict_str)
-                if isinstance(d, dict) and "full_state" in d:
-                    dicts.append(d)
-                    buf = []
-                    continue
-            except Exception:
-                pass
-            # 再尝试 ast.literal_eval
-            try:
-                d = ast.literal_eval(dict_str)
-                if isinstance(d, dict) and "full_state" in d:
-                    dicts.append(d)
-            except Exception:
-                pass
-            buf = []
+    # 按两个及以上换行分割
+    samples = [s for s in content.split('\n\n') if s.strip()]
+    for sample in samples:
+        sample = sample.strip()
+        # 先尝试 json
+        try:
+            d = json.loads(sample)
+            if isinstance(d, dict) and "full_state" in d:
+                dicts.append(d)
+                continue
+        except Exception:
+            pass
+        # 再尝试 ast
+        try:
+            d = ast.literal_eval(sample)
+            if isinstance(d, dict) and "full_state" in d:
+                dicts.append(d)
+        except Exception:
+            pass
     return dicts
 
 if __name__ == "__main__":
