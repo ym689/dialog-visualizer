@@ -25,7 +25,7 @@ MODEL_ROLE_MAP = {
 }
 
 # 新增：加载dialogid2number.json
-DIALOGID2NUMBER_PATH = "/home/yanming/dialog-visualizer/data/dialogid2number.json"
+DIALOGID2NUMBER_PATH = "data/dialogid2number.json"
 def load_dialogid2number():
     try:
         with open(DIALOGID2NUMBER_PATH, 'r', encoding='utf-8') as f:
@@ -992,7 +992,6 @@ def main():
                 dialogid2number = load_dialogid2number()
                 try:
                     files = [f for f in os.listdir(data_dir) if f.endswith('.json')]
-                    st.write(f"[调试] 检测到的文件名: {files}")
                 except Exception as e:
                     st.error(f"Error reading directory {data_dir}: {str(e)}")
                     continue
@@ -1005,12 +1004,10 @@ def main():
                         dialog_id = match.group(1)
                     else:
                         dialog_id = f
-                    st.write(f"[调试] 文件: {f}, 匹配到的dialog_id: {dialog_id}, 是否有映射: {dialog_id in dialogid2number}")
                     return dialogid2number.get(dialog_id, None)
 
                 # 只保留能映射到序号的文件
                 files_with_number = [(f, get_number(f)) for f in files if get_number(f) is not None]
-                st.write(f"[调试] 有映射的文件: {files_with_number}")
                 files_with_number.sort(key=lambda x: x[1])
                 if not files_with_number:
                     st.warning("No dialogs with valid mapping found.")
