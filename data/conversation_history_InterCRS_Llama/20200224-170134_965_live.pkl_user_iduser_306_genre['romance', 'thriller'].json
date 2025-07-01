@@ -1,0 +1,135 @@
+{
+  "dialog_id": "20200224-170134_965_live.pkl",
+  "context": [
+    "",
+    "Hii Shall I review about Baby Driver",
+    "Yeah it was an amazing thrill movie",
+    "Well, do you expect Avatar 2?",
+    "Hmm, Yes waiting that movie ready to watch with 3D print",
+    "Ohh Ok sir",
+    "How much spend time to watch a new movie",
+    "Just 2 hours",
+    "Really! Are you spend in 2 hours??",
+    "Yeah Sir!",
+    "Can you spend how much hours of time sir?",
+    "Hmm just 4 hours Sir!",
+    "Super sir",
+    "Well what is your name sir?",
+    "I'm Miller! What's yours name Sir?",
+    "I'm Veronica! Sir",
+    "Oh Super Mam, How much movies do you watched since your life?",
+    "Aah average of 25 movies per my lifetime Sir",
+    "Oh super mam! Do you like romantic movie or thriller movie mam?",
+    "Yes did most liked movie was Thriller category",
+    "Oh that's amazing movie mam!",
+    "Oh thanks so much sir",
+    "Oh mam nice to meet you and will see you soon",
+    "Oh ok sir! thanks a lot for his attend a fulfil a meeting",
+    "Ok mam! Cheer up our next meet",
+    "Yeah ok Sir! Well Soon"
+  ],
+  "entity": [
+    "Life (2017)",
+    "Thriller",
+    "Romance"
+  ],
+  "rec": [
+    "Life (2017)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200224-170134_965_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hi! I'm happy to chat with you. What kind of movie do you recommend for me? You:  Hi! I'd love to recommend a movie for you. To give you the best recommendation, could you please tell me what genre you're in the mood for? For example, are you in the mood for a comedy, drama, or maybe something else? ## Step 1: Ask the user about his preference\nThe user needs to provide information about his preference in order to give a recommendation. The recommender should ask the user about his preference. ## Step 2: Provide a recommendation based on user's preference\nAfter the user provides his preference, the recommender should give a recommendation based on that preference. ## Step 3: Add special tokens to the response\nThe recommender should add special tokens '[REC]' and '",
+        "entity": [],
+        "ans_type": "exp",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Romance"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Hi there! I'm in the mood for a romance movie. Something that's not too heavy but still has a good story. [END] ## Step 4: Wait for the recommender to provide a recommendation\nThe seeker has specified a preference for a romance movie, so now he waits for the recommender to provide a suitable recommendation. ## Step 5: Evaluate the recommendation\nOnce the recommender provides a recommendation, the seeker will evaluate it based on his preferences and values. ## Step 6: Request detailed information about the recommended movie\nIf the seeker finds the recommendation suitable, he will request detailed information about the movie. If not, he will politely decline and ask for another recommendation. ## Step 7: Accept or reject the recommendation\nBased on the information provided, the seeker will decide whether to accept or reject the recommendation. If accepted, he will append \"[END]\" to the end of his response.",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Thriller",
+      "Romance",
+      "Life (2017)"
+    ],
+    "rec": [
+      "Life (2017)"
+    ],
+    "user_id": "user_306",
+    "genre_dict": [
+      "romance",
+      "thriller"
+    ],
+    "goal_genre_list": [
+      "Romance"
+    ]
+  }
+}

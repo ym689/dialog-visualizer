@@ -1,0 +1,134 @@
+{
+  "dialog_id": "20200220-093730_176_live.pkl",
+  "context": [
+    "",
+    "Hello there! How are you today",
+    "doimg ok and you",
+    "Im great! Just ready for the weekend. Cant wait to watch some good movies! I hear you need a recommendation on a movie",
+    "yes I need something good to watch",
+    "Well, I know a lot of what is out and what has come out on DVD/NETFLIX. Are you interested in a current movie in the box office?",
+    "do you know whats good on amazon prime",
+    "Of course! What type of movies are you interested in? Are you in the mood for light hearted comedies, or something serious. Drama/action packed. That way I can narrow it down for you",
+    "I was thinking about a good thriller",
+    "OoOoOO! I love thrillers. Let me think on that. Well, I am doing that. Do you like a specific actor or actress? Maybe I can narrow it down.",
+    "Robert Downy Jr. or Amber Heard",
+    "So, I did think o f a great movie I saw recently. I think it would be perfect. I unfortunatley cant think of anything with Robert Downy Jr or Amber Heard. Thats not a comic book movie. Have you heard of Valerian and the City of a Thousdand Planets. Its preety cool! IF you like the 5th element you might like this. Its about aliens and shapeshifting. It has Cara Delevingne in it.",
+    "that sounds like a great choice",
+    "Yeah. Cara, isn't the greatest actress, but I think she does a great job in this movie. I enjoyed it and I found even though the dialogue was a little bit cheesy. I enjoyed it.",
+    "I am looking forward to it",
+    "i'll send you the trailer",
+    "i really liked 5th element",
+    "Ohh well you should like this. I also think you can find the fifth element on amazon but you have to pay for it",
+    "thanks for your help",
+    "Not a problem.",
+    "good bye"
+  ],
+  "entity": [
+    "Comedy",
+    "Valerian and the City of a Thousand Planets (2017)",
+    "Cara Delevingne",
+    "Thriller",
+    "Amber Heard"
+  ],
+  "rec": [
+    "Valerian and the City of a Thousand Planets (2017)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200220-093730_176_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hi! I'm here to get some movie recommendations. What kind of movies do you recommend? ## Step 1: Ask the user for their preference\nTo provide a good recommendation, I need to know what kind of movies you're interested in. Do you have a preferred genre, such as comedy, drama, horror, or something else? ## Step 2: Wait for the user's response\nThe user will respond with their preference, and I will proceed accordingly. ## Step 3: Provide a recommendation based on the user's preference\nOnce I have enough information about the user's preference, I will choose one movie from the candidate list that matches their interest. ## Step 4: Add the special token '[REC]' at the end of the recommendation response\nIf I'm recommending a new movie for the first time in the dialogue history, I will add the special token '[REC]' at the end of my response. ## Step 5: Provide engaging descriptions and add the special token '",
+        "entity": [],
+        "ans_type": "exp",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Comedy"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Hey there! I'm looking for a good comedy movie. Got any recommendations? 😄 [REC] ## Step 6: Wait for the user's response\nI'll wait for the user to respond with their preferred movie genre or any other details they might want to share. ## Step 7: Engage in a brief conversation if needed\nIf the user needs more information or has specific preferences, I'll be ready to chat further. ## Step 8: Accept or reject the recommendation based on the user's feedback\nAfter gaining enough information about the recommended movie, I'll either accept or reject it based on the user's feedback. ## Step 9: Append '[END]' to the final response if the recommendation is accepted\nIf the user accepts the recommendation, I'll append '[END]' to the end of my response to indicate the end of the conversation. ## Step 10: Continue the conversation if the user wants more recommendations\nIf the user wants more recommendations, I'll be ready to provide additional suggestions. ## Step 11: Follow up with the user if necessary\nI'll ensure the conversation flows naturally and that the user feels comfortable with the recommendations. ## Step 12: End the conversation gracefully\nIf the user is satisfied with the recommendation, I'll end the conversation politely.",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Comedy",
+      "Cara Delevingne",
+      "Thriller",
+      "Amber Heard",
+      "Valerian and the City of a Thousand Planets (2017)"
+    ],
+    "rec": [
+      "Valerian and the City of a Thousand Planets (2017)"
+    ],
+    "user_id": "user_273",
+    "genre_dict": [
+      "comedy",
+      "thriller"
+    ],
+    "goal_genre_list": [
+      "Comedy"
+    ]
+  }
+}

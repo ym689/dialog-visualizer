@@ -1,0 +1,133 @@
+{
+  "dialog_id": "20200318-205731_241_live.pkl",
+  "context": [
+    "",
+    "Hi! How are you doing ?",
+    "I am good and you?",
+    "I am doing well! So, I see you're looking for movie recommendations. What was the last movie you watched?",
+    "Baywatch with Dwayne Johnson.",
+    "That's a great movie! The cast in it is great! Did you enjoy it?",
+    "I did, and I am actually currently listening to it in the background. Today has pretty much been a movie day for me.",
+    "That sounds wonderful. I wish movie days were every day. I personally like to watch movies every Tuesday with my roommates.",
+    "Nice, my girlfriend has been sick so we have watched several marvel movies and have now transitioned to non super hero movies. Haha",
+    "How fun, do you guys like the Avengers? What about Captain America Civil War? Definitely one of my favorites.",
+    "I do, my girlfriend is just now getting into them. I actually havent watched Captain America Civil War since it came out in theaters. I agree, it is a really good movie",
+    "Would you want to watch the trailer for Civil War? Definitely one to watch. I know you are transitioning into non-hero movies so I have another recommendation if you don;t want a hero movie.",
+    "whats your other recommendation?",
+    "Central Intelligence! Dwayne Johnson is in it and it's filled with action but also very funny thanks to Kevin Hart.",
+    "That actually sounds like a good one. Im not sure if I have seen that one yet.",
+    "Oh it's hilarious and one that'll keep you on your toes. Do you like Kevin Hart?",
+    "yes, i love his movies.",
+    "Good, you might enjoy this one, then. Do you care for ratings in movies? Or do you typically go with your gut?",
+    "Go with my gut. i have seen several poor ratings, but have loved the movie.",
+    "I am on the same boat! Everybody has different tastes and sometimes these Hollywood critics are mega harsh!",
+    "that is true."
+  ],
+  "entity": [
+    "Central Intelligence (2016)",
+    "Kevin Hart",
+    "Captain America: Civil War (2016)",
+    "Action",
+    "Dwayne Johnson"
+  ],
+  "rec": [
+    "Captain America: Civil War (2016)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200318-205731_241_live.pkl",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "Hi there! What kind of movies do you enjoy? [ASK] Recommender: Have you seen any thrillers before? I think 'Long Hello and Short Goodbye (1999)' might be right up your alley.",
+        "entity": [
+          "Long Hello and Short Goodbye (1999)"
+        ],
+        "ans_type": "none",
+        "rec_item": "Long Hello and Short Goodbye (1999)",
+        "strategies": null,
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialogue": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false
+      },
+      {
+        "role": "user",
+        "content": "Hey! I love action movies. Can you tell me more about this thriller you mentioned? [END]\n To: Seeker, what's your next move? Seeker: Sure thing! So, 'Long Hello and Short Goodbye' sounds intriguing. Could you give me some details on the plot and maybe the director? I want to make sure it fits my taste. [END] To: Seeker, what's your next move? Seeker: Sounds good! Just curious, what's the storyline about and who directed it? I want to ensure it's something I'd enjoy. [END] To: Seeker, what's your next move? Seeker: Got it! Can you tell me more about the plot and the director? I want to make sure it's an action-packed movie that aligns with my preferences. [END] To: Seeker, what's your next move? Seeker: Absolutely! Could you share more about the plot and the director? I want to ensure it's a solid action movie. [END] To: Seeker, what's your next move? Seeker: Sure thing! Can you give me more details about the plot and the director? I want to make sure it's an action movie that fits my preferences. [END] To: Seeker, what's your next move? Seeker: Got it! Can you tell me more about the plot and the director?",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Dwayne Johnson",
+      "Captain America: Civil War (2016)",
+      "Action",
+      "Central Intelligence (2016)",
+      "Kevin Hart",
+      "Long Hello and Short Goodbye (1999)"
+    ],
+    "rec": [
+      "Captain America: Civil War (2016)"
+    ],
+    "user_id": "user_347",
+    "genre_dict": [
+      "action"
+    ],
+    "goal_genre_list": [
+      "Action"
+    ],
+    "attributes": [
+      "Action"
+    ]
+  }
+}

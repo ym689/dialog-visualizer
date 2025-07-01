@@ -1,0 +1,125 @@
+{
+  "dialog_id": "20191202-123458_528_live.pkl",
+  "context": [
+    "",
+    "Hello there!",
+    "hello",
+    "What was the latest movie that you've watched?",
+    "the last movie that i have watched is the irishman, which i loved",
+    "What did you like most about it?",
+    "scorcese, deniro, pesci, and pacino always do an excellent job when portraying as the mob",
+    "I agree, they are all great actors.",
+    "anything with scorsese i usually enjoy",
+    "I do too! I loved seeing him in Guilty by Suspicion.",
+    "that is a deniro film that I actually have not seen yer",
+    "Scorsese plays a part in it as well. I think you may like it.",
+    "what is it about?",
+    "It's about a Hollywood director (De Niro) that returns from France only to find out that the FBI and the House Committee on Un-American Activities is interested in him.",
+    "that actually does sound interesting, i will accept that recommendation",
+    "Great! I really think you will enjoy it!",
+    "thank! take care",
+    "You as well!",
+    "ya, i will watch it as soon as i can",
+    "Best wishes and happy holidays.",
+    "you too! happy holidays"
+  ],
+  "entity": [
+    "The Irishman (2019)",
+    "Doc Hollywood (1991)"
+  ],
+  "rec": [
+    "Doc Hollywood (1991)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191202-123458_528_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hello! Welcome to our movie recommender system! We're excited to help you find your next favorite movie. What kind of movie are you in the mood for today? ## Step 1: Ask user for preference\nI'm not sure what kind of movie you're in the mood for today. Could you please tell me if you prefer a classic movie or a more recent one? The final answer is: I'm not sure what kind of movie you're in the mood for today. Could you please tell me if you prefer a classic movie or a more recent one?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false,
+        "goal_genre_list": [
+          "Action"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "I'm leaning towards a more recent action movie. Got any suggestions? [END] ## Step 2: Provide a specific movie recommendation\nSure, how about \"John Wick\" (2014)? It's a thrilling action film that follows a retired hitman who seeks revenge after his dog is killed. It has great fight scenes and a solid storyline. Would you like to know more about it? ## Step 3: Request detailed information about the movie\nYes, please tell me more about it. Like, what's the plot summary and who are the main actors? [END] ## Step 4: Provide detailed information about the movie\n\"John Wick\" is an action thriller where the protagonist, John Wick, played by Keanu Reeves, is a former hitman who has retired from the business. After his beloved dog is killed, he seeks revenge against the gangsters responsible. The movie also features actors like Ian McShane and Laurence Fishburne. The action sequences are intense and well-executed. Does this sound like something you'd enjoy? [END] ## Step 5: Evaluate the movie based on personal preferences and values\nThat sounds interesting. I like the idea of a revenge story with intense action scenes. Can you tell me more about the director and the cinematography? Also, is there a sequel?",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Doc Hollywood (1991)",
+      "The Irishman (2019)"
+    ],
+    "rec": [
+      "Doc Hollywood (1991)"
+    ],
+    "user_id": "user_230",
+    "genre_dict": [],
+    "goal_genre_list": [
+      "Action"
+    ]
+  }
+}

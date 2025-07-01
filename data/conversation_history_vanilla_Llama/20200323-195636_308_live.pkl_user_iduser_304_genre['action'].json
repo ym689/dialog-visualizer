@@ -1,0 +1,128 @@
+{
+  "dialog_id": "20200323-195636_308_live.pkl",
+  "context": [
+    "",
+    "Hello! I hear you are looking for movie recommendations.",
+    "Yes I am",
+    "Do you know what kind of movie trailers you would like to see?",
+    "Superhero movies",
+    "Superhero movies! Great! I am a big fan of those as well. What was the last superhero movie that you watched?",
+    "The Avengers",
+    "Very cool! I like that movie series as well. Have you seen Captain Marvel?",
+    "Yes I have",
+    "Darn, okay! Well, you have good taste. Do you like action movies?",
+    "Yes I do",
+    "Okay, how about Ford vs. Ferrari? I LOVED that movie, and it's about racing.",
+    "Yes I do",
+    "Okay, here is the movie and the plot. Let me know what you think.",
+    "I like it",
+    "Great! I'm so glad that I could help you find a movie that you would like to watch. Would you like to see the trailer? Or did you already watch it?",
+    "I already watched it",
+    "Okay awesome. Is there anything else I can help you with?",
+    "Not todasy",
+    "Okay, have a great day.",
+    "ok thanks you too"
+  ],
+  "entity": [
+    "Action",
+    "Ford v Ferrari (2019)",
+    "Captain Marvel (2019)"
+  ],
+  "rec": [
+    "Captain Marvel (2019)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200323-195636_308_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "I'm looking for a new TV series to watch. I like shows with complex characters and intricate plots.",
+        "entity": [],
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false,
+        "goal_genre_list": [
+          "Action"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Hi there! I usually enjoy movies that are action-packed and well-made. I'm not really into TV series though. Do you have any action movies you'd recommend? [END]\n To continue the conversation, you could say:",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Captain Marvel (2019)",
+      "Action",
+      "Ford v Ferrari (2019)"
+    ],
+    "rec": [
+      "Captain Marvel (2019)"
+    ],
+    "user_id": "user_304",
+    "genre_dict": [
+      "action"
+    ],
+    "goal_genre_list": [
+      "Action"
+    ]
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "dialog_id": "20200224-173215_535_live.pkl",
+  "context": [
+    "",
+    "Hi, can I help you find a movie?",
+    "Hey, yes I would like a recommendation on an adventure movie",
+    "What was the last adventure movie you enjoyed?",
+    "I really enjoyed Jumanji",
+    "Ha! That���������s what i was going to suggest",
+    "Yeah I really enjoyed the plot. But I'm interested in any kind of adventure movie.",
+    "Have you heard of ���������The Aeronauts���������?",
+    "I haven't. Can you tell me about it?",
+    "In 1862 headstrong scientist James Glaisher and wealthy young widow Amelia Wren mount a balloon expedition to fly higher than anyone in history. As their perilous ascent reduces their chances of survival, the unlikely duo soon discover things about themselves -- and each other -- that help both of them find their place in the world.",
+    "Sounds exciting. Do you know which actors are in the movie?",
+    "Felicity Jones",
+    "What year did this movie come out?",
+    "Oct of 2019 - Eddie Redmayne is in it as well",
+    "I like that actor and other movies he's been in.",
+    "It���������s also inspired by a true story if you���������re into biography",
+    "I am very interested in historical events.",
+    "I think this sounds like a great movie to give a shot then",
+    "I agree. I think I would enjoy this film!",
+    "Sounds great!",
+    "Thank you for the recommendation."
+  ],
+  "entity": [
+    "Felicity Jones",
+    "Biography",
+    "Jumanji (1995)",
+    "Adventure",
+    "History",
+    "Eddie Redmayne"
+  ],
+  "rec": [
+    "Jumanji (1995)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200224-173215_535_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "I have a book titled \"The Great Gatsby\" and I am looking for similar books. Can you suggest some books that are similar to this one?",
+        "entity": [],
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false,
+        "goal_genre_list": [
+          "Adventure"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Oh, The Great Gatsby sounds interesting! I love a good story with a bit of mystery and romance. Do you have any other books like that? [END]\n##### To continue the conversation in character, the Seeker could respond as follows:",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Jumanji (1995)",
+      "History",
+      "Eddie Redmayne",
+      "Biography",
+      "Adventure",
+      "Felicity Jones"
+    ],
+    "rec": [
+      "Jumanji (1995)"
+    ],
+    "user_id": "user_308",
+    "genre_dict": [
+      "adventure",
+      "history",
+      "biography"
+    ],
+    "goal_genre_list": [
+      "Adventure"
+    ]
+  }
+}

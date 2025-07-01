@@ -1,0 +1,132 @@
+{
+  "dialog_id": "20191125-160223_496_live.pkl",
+  "context": [
+    "",
+    "hello, I am here to help you find a movie trailer recommendation",
+    "Hello, I am looking for an action movie",
+    "okay. before I recommend you some movies, I would like to know what the last action movie you just watched",
+    "The last movie I saw was XMen - Dark Phoenix",
+    "cool. so I assume you are a fan of superhero movies?",
+    "Yes, I am a big fan of superhero movies. I loved the last Avengers movie",
+    "that's nice! what do you like best from superhero movies?",
+    "I like when the main character has some sort of special abilties, or powers",
+    "ah I see... have you watched all Marvel movies?",
+    "I have watched most of the Marvel movies.",
+    "then have you watched DC movies? like superman or batman?",
+    "I have watched most of the DC movies too, all of the superman and batman movies. I haven't seen all of the SpiderMan movies though",
+    "okay... there is a Spider-Man animated version.",
+    "I don't think I've seen that one. I saw some of the one about entering the spider universe or something like that",
+    "this animated version is titled: 'Spider-Man: Into the Spider-Verse' and the plot is 'Teen Miles Morales becomes Spider-Man of his reality, crossing his path with five counterparts from other dimensions to stop a threat for all realities.'",
+    "Oh ok, I see. I have not seen that one. The last SpiderMan movie I saw was SpiderMan: Far from home",
+    "Nice. Do you want to check it out?",
+    "Yes, I accept and would like to check it out. Have you seen it?",
+    "yes I watched it with my friends and we really enjoyed it!",
+    "Ok great, thanks so much for the recommendation :)"
+  ],
+  "entity": [
+    "Spider-Man (2002)",
+    "Dark Phoenix (2019)",
+    "Action",
+    "Spider-Man: Into the Spider-Verse (2018)",
+    "Spider (2002)"
+  ],
+  "rec": [
+    "Dark Phoenix (2019)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191125-160223_496_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "I am looking for a movie to watch. I like adventure, action, and a bit of romance. I have seen the Indiana Jones movies, the Lord of the Rings movies, and the Hunger Games series. What do you recommend?",
+        "entity": [],
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false,
+        "goal_genre_list": [
+          "Action"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Hey there! I'm in the market for an action-packed movie too. I love a good adventure with some heart. Have you seen any good ones lately? [END]\n To:",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Spider-Man: Into the Spider-Verse (2018)",
+      "Spider (2002)",
+      "Action",
+      "Spider-Man (2002)",
+      "Dark Phoenix (2019)"
+    ],
+    "rec": [
+      "Dark Phoenix (2019)"
+    ],
+    "user_id": "user_184",
+    "genre_dict": [
+      "action"
+    ],
+    "goal_genre_list": [
+      "Action"
+    ]
+  }
+}

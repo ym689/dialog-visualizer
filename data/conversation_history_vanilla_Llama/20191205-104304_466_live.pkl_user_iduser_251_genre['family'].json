@@ -1,0 +1,130 @@
+{
+  "dialog_id": "20191205-104304_466_live.pkl",
+  "context": [
+    "",
+    "hello",
+    "Hello there, Im looking for recommendation on a family movie!",
+    "I would recommend any of the family holiday films on lifetime networks",
+    "can you please name some titlle? we like newer movies rather than old ones.",
+    "klaus or frozen 2",
+    "oh I think I started watching Klaus and it didnt look that good, frozen 2 sounds good. Its in in movie theaters yet?",
+    "yes frozen is in theaters now",
+    "ok then, I think I  will watch frozen 2! thank you for your recommendation.",
+    "Thats great! I hope that you and your family enjoy the film!!",
+    "Thank you. have a great day!",
+    "You as well",
+    "hold on a second, is this frozen or frozen 2?",
+    "Frozen 2 is now showing",
+    "can we watch frozen 1 on TV?",
+    "it may be available on disney.com",
+    "do you need to purchase a subcription for disney.com?",
+    "yes or purchase a copy",
+    "Where do you recommend to get a copy today?",
+    "thats the best site",
+    "for a copy though?",
+    "www.disney.com for a copy",
+    "ohhh ok , sounds good!"
+  ],
+  "entity": [
+    "Frozen (2013)",
+    "Frozen II (2019)",
+    "Family"
+  ],
+  "rec": [
+    "Frozen II (2019)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191205-104304_466_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "I am looking for a movie to watch tonight. Can you help me with that? You: I'd be happy to help! What kind of movie are you in the mood for? Action, comedy, drama, or something else?",
+        "entity": [],
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false,
+        "goal_genre_list": [
+          "Family"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "I'm in the mood for a family movie. Something light and fun to watch with my family. [END] To stay in character, let's refine your response slightly:",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Frozen II (2019)",
+      "Frozen (2013)",
+      "Family"
+    ],
+    "rec": [
+      "Frozen II (2019)"
+    ],
+    "user_id": "user_251",
+    "genre_dict": [
+      "family"
+    ],
+    "goal_genre_list": [
+      "Family"
+    ]
+  }
+}

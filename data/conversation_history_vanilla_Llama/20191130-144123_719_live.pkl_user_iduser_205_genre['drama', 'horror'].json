@@ -1,0 +1,200 @@
+{
+  "dialog_id": "20191130-144123_719_live.pkl",
+  "context": [
+    "",
+    "What type of movies do you enjoy?",
+    "I love movies that focus on a character's growth from how they started to have they end",
+    "Wow, that is cool. What genre would that be?",
+    "drama or biographical- especially about historical figures",
+    "What is the latest movie you've seen?",
+    "I saw IT2 but that's because my kids and their friends needed a ride. i did like how they intertwined the past with present though",
+    "I never heard of that movie. What genre is that?",
+    "horror! it's stephen king -he's a bit too crazy takes the plot off of what could happen to sci fi and weird stuff",
+    "Have you seen The Joker?",
+    "No - is that the one from Bat Man",
+    "Yes, that is related to Batan",
+    "I've heard great things - I forgot about that one - it shows development on how he turned out the way he did, right",
+    "Yes, it goes through his childhood experiences.",
+    "that's really interesting. I bet I would like that",
+    "Rotten tomatoes give it 3 and 1/2 stars",
+    "wow that is pretty good. I think I will go look up their trailer! thanks for the recommendation",
+    "You'll probably enjoy it.",
+    "I think I will if it's more about him and less about Batman and superheros and things like that.",
+    "Will you accept my recommendation for Joker?",
+    "yes I will definitely accept this recommendation and see the Joker trailer!",
+    "That is great"
+  ],
+  "entity": [
+    "Drama",
+    "Joker (2019)",
+    "Horror"
+  ],
+  "rec": [
+    "Joker (2019)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191130-144123_719_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "I am looking for a new TV series to watch. I enjoy action, adventure, and sci-fi genres. I like the shows with complex characters, moral dilemmas, and thought-provoking storylines. Can you recommend some shows that fit my preferences?",
+        "entity": [],
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Drama"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Hey there! I usually stick to drama, but I'm happy to help if you're open to mixing things up a bit. I love movies with deep characters and meaningful plots. Do you have any shows that blend those elements with action or sci-fi?",
+        "entity": []
+      },
+      {
+        "role": "Assistant",
+        "content": "1. The Expanse - This show is set in a future where humanity has colonized the solar system. It's a great blend of science fiction, politics, and action. The characters are complex and multi-dimensional, and the show explores a lot of moral dilemmas. 2. Westworld - This show is set in a futuristic theme park where guests can interact with lifelike robots. It's a thought-provoking exploration of artificial intelligence, consciousness, and what it means to be human. The show has a lot of action and suspense, but it's also a deep character study. 3. Altered Carbon - This show is set in a future where human consciousness can be transferred into new bodies. It's a gritty and thought-provoking exploration of power, identity, and what it means to be human. The show has a lot of action and suspense, but it's also a deep character study. 4. Killjoys - This show is a space adventure series that follows a team of bounty hunters as they travel through the galaxy. It's a fun and action-packed show with complex characters and moral dilemmas. 5. Travelers - This show is about a group of people from the future who travel back in time to the present day to prevent a catastrophic event from occurring. It's a thought-provoking exploration of time travel, free will, and the consequences of altering the past.",
+        "entity": [],
+        "rec_item": "",
+        "rec_items": [
+          7442,
+          4412,
+          34153,
+          54940,
+          79420,
+          57730,
+          46597,
+          59284,
+          38641,
+          58291,
+          56412,
+          36398,
+          42192,
+          9367,
+          6235,
+          84353,
+          61219,
+          9395,
+          33053,
+          50152,
+          40532,
+          41741,
+          61985,
+          4706,
+          9399,
+          52130,
+          59804,
+          17459,
+          41876,
+          5572,
+          81188,
+          30282,
+          15804,
+          15106,
+          81368,
+          71804,
+          56491,
+          66780,
+          25182,
+          39787,
+          85082,
+          70454,
+          65841,
+          50045,
+          58524,
+          7139,
+          57547,
+          50113,
+          81343,
+          74366
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": true,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Drama"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Wow, those all sound intriguing! I think I might lean towards **The Expanse**. It sounds like it has a good mix of action, politics, and complex characters. Can you tell me more about the plot and the main characters? [END]",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Drama",
+      "Joker (2019)",
+      "Horror"
+    ],
+    "rec": [
+      "Joker (2019)"
+    ],
+    "user_id": "user_205",
+    "genre_dict": [
+      "drama",
+      "horror"
+    ],
+    "goal_genre_list": [
+      "Drama"
+    ]
+  }
+}

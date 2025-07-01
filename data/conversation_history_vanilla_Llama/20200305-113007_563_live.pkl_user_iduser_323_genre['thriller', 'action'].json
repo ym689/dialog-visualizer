@@ -1,0 +1,133 @@
+{
+  "dialog_id": "20200305-113007_563_live.pkl",
+  "context": [
+    "",
+    "Hi, can I help you pick a movie trailer?",
+    "Yes I'd like a recommendation please",
+    "awesome. Can you tell me what types of movies you like?",
+    "Im a big fan of sci-fi,action,adventure, and thrillers",
+    "i love action/adventure and thrillers too! do you have any favorite actors or actresses?",
+    "The actor/actress is not really important to me as long as the plot is good and there is plenty of action. Visual effects are a big plus.",
+    "ok cool - 1 more question...would you prefer a new release or something that's been out for a while?",
+    "Definitely something new and fresh",
+    "ok, here's my favorite favorite movie that I've seen recently - Bad Boys 3",
+    "That sounds good to me. I accept your recommendation. Seems like a great action flick.",
+    "it is great, not only a lot of action but really funny too!",
+    "Is it as funny as the previous Bad Boys films? Or funnier? Martin Lawrence cracks me up everytime.",
+    "In my opinion, it's the second funniest after the original movie.",
+    "Awesome! Can you recommend something else? Im a big fan of comic-book movies.",
+    "I'm not as big a fan of comic book movies, but i've heard bloodshot is supposed to be really good.",
+    "Is that the one with Vin Diesel?",
+    "yup, that's the one",
+    "Ok I'll take your word for it. I accept your recommendation.",
+    "ok cool...do you think you'd prefer bad boys or bloodshot?",
+    "Probably Bad Boys because Im familiar with the previous films so I know what to expect. Bloodshot might just be a nice surprise though."
+  ],
+  "entity": [
+    "Vin Diesel",
+    "Martin Lawrence",
+    "Action",
+    "Bad Boys (1995)",
+    "Thriller"
+  ],
+  "rec": [
+    "Bad Boys (1995)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200305-113007_563_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "I want to watch a movie that I can watch with my family. I am not sure what to choose.",
+        "entity": [],
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": true,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Thriller"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Hey there! I understand the challenge of picking a movie for the whole family. Since I enjoy thrillers, I was thinking maybe we could look for something thrilling yet family-friendly? [END]\n To: Seeker, are you interested in a thriller that also has elements of family entertainment? I have a few options in mind. Would you like me to share them?",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Martin Lawrence",
+      "Thriller",
+      "Bad Boys (1995)",
+      "Action",
+      "Vin Diesel"
+    ],
+    "rec": [
+      "Bad Boys (1995)"
+    ],
+    "user_id": "user_323",
+    "genre_dict": [
+      "thriller",
+      "action"
+    ],
+    "goal_genre_list": [
+      "Thriller"
+    ]
+  }
+}

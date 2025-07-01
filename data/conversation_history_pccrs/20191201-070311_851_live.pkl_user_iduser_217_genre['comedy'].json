@@ -1,0 +1,127 @@
+{
+  "dialog_id": "20191201-070311_851_live.pkl",
+  "context": [
+    "",
+    "Hello",
+    "Hello, I'm looking for movie trailer ideas",
+    "What kind of movies do you prefer?",
+    "I really like auteur movies in most categories, as well as some comedies",
+    "Can you name one that you liked  as an example?",
+    "Not necessarily one movie, but movies by certain directors or writers. I like Tarantino movies a lot for example",
+    "He is a lot like Scorcese - so I would recommend The Irishman",
+    "Yes, I've heard a lot of good things about that and it's on my list. I'm also looking for movies that are similar but maybe not as popular",
+    "Then how about El Camino?",
+    "I recently watched that one, it was great! Do you have any recommendations for older movies I may enjoy?",
+    "Try looking at Goodfellas",
+    "One of my favorites, mob movies are great. I've seen that, Casino, and Godfather, but I'm unsure of any others. I think the Irishman is a good place to start though",
+    "Good then sounds like you are good to go",
+    "Yes thank you!",
+    "you're welcome - bye now",
+    "good bye!",
+    "Will you be watching the trailer now?",
+    "Yes, I don't think I've seen it, or at least not in a long time",
+    "It has not been out vry long",
+    "Oh I meant the trailer, I'm not sure if I've seen that yeat"
+  ],
+  "entity": [
+    "The Irishman (2019)",
+    "Comedy"
+  ],
+  "rec": [
+    "The Irishman (2019)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191201-070311_851_live.pkl",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "Hello! Since we don't have your specific genre preference, I'll suggest an action movie as a general recommendation. Action films often offer thrilling sequences and engaging plots, which many people enjoy. Would you like to explore an action movie? It could be a great fit for your tastes.",
+        "entity": [],
+        "ans_type": "exp",
+        "rec_item": "",
+        "strategies": [
+          "Logical Appeal",
+          "Emotion Appeal"
+        ],
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialogue": false,
+        "rec_success@1": false,
+        "rec_success@5": true,
+        "rec_success@10": true
+      },
+      {
+        "role": "user",
+        "content": "Hey there! I'm more into comedy, so let's stick to that. I'm looking for something light-hearted and maybe a bit satirical. Got any good comedy recommendations? 😄 [END] Seeker: Hi again! Just wanted to add that I also appreciate movies with a touch of social commentary. Something that makes me laugh and think at the same time would be perfect. Any ideas? 😊 [END] Seeker: Hey! I heard \"The Grand Budapest Hotel\" is pretty good. Have you seen it? It's got a lot of humor and some quirky characters.",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Comedy",
+      "The Irishman (2019)"
+    ],
+    "rec": [
+      "The Irishman (2019)"
+    ],
+    "user_id": "user_217",
+    "genre_dict": [
+      "comedy"
+    ],
+    "goal_genre_list": [
+      "Comedy"
+    ],
+    "attributes": [
+      "Comedy"
+    ]
+  }
+}

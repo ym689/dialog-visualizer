@@ -1,0 +1,126 @@
+{
+  "dialog_id": "20200221-084238_343_live.pkl",
+  "context": [
+    "",
+    "Good morning! Have you seen any good movies lately?",
+    "yes",
+    "What did you see?",
+    "captain marvel",
+    "Oh wow! That was a good movie even though I am not a big Marvel fan. This made me want to see the other ones",
+    "avengers end of game",
+    "Is that one that you are suggesting?",
+    "no suggesting",
+    "Got it",
+    "yes got it",
+    "What about Black Panther was that any good?",
+    "yes its nice",
+    "What is your all time favorite in this series of Marvel movies?",
+    "captain america",
+    "What is your second favorite? I am adding these to my list.",
+    "prirates of caribean",
+    "Yes that is a great movie!",
+    "yes is my another favorite movie",
+    "I wasnt a real fan of the second one.",
+    "ok",
+    "Thank you for sharing your time with me on some recommendations",
+    "ok thank you"
+  ],
+  "entity": [
+    "Avengers: Endgame (2019)",
+    "Black Panther (2018)",
+    "Captain Marvel (2019)"
+  ],
+  "rec": [
+    "Captain Marvel (2019)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200221-084238_343_live.pkl",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "Hi! Looking for a movie to watch? Do you prefer comedy, drama, or something else?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "strategies": null,
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialogue": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false
+      },
+      {
+        "role": "user",
+        "content": "Hey there! I'm in the mood for an action movie. Got any good ones? [END]\n##### To: Seeker: Absolutely! How about \"John Wick\"? It's got plenty of action and some great fight scenes. Plus, Keanu Reeves is always a plus! [END]\nFrom: Seeker: Oh, I've heard of John Wick! Sounds intense. Can you tell me more about the plot and maybe the runtime? [END] To: Seeker: Sure thing! \"John Wick\" follows a retired hitman who seeks revenge after his dog is killed. The runtime is about 1 hour and 48 minutes. It's pretty intense but also has some humor and great music. [END] From: Seeker: That sounds right up my alley! Thanks for the details. I appreciate knowing the runtime too. [END] To: Seeker: No problem at all! I think you'll really enjoy it. Let me know how it goes! [END] From: Seeker: Will do! [END] To: Seeker: Looking forward to hearing your thoughts! [END] From: Seeker: [END] To: Seeker: Alright, so after considering everything, I think \"John Wick\" fits perfectly with my preferences. I'm excited to watch it! [END] From: Seeker: Great choice! Enjoy the movie and let me know what you think!",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Black Panther (2018)",
+      "Captain Marvel (2019)",
+      "Avengers: Endgame (2019)"
+    ],
+    "rec": [
+      "Captain Marvel (2019)"
+    ],
+    "user_id": "user_69",
+    "genre_dict": [],
+    "goal_genre_list": [
+      "Action"
+    ],
+    "attributes": [
+      "Action"
+    ]
+  }
+}

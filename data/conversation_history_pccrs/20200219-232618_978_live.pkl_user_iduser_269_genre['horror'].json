@@ -1,0 +1,129 @@
+{
+  "dialog_id": "20200219-232618_978_live.pkl",
+  "context": [
+    "",
+    "hi",
+    "hi",
+    "how do you do",
+    "Great, how are you?",
+    "i am good",
+    "thats good",
+    "what movie have you watched last?",
+    "I watched the movie ' five feet apart'",
+    "it was a nice movie",
+    "oh yeah. so you've watched it also?",
+    "yes i have seen it",
+    "So what kind of movies do you like?",
+    "i like horror movie",
+    "oh ok...what movie would you recommend for me to watch? I don't really watch horror movies, so i don't know what's good",
+    "you can see conjuring",
+    "I might check it out, but I'm not sure if I'll be able to watch it till the end. Horror freaks me out.",
+    "ok can we finish",
+    "yeah sure",
+    "ok bye",
+    "yeah, thanks for the recommendation."
+  ],
+  "entity": [
+    "Five Feet Apart (2019)",
+    "The Conjuring 2 (2016)",
+    "Horror"
+  ],
+  "rec": [
+    "The Conjuring 2 (2016)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200219-232618_978_live.pkl",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "Hi! I think you might enjoy 'Long Hello and Short Goodbye' (1999), a thrilling movie that fits perfectly for those who love suspenseful stories. Thrillers are known for their engaging plots and unexpected turns, so you might find this movie captivating. Would you like to know more about this thriller? 🌟\nWould you like to know more about this thriller?",
+        "entity": [],
+        "ans_type": "exp",
+        "rec_item": "Long Hello and Short Goodbye (1999)",
+        "strategies": [
+          "Framing",
+          "Logical Appeal"
+        ],
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialogue": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false
+      },
+      {
+        "role": "user",
+        "content": "Sure, sounds intriguing! Can you tell me more about the plot and any notable actors in the film? [END] To make it more natural, let's add a bit more chit-chat. Seeker: Sure, sounds intriguing! Can you tell me more about the plot and any notable actors in the film? Oh, and do you happen to know if it has any horror elements? I'm really into that genre lately. [END] To make it more natural, let's add a bit more chit-chat. Seeker: Sure, sounds intriguing! Can you tell me more about the plot and any notable actors in the film? Oh, and do you happen to know if it has any horror elements? I'm really into that genre lately. By the way, I love a good scare now and then! [END] To make it more natural, let's add a bit more chit-chat. Seeker: Sure, sounds intriguing! Can you tell me more about the plot and any notable actors in the film? Oh, and do you happen to know if it has any horror elements? I'm really into that genre lately. By the way, I love a good scare now and then! 😎 [END] To make it more natural, let's add a bit more chit-chat. Seeker: Sure, sounds intriguing! Can you tell me more about the plot and any notable actors in the film?",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Five Feet Apart (2019)",
+      "The Conjuring 2 (2016)",
+      "Horror"
+    ],
+    "rec": [
+      "The Conjuring 2 (2016)"
+    ],
+    "user_id": "user_269",
+    "genre_dict": [
+      "horror"
+    ],
+    "goal_genre_list": [
+      "Horror"
+    ],
+    "attributes": [
+      "Horror"
+    ]
+  }
+}

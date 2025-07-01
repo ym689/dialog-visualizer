@@ -1,0 +1,128 @@
+{
+  "dialog_id": "20191202-123458_528_live.pkl",
+  "context": [
+    "",
+    "Hello there!",
+    "hello",
+    "What was the latest movie that you've watched?",
+    "the last movie that i have watched is the irishman, which i loved",
+    "What did you like most about it?",
+    "scorcese, deniro, pesci, and pacino always do an excellent job when portraying as the mob",
+    "I agree, they are all great actors.",
+    "anything with scorsese i usually enjoy",
+    "I do too! I loved seeing him in Guilty by Suspicion.",
+    "that is a deniro film that I actually have not seen yer",
+    "Scorsese plays a part in it as well. I think you may like it.",
+    "what is it about?",
+    "It's about a Hollywood director (De Niro) that returns from France only to find out that the FBI and the House Committee on Un-American Activities is interested in him.",
+    "that actually does sound interesting, i will accept that recommendation",
+    "Great! I really think you will enjoy it!",
+    "thank! take care",
+    "You as well!",
+    "ya, i will watch it as soon as i can",
+    "Best wishes and happy holidays.",
+    "you too! happy holidays"
+  ],
+  "entity": [
+    "The Irishman (2019)",
+    "Doc Hollywood (1991)"
+  ],
+  "rec": [
+    "Doc Hollywood (1991)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191202-123458_528_live.pkl",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "Hi! Given your interest in thrillers, 'Long Hello and Short Goodbye (1999)' is a great fit. As a thriller, it promises an engaging and suspenseful experience.",
+        "entity": [
+          "Long Hello and Short Goodbye (1999)"
+        ],
+        "ans_type": "exp",
+        "rec_item": "Long Hello and Short Goodbye (1999)",
+        "strategies": [
+          "Logical Appeal",
+          "Framing"
+        ],
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialogue": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false
+      },
+      {
+        "role": "user",
+        "content": "Hi! I'm more into action movies. Could you suggest something in that genre? [END]\n To: Seeker, I understand. How about 'The Rock' (1996)? It's an action-packed film starring Nicolas Cage and Sean Connery, featuring intense stunts and a thrilling plot. Would you like more details?\nSeeker: Sure, sounds interesting! Can you tell me more about the plot and the stunts involved? [END]\n To: Seeker, 'The Rock' follows a U.S. Marshal (Nicolas Cage) who must stop a group of terrorists from blowing up Alcatraz Island. The film includes spectacular stunts, such as a car chase through the Golden Gate Bridge and a fight scene on the island. Would you like to know more about the cast or the director? [END]\nSeeker: That sounds exciting! Who directed the movie? And is there any religious or cultural content in the film? [END]\n To: Seeker, The movie is directed by Michael Bay. There isn't much religious or cultural content, but it does feature a diverse cast and touches on themes of heroism and teamwork. Would you like to know about any other aspects of the film? [END]\nSeeker: No, that seems fine. I think I'll go with this one. Thanks for the recommendation! [END] Seeker: Great choice! I'm excited to watch it. Looking forward to the action and stunts.",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Long Hello and Short Goodbye (1999)",
+      "The Irishman (2019)",
+      "Doc Hollywood (1991)"
+    ],
+    "rec": [
+      "Doc Hollywood (1991)"
+    ],
+    "user_id": "user_230",
+    "genre_dict": [],
+    "goal_genre_list": [
+      "Action"
+    ],
+    "attributes": [
+      "Action"
+    ]
+  }
+}

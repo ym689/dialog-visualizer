@@ -1,0 +1,142 @@
+{
+  "dialog_id": "20191127-224739_530_live.pkl",
+  "context": [
+    "",
+    "Hi! I'm here to help you chose a movie!",
+    "Terrific",
+    "What are some genres you like? What was the last movie you saw?",
+    "the last movie i saw in the theater was 'Hustlers' . I generally like comedy, drama and documentaries",
+    "How did you like 'Hustlers'? It definitely has the drama aspect, did it leave you wanting more or was it not exactly what you were looking for?",
+    "I liked it,  it wasn't the most high-brow movie i've ever seen but it was fun. I like to just enjoy",
+    "And what are your thoughts on action in film?",
+    "I like some action. Just not too violent",
+    "Definitely, movies like 'Deadpool' wouldn't be up your alley I'm guessing?",
+    "It could be. I understand Deadpool was very funny  I like funny",
+    "Haha it definitely was, I think I have a suggestion for you though",
+    "Cool  Whats that?",
+    "So it's the new'A Beautiful Day in the Neighborhood', the Mr. Rogers movie with Tom Hanks as the actor. It's not as much a comedic relief, but I saw it in theatres with my roomates and it's honestly a super refreshing and incredibly well directed movie.",
+    "that sounds so good to me. I loved Mr. Rogers so much.. and Tom Hanks is a great actor",
+    "The combination is incredible to be honest, and it lets you understand his background and who he was as a person so much more",
+    "That sounds amazing. I would love to see that",
+    "Awesome, that's my recommendation then!",
+    "Great! That is totally what i'm going to see. I can't wait to watch the trailer",
+    "The trailer's awesome and it's even better in theater",
+    "Well then. Given the opportunity I will formally accept. Thank you so much for your help"
+  ],
+  "entity": [
+    "A Beautiful Day in the Neighborhood (2019)",
+    "Hustlers (2019)",
+    "Deadpool (2016)",
+    "Comedy",
+    "Tom Hanks",
+    "Drama",
+    "Action",
+    "Documentary"
+  ],
+  "rec": [
+    "Deadpool (2016)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191127-224739_530_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hi! I'm looking for a good movie to watch. Can you help me? You:  Hi! I'd be happy to help you find a good movie. To get started, can you tell me what type of movie you're in the mood for? Are you looking for something action-packed, a romantic comedy, or perhaps something more dramatic?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Comedy"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "I'm in the mood for a comedy. Something that will make me laugh and maybe even think a bit. You:  Got it! Comedy is a great choice. Do you want a light-hearted, feel-good movie or something a bit more satirical and clever? [END] You:  I'm leaning towards a light-hearted, feel-good comedy. Something that will make me laugh but also leave me with a good feeling. [END] You:  Also, do you have any specific actors or directors you like? Or any particular themes you enjoy in comedies?",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Deadpool (2016)",
+      "Comedy",
+      "Action",
+      "Hustlers (2019)",
+      "Drama",
+      "A Beautiful Day in the Neighborhood (2019)",
+      "Documentary",
+      "Tom Hanks"
+    ],
+    "rec": [
+      "Deadpool (2016)"
+    ],
+    "user_id": "user_188",
+    "genre_dict": [
+      "comedy",
+      "drama",
+      "documentary",
+      "action"
+    ],
+    "goal_genre_list": [
+      "Comedy"
+    ]
+  }
+}

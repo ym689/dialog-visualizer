@@ -1,0 +1,127 @@
+{
+  "dialog_id": "20200324-052021_542_live.pkl",
+  "context": [
+    "",
+    "hell there",
+    "hi, how are you?",
+    "fine i am here to help you find a good movie",
+    "awesome, that would be great",
+    "what is your favorite genre?",
+    "I like science fiction the best",
+    "what is the last movie you watched?",
+    "The last new movie I watched was Avengers Endgame",
+    "Have you seen The Invisible Man",
+    "No I have not",
+    "After staging his own suicide, a crazed scientist uses his power to become invisible to stalk and terrorize his ex-girlfriend. When the police refuse to believe her story, she decides to take matters into her own hands and fight back.",
+    "Oh wow, that sounds interesting",
+    "or Artemis Fowl",
+    "I have not heard of that one. What's it about?",
+    "Artemis Fowl is a 12-year-old genius and descendant of a long line of criminal masterminds. He soon finds himself in an epic battle against a race of powerful underground fairies who may be behind his father's disappearance.",
+    "That one sounds fun--I like that there are fairies in it.",
+    "how about Underwater",
+    "I haven't heard of that one either",
+    "Disaster strikes more than six miles below the ocean surface when water crashes through the walls of a drilling station. Led by their captain, the survivors realize that their only hope is to walk across the sea floor to reach the main part of the facility. But they soon find themselves in a fight for their lives when they come under attack from mysterious and deadly creatures that no one has ever seen.",
+    "Sounds intense---I like it"
+  ],
+  "entity": [
+    "Sci-Fi",
+    "Avengers: Endgame (2019)"
+  ],
+  "rec": [
+    "Avengers: Endgame (2019)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200324-052021_542_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hi! Welcome to the movie recommender chat. I'm here to find a new movie to watch. What kind of movie are you going to recommend? ## Step 1: Ask the user for their preference to narrow down the recommendation options. To provide a personalized recommendation, I need to know what kind of movie you're in the mood for. Are you looking for a comedy, drama, or something else? The final answer is: To provide a personalized recommendation, I need to know what kind of movie you're in the mood for. Are you looking for a comedy, drama, or something else? ",
+        "entity": [],
+        "ans_type": "exp",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Sci-Fi"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "I'm in the mood for a sci-fi movie. It's my favorite genre. [END] ## Step 2: Provide a specific sci-fi movie recommendation based on the user's preference. I've got a great sci-fi movie for you. Have you heard of \"Ex Machina\"? It's a thought-provoking film about artificial intelligence and human consciousness. The story follows a programmer who is invited to evaluate a humanoid AI. It's both thrilling and intellectually stimulating. Would you like to know more about it? [END] ## Step 3: Wait for the user's response to the recommendation. [END] ## Step 4: Based on the user's response, either confirm the choice or request additional information if needed. [END] ## Step 5: If the user accepts the recommendation, provide detailed information about the movie. [END] ## Step 6: If the user rejects the recommendation, ask for another suggestion. [END] ## Step 7: Ensure the conversation flows naturally and remains within the character's preferences and values. [END] ## Step 8: End the conversation gracefully if the user decides to accept the recommendation. [END] ## Step 9: Follow up with a friendly goodbye if the user decides to reject the recommendation. [END] ## Step 10: Maintain the character's personality traits and values throughout the conversation. [END] ## Step 11: Ensure the response is brief and natural.",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Avengers: Endgame (2019)",
+      "Sci-Fi"
+    ],
+    "rec": [
+      "Avengers: Endgame (2019)"
+    ],
+    "user_id": "user_360",
+    "genre_dict": [
+      "sci-fi"
+    ],
+    "goal_genre_list": [
+      "Sci-Fi"
+    ]
+  }
+}

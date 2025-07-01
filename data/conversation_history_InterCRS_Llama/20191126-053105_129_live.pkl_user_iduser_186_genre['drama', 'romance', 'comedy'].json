@@ -1,0 +1,137 @@
+{
+  "dialog_id": "20191126-053105_129_live.pkl",
+  "context": [
+    "",
+    "Good morning, how are you doing?",
+    "im good, how are you?",
+    "I am doing well. Have you been to the movies lately?",
+    "I have! I just went over the weekend, but we love going to the movies and are always looking for recommendations of what looks good?",
+    "Me too, love the movies. Have you seen Queen and Slim? It is amazing and gritty. I highly recommend it.",
+    "No, ive actually never even heard of it. What genre is it?",
+    "It is a drama. What was the movie you saw over the weekend?",
+    "I took my daughter to see Frozen 2 with my husband.",
+    "Cool, I was thinking of seeing that myself. How was it?",
+    "It was better than we could have expected, I think i even like it more than the first. Definitely cant wait until we can buy it.",
+    "That;s good. Was there anything that you did not like? What types of movies do you typically like?",
+    "I cant really think of anything that didnt exceed my expectations honestly. I normally like romance of comedy movies though.",
+    "Cool, that is great about frozen. If you like romance have you seen Last Christmas?",
+    "No, but i love Christmas movies!",
+    "It's a romance/comedy movie I've hear its quite good. It stars Emilia Clarke from Game of Thrones",
+    "We watched the game of thrones series religiously so i love her! Id love to watch that for sure.",
+    "Yes I loved that show too. I think she was also in a Star Wars movie. Are you excited for the newest Star Wars to come out at Christmas?",
+    "not really my husband is, hes planning on seeing it the day it comes out. Is last christmas out already?",
+    "Yes, it came out recently, November 8",
+    "Perfect, thats the movie ill be watching later today!"
+  ],
+  "entity": [
+    "Comedy",
+    "Drama",
+    "Romance",
+    "Emilia Clarke",
+    "Last Christmas (2019)",
+    "Frozen (2013)"
+  ],
+  "rec": [
+    "Frozen (2013)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191126-053105_129_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hi! I'm excited to get a movie recommendation from you!\nYou: Hi! I'm happy to help you find a great movie. To get started, what kind of movie are you in the mood for? Do you want to watch a classic, something recent, or a mix of both?\nYou:  Hi! I'm happy to help you find a great movie. To get started, what kind of movie are you in the mood for? Do you want to watch a classic, something recent, or a mix of both?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Drama"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "I'm in the mood for a drama. Something recent would be great. [END]\nYou: Got it! Drama it is. Do you prefer a lighter, more uplifting drama or something a bit heavier with complex themes? You: Got it! Drama it is. Do you prefer a lighter, more uplifting drama or something a bit heavier with complex themes?",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Comedy",
+      "Romance",
+      "Drama",
+      "Frozen (2013)",
+      "Emilia Clarke",
+      "Last Christmas (2019)"
+    ],
+    "rec": [
+      "Frozen (2013)"
+    ],
+    "user_id": "user_186",
+    "genre_dict": [
+      "drama",
+      "romance",
+      "comedy"
+    ],
+    "goal_genre_list": [
+      "Drama"
+    ]
+  }
+}

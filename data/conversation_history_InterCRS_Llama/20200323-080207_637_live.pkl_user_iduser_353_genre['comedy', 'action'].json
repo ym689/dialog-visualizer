@@ -1,0 +1,130 @@
+{
+  "dialog_id": "20200323-080207_637_live.pkl",
+  "context": [
+    "",
+    "Hello, how are you doing today?",
+    "Good",
+    "Great, glad to hear that, so do you like to watch movies? what type of movies do you like?",
+    "I like mostly comedy movies",
+    "Do you like comedy with action movies?",
+    "I like those kind of movies sometimes",
+    "I see so mostly comedy movies, I like those as well",
+    "That's very nice. What titles you like?",
+    "I  like comedy movies as well but my favorite genre is action and also superhero movies, I really like those.",
+    "Like the Marvel movies?",
+    "Yeah like Marvel movies, exactly, did you happen to watch  Deadpool? that movie is great and with a lot of comedy in it.",
+    "I only saw some scenes of it.",
+    "Then you will really like it,  Ryan Reynolds is the leading actor and he is really funny. There are 2 parts so far and the third one is coming.",
+    "I'll check those whenever whenever I get the chance.",
+    "Yeah you definitely should, he is my favorite hero/anti hero",
+    "Yeah, the clips tell me that it's very funny",
+    "It is, and if you like superhero movies then thats a plus,the movie sure has a great cast.",
+    "I'll see how it's like once I get the chance.",
+    "Ok I hope that you like it have a nice day.",
+    "You too as well!"
+  ],
+  "entity": [
+    "Action",
+    "Ryan Reynolds",
+    "Comedy"
+  ],
+  "rec": [
+    "no rec"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200323-080207_637_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hi! I'm happy to chat with you. How can I find a good movie to watch tonight? You: Hi! I'd love to help you find a good movie to watch tonight. To get started, could you tell me what type of movies you're in the mood for? Are you looking for something classic, recent release, or a mix of both?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Comedy"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "I'm in the mood for a comedy. Something light and funny would be great. You: Got it! Comedy sounds perfect. Do you prefer a recent release or an older classic? Or maybe you're open to both? [END] You: I think I'll go for a recent comedy. Something that's been well-received and has good reviews. [END] You: Also, I enjoy watching comedies with heartwarming moments. Something that can make me laugh and feel good. [END] You: Could you recommend a recent comedy that fits those criteria? [END] You: And if you could, please provide details like the plot, actors, and any notable reviews. [END] You: That would really help me decide. Thanks! [END] You: Looking forward to your recommendation! [END] You: Hey, just checking in. Did you get my message? [END] You: I'm still waiting for your recommendation. [END] You: Just wanted to remind you that I'm looking for a recent comedy with a heartwarming touch. [END] You: Any updates on the recommendation? [END] You: I'm still here, waiting for your recommendation. [END] You: Just a friendly reminder, I'm excited to hear your recommendation. [END] You: I hope you're ready to recommend a movie soon. [END] You: I'm still waiting for your recommendation.",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Action",
+      "Comedy",
+      "Ryan Reynolds"
+    ],
+    "rec": [
+      "no rec"
+    ],
+    "user_id": "user_353",
+    "genre_dict": [
+      "comedy",
+      "action"
+    ],
+    "goal_genre_list": [
+      "Comedy"
+    ]
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "dialog_id": "20191130-193942_55_live.pkl",
+  "context": [
+    "",
+    "hi how are you",
+    "good how are you",
+    "i am good.",
+    "i'm thinking of watching a movie tonight",
+    "oh nice. i got some movies to recommend.",
+    "oh perfect. what types are they",
+    "it depends on what kind of movies you like to watch.",
+    "i like dramas and comedies",
+    "newer movies or older type movies?",
+    "i don't mind older movies if they are good",
+    "i have a comedy movie to recommend",
+    "what is it called?",
+    "bad santa",
+    "hmm i have seen that one already",
+    "do you have any movies in mind you like?",
+    "do you have any action films to recommend",
+    "how about Speed with Kennau Reeves",
+    "that sounds cool. i like keanu",
+    "ok I will recommend Speed with Keenau Reeves",
+    "i will watch that. thank you",
+    "your welcome"
+  ],
+  "entity": [
+    "Comedy",
+    "Drama",
+    "Bad Santa (2003)",
+    "Action",
+    "Speed (1994)"
+  ],
+  "rec": [
+    "Speed (1994)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191130-193942_55_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hi! I'm here to find a new movie to watch. Can you recommend something to me? You: Hi! I'd be happy to help you find a new movie to watch. To give you a good recommendation, can you tell me what kind of movies you're in the mood for? Are you interested in watching a classic film, a recent release, or something in between?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Drama"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "I'm in the mood for a drama. Something that's well-written and emotionally engaging. You: Got it! I understand you're looking for a drama that's well-written and emotionally engaging. Do you prefer a movie that has a slow build-up or something that's more fast-paced? Also, are there any specific themes or storylines you're interested in exploring? [END] You: Hi! I'm in the mood for a drama. Something that's well-written and emotionally engaging. Do you have any recommendations for a recent drama that fits this description? [END] You: Hi! I'm in the mood for a drama. Something that's well-written and emotionally engaging. Do you have any recommendations for a recent drama that fits this description? [END] You: Hi! I'm in the mood for a drama. Something that's well-written and emotionally engaging. Do you have any recommendations for a recent drama that fits this description? [END] You: Hi! I'm in the mood for a drama. Something that's well-written and emotionally engaging. Do you have any recommendations for a recent drama that fits this description? [END] You: Hi! I'm in the mood for a drama. Something that's well-written and emotionally engaging. Do you have any recommendations for a recent drama that fits this description? [END] You: Hi! I'm in the mood for a drama. Something that's well-written and emotionally engaging.",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Comedy",
+      "Action",
+      "Speed (1994)",
+      "Drama",
+      "Bad Santa (2003)"
+    ],
+    "rec": [
+      "Speed (1994)"
+    ],
+    "user_id": "user_213",
+    "genre_dict": [
+      "drama",
+      "comedy",
+      "action"
+    ],
+    "goal_genre_list": [
+      "Drama"
+    ]
+  }
+}

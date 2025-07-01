@@ -11,6 +11,82 @@ import os
 import ast
 import json
 
+# 新增：支持的特殊模型列表和角色映射
+SINGLE_FILE_MODELS = [
+    "pccrs", "vanilla_Llama", "vanilla_Qwen", "InterCRS_Llama", "barcor",
+]
+MODEL_ROLE_MAP = {
+    "pccrs": {"system": "assistant", "user": "user"},
+    "vanilla_Llama": {"system": "Assitant", "user": "User"},
+    "vanilla_Qwen": {"system": "Assitant", "user": "User"},
+    "InterCRS_Llama": {"system": "Assistant", "user": "User"},
+    "barcor": {"system": "System", "user": "User"},
+    # 后续可补充
+}
+
+# 新增：加载dialogid2number.json
+DIALOGID2NUMBER_PATH = "/home/yanming/dialog-visualizer/data/dialogid2number.json"
+def load_dialogid2number():
+    try:
+        with open(DIALOGID2NUMBER_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def display_simple_dialog(dialog_data, model_name, dialogid2number):
+    """
+    只展示simulator_dialog.context中的system和user对话。
+    """
+    st.markdown("""
+    <style>
+        .simple-message {
+            margin: 10px 0;
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 16px;
+            line-height: 1.5;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .simple-system {
+            background: #e3f2fd;
+            margin-left: 40px;
+        }
+        .simple-user {
+            background: #fffde7;
+            margin-right: 40px;
+        }
+        .simple-id {
+            font-size: 15px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # 获取映射
+    role_map = MODEL_ROLE_MAP.get(model_name, {"system": "recommender", "user": "seeker"})
+    system_role = role_map["system"]
+    user_role = role_map["user"]
+    
+    # 获取dialog_id和序号
+    dialog_id = dialog_data.get("dialog_id")
+    dialog_number = dialogid2number.get(dialog_id, None)
+    if dialog_number is not None:
+        st.markdown(f'<div class="simple-id">Dialog #{dialog_number} ({dialog_id})</div>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<div class="simple-id">Dialog ({dialog_id})</div>', unsafe_allow_html=True)
+    
+    # 展示对话
+    context = dialog_data.get("simulator_dialog", {}).get("context", [])
+    for msg in context:
+        role = msg.get("role", "")
+        content = msg.get("content", "")
+        if role == system_role:
+            st.markdown(f'<div class="simple-message simple-system"><b>System:</b> {html.escape(content)}</div>', unsafe_allow_html=True)
+        elif role == user_role:
+            st.markdown(f'<div class="simple-message simple-user"><b>User:</b> {html.escape(content)}</div>', unsafe_allow_html=True)
+
 def parse_dialog_data(text):
     """解析多行JSON数据，每行是一个独立的对话"""
     dialogs = []
@@ -898,6 +974,45 @@ def main():
     REPO_OWNER = "ym689"
     REPO_NAME = "dialog-visualizer"
 
+    # 新增：模型选择
+    MODEL_LIST = [
+        "pccrs", "vanilla_Llama", "vanilla_Qwen", "InterCRS_Llama"
+        # 后续可补充
+    ]
+    st.title("Dialog Visualization (Ablation Comparison)")
+    model = st.selectbox("Select Model", MODEL_LIST, key="model_select")
+
+    # 新增：特殊模型简化展示逻辑
+    if model in SINGLE_FILE_MODELS:
+        # 目录名
+        data_dir = f"data/conversation_history_{model}"
+        # 加载dialogid2number
+        dialogid2number = load_dialogid2number()
+        # 获取所有json文件
+        try:
+            files = [f for f in os.listdir(data_dir) if f.endswith('.json')]
+        except Exception as e:
+            st.error(f"Error reading directory {data_dir}: {str(e)}")
+            return
+        # 按dialogid2number排序
+        def get_number(f):
+            dialog_id = f.split('_user_id')[0]
+            return dialogid2number.get(dialog_id, 99999)
+        files = sorted(files, key=get_number)
+        # 选择文件
+        file_display = [f"Dialog #{get_number(f)} ({f})" for f in files]
+        selected_idx = st.selectbox("Select Dialog", range(len(files)), format_func=lambda i: file_display[i], key="dialog_file_select")
+        selected_file = files[selected_idx]
+        # 加载并展示
+        file_path = os.path.join(data_dir, selected_file)
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                dialog_data = json.load(f)
+            display_simple_dialog(dialog_data, model, dialogid2number)
+        except Exception as e:
+            st.error(f"Error loading dialog: {str(e)}")
+        return
+
     # 获取所有setting
     all_settings = get_all_settings("data")
     if not all_settings:
@@ -959,6 +1074,7 @@ def main():
                         display_eval_metrics(content)
                     else:
                         st.error(f"Error fetching file: {response.status_code}")
+
 def extract_dicts_from_file(content):
     """
     按空行分割，提取所有有 full_state 的 dict

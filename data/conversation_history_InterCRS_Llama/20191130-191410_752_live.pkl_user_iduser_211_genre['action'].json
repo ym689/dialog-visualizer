@@ -1,0 +1,137 @@
+{
+  "dialog_id": "20191130-191410_752_live.pkl",
+  "context": [
+    "",
+    "Hello, I am here to help you look for a movie trailer.",
+    "well I like action movies. what could you recommend?",
+    "Personally I would watch Atomic Blonde. This movie was full of action.",
+    "I saw. It was OK but kinda strange... I liked Lucy more. That was awesome. Got anything else?",
+    "Mission Impossible is enjoying. Tom Cruise was great in this film.",
+    "MI:10? ;) I like him, but I think I've seen one too many. BTW if you are not a bot, say Ssup.",
+    "I have some great movies that I can refer you to. That is my current job.",
+    "OK then... Well can you refer me to the latest Terminator movie or something?",
+    "The latest Terminator movie is Terminator: Dark Fate.",
+    "I know that... Do you recommend it or not?",
+    "Yes",
+    "OK I kinda gave it to you :) Can you recommend something in the same style?",
+    "Joker is a great film.",
+    "Yes! I agree. I missed in the theaters. Really want to see it on Bluray. Can you tell me the main gist without giving away too much?",
+    "Joker is a movie about a guy named Arthur Fleck who becomes mad and transforms into a criminal mastermind named Joker.",
+    "OK I am excited. So are you alive or are you an algorithm",
+    "Im human. So would you like to watch the movie trailer?",
+    "Awesome. yes I'd like to see the trailer",
+    "Okay that sounds awesome.",
+    "So how do we wrap this up?"
+  ],
+  "entity": [
+    "Lucy (2014)",
+    "Arthur (2011)",
+    "Tom Cruise",
+    "Mission: Impossible (1996)",
+    "Action",
+    "Atomic Blonde (2017)",
+    "Joker (2019)"
+  ],
+  "rec": [
+    "Joker (2019)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191130-191410_752_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hello! I'm here to find a new movie to watch. I like a mix of drama and comedy. What do you have for me?\nYou: Hi! We have a list of movies that mix drama and comedy. Can you tell me if you have a preference for a more serious drama or a lighter comedy?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false,
+        "goal_genre_list": [
+          "Action"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Nah, I'm more into action movies. Got any good ones? [END]\n To: Seeker, you mentioned you're more into action movies. Let me recommend a movie that combines action with some humor. How about \"Die Hard\" (1988)? It's a classic action-comedy film where Bruce Willis plays a New York police officer who gets trapped in a Los Angeles skyscraper during a terrorist attack. The movie has plenty of action sequences and witty dialogue. Would you like to know more about it? [END]\n To: Seeker, you mentioned you're more into action movies. Let me recommend a movie that combines action with some humor. How about \"Die Hard\" (1988)? It's a classic action-comedy film where Bruce Willis plays a New York police officer who gets trapped in a Los Angeles skyscraper during a terrorist attack. The movie has plenty of action sequences and witty dialogue. Would you like to know more about it? [END]\n To: Seeker, you mentioned you're more into action movies. Let me recommend a movie that combines action with some humor. How about \"Die Hard\" (1988)? It's a classic action-comedy film where Bruce Willis plays a New York police officer who gets trapped in a Los Angeles skyscraper during a terrorist attack. The movie has plenty of action sequences and witty dialogue. Would you like to know more about it?",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Arthur (2011)",
+      "Atomic Blonde (2017)",
+      "Action",
+      "Mission: Impossible (1996)",
+      "Lucy (2014)",
+      "Joker (2019)",
+      "Tom Cruise"
+    ],
+    "rec": [
+      "Joker (2019)"
+    ],
+    "user_id": "user_211",
+    "genre_dict": [
+      "action"
+    ],
+    "goal_genre_list": [
+      "Action"
+    ]
+  }
+}
