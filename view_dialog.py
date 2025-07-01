@@ -1014,7 +1014,7 @@ def main():
                     continue
 
                 # 只显示Dialog #序号
-                file_display = [f"Dialog #{num}" for _, num in files_with_number]
+                file_display = [f"Dialog {num}" for _, num in files_with_number]
                 selected_idx = st.selectbox(
                     f"Select Dialog ({side})",
                     range(len(files_with_number)),
