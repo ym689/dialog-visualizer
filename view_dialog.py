@@ -955,6 +955,13 @@ def get_all_settings(data_dir="data"):
     all_settings = sorted(set(conv_settings + eval_settings))
     return all_settings
 
+def get_all_model_names():
+    dirs = [d for d in os.listdir("data") if d.startswith("conversation_history")]
+    # 去掉前缀
+    return [d.replace("conversation_history_", "") for d in dirs]
+
+MODEL_LIST = get_all_model_names()
+
 def main():
     st.set_page_config(page_title="Dialog Visualization", layout="wide")
     
@@ -974,11 +981,6 @@ def main():
     REPO_OWNER = "ym689"
     REPO_NAME = "dialog-visualizer"
 
-    # 1. 你的模型列表应包含所有模型
-    MODEL_LIST = [
-        "pccrs", "vanilla_Llama", "vanilla_Qwen", "InterCRS_Llama", "barcor"
-        # 后续可补充
-    ]
     st.title("Dialog Visualization (Ablation Comparison)")
 
     col_left, col_right = st.columns(2)
