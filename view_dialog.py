@@ -974,55 +974,11 @@ def main():
     REPO_OWNER = "ym689"
     REPO_NAME = "dialog-visualizer"
 
-    # 新增：模型选择
+    # 1. 你的模型列表应包含所有模型
     MODEL_LIST = [
-        "pccrs", "vanilla_Llama", "vanilla_Qwen", "InterCRS_Llama"
+        "pccrs", "vanilla_Llama", "vanilla_Qwen", "InterCRS_Llama", "barcor"
         # 后续可补充
     ]
-    st.title("Dialog Visualization (Ablation Comparison)")
-    model = st.selectbox("Select Model", MODEL_LIST, key="model_select")
-
-    # 新增：特殊模型简化展示逻辑
-    if model in SINGLE_FILE_MODELS:
-        # 目录名
-        data_dir = f"data/conversation_history_{model}"
-        # 加载dialogid2number
-        dialogid2number = load_dialogid2number()
-        # 获取所有json文件
-        try:
-            files = [f for f in os.listdir(data_dir) if f.endswith('.json')]
-        except Exception as e:
-            st.error(f"Error reading directory {data_dir}: {str(e)}")
-            return
-        # 按dialogid2number排序
-        def get_number(f):
-            match = re.match(r"(.+?)_user_id", f)
-            if match:
-                dialog_id = match.group(1)
-            else:
-                dialog_id = f
-            return dialogid2number.get(dialog_id, 99999)
-        files = sorted(files, key=get_number)
-        # 选择文件
-        file_display = [f"Dialog #{get_number(f)} ({f})" for f in files]
-        selected_idx = st.selectbox("Select Dialog", range(len(files)), format_func=lambda i: file_display[i], key="dialog_file_select")
-        selected_file = files[selected_idx]
-        # 加载并展示
-        file_path = os.path.join(data_dir, selected_file)
-        try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                dialog_data = json.load(f)
-            display_simple_dialog(dialog_data, model, dialogid2number)
-        except Exception as e:
-            st.error(f"Error loading dialog: {str(e)}")
-        return
-
-    # 获取所有setting
-    all_settings = get_all_settings("data")
-    if not all_settings:
-        st.error("No settings found in data directory.")
-        return
-
     st.title("Dialog Visualization (Ablation Comparison)")
 
     col_left, col_right = st.columns(2)
@@ -1037,10 +993,32 @@ def main():
                 except Exception as e:
                     st.error(f"Error reading directory {data_dir}: {str(e)}")
                     continue
-                files = sorted(files, key=lambda f: get_number(f))
-                file_display = [f"Dialog #{get_number(f)} ({f})" for f in files]
-                selected_idx = st.selectbox(f"Select Dialog ({side})", range(len(files)), format_func=lambda i: file_display[i], key=f"dialog_file_{side}")
-                selected_file = files[selected_idx]
+
+                # 提取dialog_id并用映射排序
+                def get_number(f):
+                    match = re.match(r"(.+?)_user_id", f)
+                    if match:
+                        dialog_id = match.group(1)
+                    else:
+                        dialog_id = f
+                    return dialogid2number.get(dialog_id, None)
+
+                # 只保留能映射到序号的文件
+                files_with_number = [(f, get_number(f)) for f in files if get_number(f) is not None]
+                files_with_number.sort(key=lambda x: x[1])
+                if not files_with_number:
+                    st.warning("No dialogs with valid mapping found.")
+                    continue
+
+                # 只显示Dialog #序号
+                file_display = [f"Dialog #{num}" for _, num in files_with_number]
+                selected_idx = st.selectbox(
+                    f"Select Dialog ({side})",
+                    range(len(files_with_number)),
+                    format_func=lambda i: file_display[i],
+                    key=f"dialog_file_{side}"
+                )
+                selected_file = files_with_number[selected_idx][0]
                 file_path = os.path.join(data_dir, selected_file)
                 try:
                     with open(file_path, 'r', encoding='utf-8') as f:
