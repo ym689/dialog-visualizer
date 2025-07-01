@@ -17,8 +17,8 @@ SINGLE_FILE_MODELS = [
 ]
 MODEL_ROLE_MAP = {
     "pccrs": {"system": "assistant", "user": "user"},
-    "vanilla_Llama": {"system": "Assitant", "user": "User"},
-    "vanilla_Qwen": {"system": "Assitant", "user": "User"},
+    "vanilla_Llama": {"system": "Assistant", "user": "User"},
+    "vanilla_Qwen": {"system": "Assistant", "user": "User"},
     "InterCRS_Llama": {"system": "Assistant", "user": "User"},
     "barcor": {"system": "System", "user": "User"},
     # 后续可补充
