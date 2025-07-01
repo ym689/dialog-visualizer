@@ -996,7 +996,11 @@ def main():
             return
         # 按dialogid2number排序
         def get_number(f):
-            dialog_id = f.split('_user_id')[0]
+            match = re.match(r"(.+?)_user_id", f)
+            if match:
+                dialog_id = match.group(1)
+            else:
+                dialog_id = f
             return dialogid2number.get(dialog_id, 99999)
         files = sorted(files, key=get_number)
         # 选择文件
@@ -1024,56 +1028,76 @@ def main():
     col_left, col_right = st.columns(2)
     for col, side in zip([col_left, col_right], ["Left", "Right"]):
         with col:
-            st.header(f"{side} Setting")
-            setting = st.selectbox(f"Select Setting ({side})", all_settings, key=f"setting_{side}")
-            view = st.selectbox(f"Select View ({side})", ["Conversation History", "Eval Metrics"], key=f"view_{side}")
-
-            # 目录名拼接
-            conv_dir = f"data/conversation_history{('_' + setting) if setting else ''}"
-            eval_dir = f"data/eval_metrics{('_' + setting) if setting else ''}"
-
-            if view == "Conversation History":
-                DATA_PATH = conv_dir
-                display_conversation = True
+            model = st.selectbox(f"Select Model ({side})", MODEL_LIST, key=f"model_{side}")
+            if model in SINGLE_FILE_MODELS:
+                data_dir = f"data/conversation_history_{model}"
+                dialogid2number = load_dialogid2number()
+                try:
+                    files = [f for f in os.listdir(data_dir) if f.endswith('.json')]
+                except Exception as e:
+                    st.error(f"Error reading directory {data_dir}: {str(e)}")
+                    continue
+                files = sorted(files, key=lambda f: get_number(f))
+                file_display = [f"Dialog #{get_number(f)} ({f})" for f in files]
+                selected_idx = st.selectbox(f"Select Dialog ({side})", range(len(files)), format_func=lambda i: file_display[i], key=f"dialog_file_{side}")
+                selected_file = files[selected_idx]
+                file_path = os.path.join(data_dir, selected_file)
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        dialog_data = json.load(f)
+                    display_simple_dialog(dialog_data, model, dialogid2number)
+                except Exception as e:
+                    st.error(f"Error loading dialog: {str(e)}")
             else:
-                DATA_PATH = eval_dir
-                display_conversation = False
+                # 保持原有 ours 详细展示逻辑
+                view = st.selectbox(f"Select View ({side})", ["Conversation History", "Eval Metrics"], key=f"view_{side}")
 
-            available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
-            if not available_files:
-                st.error(f"No files found in {DATA_PATH}.")
-                continue
+                # 目录名拼接
+                conv_dir = f"data/conversation_history{('_' + model) if model else ''}"
+                eval_dir = f"data/eval_metrics{('_' + model) if model else ''}"
 
-            selected_file = st.selectbox(f"Select File ({side})", available_files, format_func=format_file_name, key=f"file_{side}")
-
-            if selected_file:
-                if display_conversation:
-                    dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
-                    if dialogs:
-                        dialog_index = st.selectbox(
-                            f"Select Dialog ({side})",
-                            range(len(dialogs)),
-                            format_func=lambda x: f"Dialog {x+1}",
-                            key=f"dialog_{side}"
-                        )
-                        if st.button(f"🔄 Refresh Dialog ({side})"):
-                            st.rerun()
-                        format_dialog(dialogs[dialog_index])
+                if view == "Conversation History":
+                    DATA_PATH = conv_dir
+                    display_conversation = True
                 else:
-                    # Display eval metrics
-                    file_path = f"{DATA_PATH}/{selected_file}"
-                    encoded_path = urllib.parse.quote(file_path)
-                    url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{encoded_path}"
-                    headers = {
-                        "Authorization": f"token {GITHUB_TOKEN}",
-                        "Accept": "application/vnd.github.v3+json"
-                    }
-                    response = requests.get(url, headers=headers)
-                    if response.status_code == 200:
-                        content = base64.b64decode(response.json()['content']).decode('utf-8')
-                        display_eval_metrics(content)
+                    DATA_PATH = eval_dir
+                    display_conversation = False
+
+                available_files = get_github_files(REPO_OWNER, REPO_NAME, DATA_PATH, GITHUB_TOKEN)
+                if not available_files:
+                    st.error(f"No files found in {DATA_PATH}.")
+                    continue
+
+                selected_file = st.selectbox(f"Select File ({side})", available_files, format_func=format_file_name, key=f"file_{side}")
+
+                if selected_file:
+                    if display_conversation:
+                        dialogs = read_github_file(REPO_OWNER, REPO_NAME, f"{DATA_PATH}/{selected_file}", GITHUB_TOKEN)
+                        if dialogs:
+                            dialog_index = st.selectbox(
+                                f"Select Dialog ({side})",
+                                range(len(dialogs)),
+                                format_func=lambda x: f"Dialog {x+1}",
+                                key=f"dialog_{side}"
+                            )
+                            if st.button(f"🔄 Refresh Dialog ({side})"):
+                                st.rerun()
+                            format_dialog(dialogs[dialog_index])
                     else:
-                        st.error(f"Error fetching file: {response.status_code}")
+                        # Display eval metrics
+                        file_path = f"{DATA_PATH}/{selected_file}"
+                        encoded_path = urllib.parse.quote(file_path)
+                        url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{encoded_path}"
+                        headers = {
+                            "Authorization": f"token {GITHUB_TOKEN}",
+                            "Accept": "application/vnd.github.v3+json"
+                        }
+                        response = requests.get(url, headers=headers)
+                        if response.status_code == 200:
+                            content = base64.b64decode(response.json()['content']).decode('utf-8')
+                            display_eval_metrics(content)
+                        else:
+                            st.error(f"Error fetching file: {response.status_code}")
 
 def extract_dicts_from_file(content):
     """
