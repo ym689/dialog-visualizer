@@ -1,0 +1,201 @@
+{
+  "dialog_id": "20200306-064809_450_live.pkl",
+  "context": [
+    "",
+    "Hello! I'm here to help. I understand you're looking for a movie trailer.",
+    "yes the new star wars but please no spoilers",
+    "I don't like spoilers either. Which Star Wars was the last one you saw?",
+    "ive seen them all except, the newest",
+    "My favorite character in the Star Wars saga is Han Solo.",
+    "yes, Han solo is a wonderful Character in the Saga. Do you have any particular favorite moments of his in the movies",
+    "I saw the first Star Wars when it first opened. His interaction with the characters was priceless. What was yours?",
+    "Of Han, so many I dont know where to begin but i guess my favorites is his relationship with chewy. His quick witty  remarks",
+    "Although Chewy never spoke in a 'English' language, his responses were hilarious.",
+    "haha, yes",
+    "So would you like to see the Rise of Skywalker trailer online, TV or a theatre?",
+    "online is the best for me now",
+    "Me too. I can watch all the trailers instead of waiting for new ones to come on TV. Have fun!",
+    "great thanks.. i appreciate the rcommendation and trailer info .. God Bless.",
+    "And you as well. May the Force be with you!",
+    "well we got to do 10 turns of chatting",
+    "An accomplishment for the day.",
+    "any reccomendation for a movie thats out",
+    "Star Wars suggests you like action and sci-fi. Dune is coming out.",
+    "great recommendation.. ill look it up"
+  ],
+  "entity": [
+    "Star Wars: The Rise of Skywalker (2019)",
+    "Action",
+    "Sci-Fi"
+  ],
+  "rec": [
+    "Star Wars: The Rise of Skywalker (2019)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200306-064809_450_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hi there! What kind of movies do you usually enjoy?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false,
+        "goal_genre_list": [
+          "Action"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Hey there! I'm in the mood for an action movie. Preferably something thrilling and maybe with a bit of a twist.",
+        "entity": []
+      },
+      {
+        "role": "Assistant",
+        "content": "Have you seen 'Action Point' (2018)? It has some unexpected twists and plenty of action!",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          49484,
+          55378,
+          2196,
+          52130,
+          61985,
+          9367,
+          7442,
+          81635,
+          57547,
+          59284,
+          6235,
+          69876,
+          36398,
+          33510,
+          67544,
+          41876,
+          37174,
+          30070,
+          66194,
+          1218,
+          10043,
+          44711,
+          33542,
+          53720,
+          56147,
+          65543,
+          79192,
+          79897,
+          63624,
+          62462,
+          74756,
+          73882,
+          4706,
+          58524,
+          74090,
+          82941,
+          73532,
+          59663,
+          57568,
+          66255,
+          58291,
+          54853,
+          57079,
+          25543,
+          68220,
+          66959,
+          78235,
+          22841,
+          59804,
+          57905
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Action"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "'Action Point'? Sounds interesting! Can you tell me more about it? [END]",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Action",
+      "Sci-Fi",
+      "Star Wars: The Rise of Skywalker (2019)"
+    ],
+    "rec": [
+      "Star Wars: The Rise of Skywalker (2019)"
+    ],
+    "user_id": "user_325",
+    "genre_dict": [
+      "action",
+      "sci-fi"
+    ],
+    "goal_genre_list": [
+      "Action"
+    ]
+  }
+}

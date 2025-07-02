@@ -13,7 +13,7 @@ import json
 
 # 新增：支持的特殊模型列表和角色映射
 SINGLE_FILE_MODELS = [
-    "pccrs", "vanilla_Llama", "vanilla_Qwen", "InterCRS_Llama", "barcor",
+    "pccrs", "vanilla_Llama", "vanilla_Qwen", "InterCRS_Llama", "barcor", "InterCRS_Qwen",
 ]
 MODEL_ROLE_MAP = {
     "pccrs": {"system": "assistant", "user": "user"},
@@ -21,6 +21,7 @@ MODEL_ROLE_MAP = {
     "vanilla_Qwen": {"system": "Assistant", "user": "User"},
     "InterCRS_Llama": {"system": "Assistant", "user": "User"},
     "barcor": {"system": "System", "user": "User"},
+    "InterCRS_Qwen": {"system": "Assistant", "user": "User"},
     # 后续可补充
 }
 

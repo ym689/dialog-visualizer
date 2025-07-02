@@ -1,0 +1,203 @@
+{
+  "dialog_id": "20191203-210739_454_live.pkl",
+  "context": [
+    "",
+    "HELLO I AM HERE TO HELP YOU FIND A MOVIE OF YOUR INTEREST",
+    "Thank you. I isually like action or comedy",
+    "DO YOU PERFER NEWER OR OLDER MOVIES",
+    "I would say anything made in the past 20 years.",
+    "HAVE YOU SEEN MEET THE MILLERS",
+    "I have. It was alright, but I���������������������������������������������������������������������������������m more into ones like 21 jump street, bad boys, and neighbors",
+    "YOU SHOULD TRY WATCHING SUPERBAD OR THE INTERVIEW",
+    "What is the interview about and who is in it?",
+    "SETH ROGAN AND JAMES FRANCO ARE IN IT ITS A PARODY BASED ON NORTH KOREA BASICALLY RIDICULING KIM JUNG UN NORTH KOREAS DICTATOR",
+    "I haven���������������������������������������������������������������������������������t seen it, but I remember the trailers now. I will watch that one next. Thanks for the recommendation!",
+    "SAUSAGE PARTY OR EVEN PINEAPPLE EXPRESS ARE GOOD MOVIES TOO",
+    "I wasn���������������������������������������������������������������������������������t very impressed with sausage party. Pineapple Express was funny.",
+    "WHAT ABOUT ACTION MOVIES HAVE YOU SEEN JOHN WICK",
+    "Yes! And the second one. I���������������������������������������������������������������������������������m still need to see the last chapter",
+    "WHAT OTHER ACTION MOVIES DO YOU LIKE",
+    "Hmmm, the die hard series, just about anything with cars, the expendables",
+    "FAST AND FURIOUS FRANCHISE MOVIES?",
+    "Seen them all, and are among my favorites. Just about anything with a good heist plot and some comedy worked in. Like the Hobbs and Shaw relationship",
+    "I RECOMMEND YOU TRY WATCHING RUSH HOUR",
+    "I haven���������������������������������������������������������������������������������t seen either of those in a really long time. That���������������������������������������������������������������������������������s a good recommendation as well. I think you nailed that one about perfectly."
+  ],
+  "entity": [
+    "Rush Hour (1998)",
+    "John Wick (2014)",
+    "Action",
+    "Comedy"
+  ],
+  "rec": [
+    "John Wick (2014)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191203-210739_454_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hi there! What kind of movies do you enjoy?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false,
+        "goal_genre_list": [
+          "Action"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Hey! I'm into action movies. Prefer something thrilling and maybe with a bit of humor too.",
+        "entity": []
+      },
+      {
+        "role": "Assistant",
+        "content": "Have you seen \"Action Point\" (2018)? It's got plenty of action and some comedy thrown in for good measure.",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          49484,
+          2196,
+          9367,
+          52130,
+          61985,
+          6235,
+          55378,
+          81635,
+          41876,
+          7442,
+          1218,
+          62462,
+          37174,
+          30070,
+          44039,
+          40203,
+          44711,
+          48989,
+          82941,
+          59284,
+          59663,
+          83763,
+          69876,
+          38960,
+          56147,
+          73882,
+          8563,
+          42342,
+          64707,
+          66959,
+          36398,
+          33542,
+          57547,
+          79897,
+          9843,
+          25543,
+          41741,
+          20112,
+          12879,
+          67544,
+          58291,
+          27932,
+          4706,
+          84353,
+          50045,
+          79192,
+          2056,
+          24155,
+          71019,
+          68220
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Action"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Sounds interesting! Can you tell me more about it? [END]",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Rush Hour (1998)",
+      "Action",
+      "John Wick (2014)",
+      "Comedy"
+    ],
+    "rec": [
+      "John Wick (2014)"
+    ],
+    "user_id": "user_243",
+    "genre_dict": [
+      "action",
+      "comedy"
+    ],
+    "goal_genre_list": [
+      "Action"
+    ]
+  }
+}

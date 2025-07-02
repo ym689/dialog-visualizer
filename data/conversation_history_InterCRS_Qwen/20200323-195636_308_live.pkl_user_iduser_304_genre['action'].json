@@ -1,0 +1,200 @@
+{
+  "dialog_id": "20200323-195636_308_live.pkl",
+  "context": [
+    "",
+    "Hello! I hear you are looking for movie recommendations.",
+    "Yes I am",
+    "Do you know what kind of movie trailers you would like to see?",
+    "Superhero movies",
+    "Superhero movies! Great! I am a big fan of those as well. What was the last superhero movie that you watched?",
+    "The Avengers",
+    "Very cool! I like that movie series as well. Have you seen Captain Marvel?",
+    "Yes I have",
+    "Darn, okay! Well, you have good taste. Do you like action movies?",
+    "Yes I do",
+    "Okay, how about Ford vs. Ferrari? I LOVED that movie, and it's about racing.",
+    "Yes I do",
+    "Okay, here is the movie and the plot. Let me know what you think.",
+    "I like it",
+    "Great! I'm so glad that I could help you find a movie that you would like to watch. Would you like to see the trailer? Or did you already watch it?",
+    "I already watched it",
+    "Okay awesome. Is there anything else I can help you with?",
+    "Not todasy",
+    "Okay, have a great day.",
+    "ok thanks you too"
+  ],
+  "entity": [
+    "Action",
+    "Ford v Ferrari (2019)",
+    "Captain Marvel (2019)"
+  ],
+  "rec": [
+    "Captain Marvel (2019)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200323-195636_308_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "What kind of movies do you enjoy?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": false,
+        "goal_genre_list": [
+          "Action"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Hey there! I'm in the mood for some action-packed films. Preferably something with a good storyline and maybe a bit of suspense.",
+        "entity": []
+      },
+      {
+        "role": "Assistant",
+        "content": "Have you seen \"Going Postal\" (2010)? It's got plenty of action and a solid storyline with some suspenseful moments.",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          52130,
+          49484,
+          62462,
+          7442,
+          6235,
+          55378,
+          73882,
+          64707,
+          9367,
+          30070,
+          81635,
+          4706,
+          1218,
+          41876,
+          61985,
+          37174,
+          36398,
+          59663,
+          83763,
+          33271,
+          58291,
+          57547,
+          68070,
+          79897,
+          65543,
+          17902,
+          76995,
+          28826,
+          41741,
+          11547,
+          76883,
+          57079,
+          84353,
+          67544,
+          31527,
+          2187,
+          70452,
+          5115,
+          1647,
+          60460,
+          59284,
+          55935,
+          33542,
+          38733,
+          46597,
+          59897,
+          2056,
+          56412,
+          52519,
+          44539
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Action"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "\"Going Postal\"? Sounds interesting. Can you tell me more about it? [END]",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Captain Marvel (2019)",
+      "Action",
+      "Ford v Ferrari (2019)"
+    ],
+    "rec": [
+      "Captain Marvel (2019)"
+    ],
+    "user_id": "user_304",
+    "genre_dict": [
+      "action"
+    ],
+    "goal_genre_list": [
+      "Action"
+    ]
+  }
+}

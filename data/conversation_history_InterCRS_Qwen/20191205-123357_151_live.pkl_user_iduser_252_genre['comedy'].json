@@ -1,0 +1,140 @@
+{
+  "dialog_id": "20191205-123357_151_live.pkl",
+  "context": [
+    "",
+    "Hey there",
+    "Hi! I'm looking for recommendations on a great holiday movie, do you have any recommendations?",
+    "For sure! First, do you have certain preferences or aversions? Like are you into musicals?",
+    "I do not really like musicals.",
+    "Good to know... I would have recommended White Christmas, it's a classic and a bit of a tradition in our family, but there are so many to choose from! The old Tim Allen Santa Clause movie is super fun and so is Home Alone.",
+    "Is the Tim Allen Santa Clause movie funny? I would love to watch a funny movie.",
+    "Yes it is! It's a heart warming family comedy :)",
+    "I accept this recommendation and would love to watch it with my family! Thank you for your help.",
+    "You're very welcome! I hope you enjoy it!",
+    "If we finish this movie early, do you have children's Christmas movie to recommend? So far our favorite is Elf.",
+    "I would absolutely recommend 'Rise of the Guardians' it's a kid's movie, but definitely funny so adults can enjoy too",
+    "I never knew Rise of the Guardian's Christmas movie. I'm sure we would love this recommendation too.",
+    "It's honestly kind of an all holiday theme. There's stuff in there about the Easter Bunny, and the Tooth Fairy and other characters like that. But there's definitely a dominant Christmas theme in it.",
+    "That's wonderful thank you for letting me know. Both of these movies seem like a great fit for my family. Thank you for your recommendations.",
+    "You're welcome! I hope you enjoy them. Happy Holidays to you and your family",
+    "You too!",
+    "Besides Elf, do you have any other favorites?",
+    "We really love Jim Carrey's How The Grinch Stole Christmas. It really makesmusnStole Christmas. It really makes us laugh and he took on the character so well. Have you ever seen it?",
+    "I have! It's been several years though. I always liked the original cartoon, but I can agree that Jim Carrey's performance was awesome and he really made it his own",
+    "I agree! Thank you for again for chatting with me and sending your recommendations. Happy holidays.",
+    "Thanks you too!"
+  ],
+  "entity": [
+    "Home Alone (1990)",
+    "Santa Claus (1959)",
+    "Comedy",
+    "Tim Allen",
+    "Elf (2003)",
+    "White Christmas (1954)",
+    "Rise of the Guardians (2012)",
+    "Tooth Fairy (2010)"
+  ],
+  "rec": [
+    "Tooth Fairy (2010)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20191205-123357_151_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "Hi there! What kind of movies do you enjoy watching?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": true,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Comedy"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Hey! I love comedies, especially those that are a bit quirky and different from the usual ones. [END]",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "Home Alone (1990)",
+      "Tim Allen",
+      "Tooth Fairy (2010)",
+      "White Christmas (1954)",
+      "Santa Claus (1959)",
+      "Elf (2003)",
+      "Rise of the Guardians (2012)",
+      "Comedy"
+    ],
+    "rec": [
+      "Tooth Fairy (2010)"
+    ],
+    "user_id": "user_252",
+    "genre_dict": [
+      "comedy"
+    ],
+    "goal_genre_list": [
+      "Comedy"
+    ]
+  }
+}

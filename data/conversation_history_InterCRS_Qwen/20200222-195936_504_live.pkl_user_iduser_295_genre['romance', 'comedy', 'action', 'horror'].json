@@ -1,0 +1,152 @@
+{
+  "dialog_id": "20200222-195936_504_live.pkl",
+  "context": [
+    "",
+    "Hi",
+    "Hello",
+    "How can I help you tonight? Which movie were you interested in?",
+    "I'm interested in romance movies.",
+    "Oh awesome, those are my favorite! Which romantic movie have you seen recently?",
+    "I'm glad we have something in common! The last romantic movie that I watched was 'Someone Great' on Netflix. It came out about a year ago.",
+    "I will have to watch that one. Would you like a movie similar to that one or more romantic comedy?",
+    "If you have any good suggestions for romantic comedies I'd be more than willing to watch them.",
+    "Got it!",
+    "What was the last romance movie you watched, if you don't mind me asking?",
+    "I love 'How to Lose a Guy in 10 days' because Matthew McConaughey & Kate Hudson are such a perfect match and I find it to be so relatable. Its my favorite so I keep watching it over and over!",
+    "I'll have to check that one out, I don't think I've ever seen it.",
+    "Oh its definitely worth the watch! Just the right about of comedy but the chemistry is what keeps me watching it :)",
+    "Having the right amount of comedy and chemistry is what makes a great romantic comedy! I'll trust you with this one.! I'll watch it soon!",
+    "Well awesome :) Sounds good! I hope you enjoy!",
+    "Thank you!",
+    "Were you interested in looking into any other movies?",
+    "Always. I'm a huge fan of action packed movies..I just recently went and saw Bad Boys for Life starring Will Smith and Martin Lawrence. And I really enjoy horror movies, but I haven't seen on in a while..",
+    "I saw Bad Boys for Life too! It was the funniest one of the 3! I laughed so hard. It isn't really a horror movie but did you see",
+    "Nice! That was a well anticipated movie I must say, and it definitely was the best out of the three. And I think your message got cut. The last thing you said was 'It really isn't a horror movie but did you see...?'",
+    "Yes sorry, I was typing 'Rambo: Last Blood' but hit enter too soon! It isn't really a horror film but the gore factor takes that action/thriller movie to the next level. It was intense!",
+    "It's all good :) Actually I haven't seen any of the Rambo movies"
+  ],
+  "entity": [
+    "Always (1989)",
+    "How to Lose a Guy in 10 Days (2003)",
+    "Comedy",
+    "Martin Lawrence",
+    "Will Smith",
+    "Someone Great (2019)",
+    "Romance",
+    "Action",
+    "Kate Hudson",
+    "Bad Boys for Life (2020)",
+    "Matthew McConaughey",
+    "Horror"
+  ],
+  "rec": [
+    "How to Lose a Guy in 10 Days (2003)"
+  ],
+  "simulator_dialog": {
+    "dialog_id": "20200222-195936_504_live.pkl",
+    "context": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "Assistant",
+        "content": "What genre of movies do you like?",
+        "entity": [],
+        "ans_type": "none",
+        "rec_item": "",
+        "rec_items": [
+          59427,
+          79287,
+          7112,
+          76696,
+          34511,
+          31011,
+          5515,
+          5515,
+          7515,
+          33097,
+          53170,
+          53596,
+          42096,
+          19831,
+          49380,
+          24155,
+          33343,
+          57298,
+          85048,
+          17157,
+          78096,
+          83763,
+          76327,
+          30938,
+          82282,
+          26954,
+          50968,
+          73485,
+          10247,
+          63874,
+          11675,
+          79659,
+          9704,
+          40468,
+          67384,
+          5990,
+          46486,
+          84353,
+          85076,
+          15289,
+          2326,
+          42066,
+          71626,
+          65417,
+          78155,
+          83015,
+          29634,
+          46530,
+          38956,
+          80343
+        ],
+        "rec_success_dialog": false,
+        "rec_success@1": false,
+        "rec_success@5": false,
+        "rec_success@10": true,
+        "goal_genre_list": [
+          "Romance"
+        ]
+      },
+      {
+        "role": "User",
+        "content": "Hey there! I'm a big fan of romance movies. They always make me feel good and help me unwind after a long day. [END]\n To:  Great to hear that! Do you have any specific sub-genres within romance that you enjoy? Like historical romances, contemporary, or maybe something a bit more modern and quirky? [END]\n To: I love a good contemporary romance, but sometimes I also enjoy a historical one. It just depends on the story and the characters. [END]\n To: That's perfect! I've got a few recommendations for you. How about \"La La Land\"? It's a modern musical romance that blends elements of both contemporary and historical romance. It's got great performances, beautiful cinematography, and a fantastic score. Would you be interested in checking it out? [END]\n To: \"La La Land\" sounds interesting, but I'm not sure if it fits my taste perfectly. Can you tell me more about the plot and the characters? [END]\n To: Sure thing! \"La La Land\" is set in Los Angeles and follows the dreams of an aspiring actress and a jazz musician who fall in love. The main characters are Mia, a struggling actress, and Sebastian, a dedicated jazz pianist. Their relationship is filled with passion, ambition, and the challenges of pursuing their dreams in Hollywood. The film is known for its stunning visuals, catchy songs, and heartfelt storytelling.",
+        "entity": []
+      }
+    ],
+    "entity": [
+      "How to Lose a Guy in 10 Days (2003)",
+      "Always (1989)",
+      "Romance",
+      "Someone Great (2019)",
+      "Will Smith",
+      "Matthew McConaughey",
+      "Horror",
+      "Bad Boys for Life (2020)",
+      "Martin Lawrence",
+      "Action",
+      "Comedy",
+      "Kate Hudson"
+    ],
+    "rec": [
+      "How to Lose a Guy in 10 Days (2003)"
+    ],
+    "user_id": "user_295",
+    "genre_dict": [
+      "romance",
+      "comedy",
+      "action",
+      "horror"
+    ],
+    "goal_genre_list": [
+      "Romance"
+    ]
+  }
+}
