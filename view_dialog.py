@@ -145,12 +145,11 @@ def load_custom_css():
     /* 选择框样式 - 高级方框格式 */
     .stSelectbox {
         margin-bottom: 1.5rem;
-        border: 2px solid red !important; /* 调试：标记选择框容器 */
     }
     
     .stSelectbox > div > div {
         background: linear-gradient(135deg, #667eea, #764ba2);
-        border: 2px solid blue !important; /* 调试：标记选择框主体 */
+        border: none;
         border-radius: 20px;
         padding: 0.8rem 1.2rem;
         font-size: 0.9rem;
@@ -159,99 +158,8 @@ def load_custom_css():
         letter-spacing: 0.05em;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        color: white !important; /* 强制白色文字 */
+        color: white;
         backdrop-filter: blur(10px);
-    }
-    
-    /* 强制覆盖Streamlit的所有默认样式 */
-    .stSelectbox > div > div * {
-        color: white !important;
-        background: transparent !important;
-    }
-    
-    /* 特别针对Streamlit的选择框内容 */
-    .stSelectbox > div > div > div[data-baseweb="select"] {
-        color: white !important;
-        background: transparent !important;
-    }
-    
-    .stSelectbox > div > div > div[data-baseweb="select"] * {
-        color: white !important;
-        background: transparent !important;
-    }
-    
-    /* 针对可能的文本内容 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div {
-        color: white !important;
-        background: transparent !important;
-    }
-    
-    .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
-        color: white !important;
-        background: transparent !important;
-    }
-    
-    /* 使用更通用的选择器 */
-    .stSelectbox [data-baseweb="select"] {
-        color: white !important;
-    }
-    
-    .stSelectbox [data-baseweb="select"] * {
-        color: white !important;
-    }
-    
-    /* 使用伪元素强制显示文字内容 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div > div::before {
-        content: attr(data-value) !important;
-        color: white !important;
-        background: transparent !important;
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        display: flex !important;
-        align-items: center !important;
-        padding: 0 1rem !important;
-        font-size: 0.9rem !important;
-        font-weight: 600 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.05em !important;
-    }
-    
-    /* 隐藏原始内容，显示伪元素 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
-        position: relative !important;
-        color: transparent !important;
-    }
-    
-    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > * {
-        color: transparent !important;
-    }
-    
-    /* 调试：标记所有选择框内部元素 */
-    .stSelectbox > div > div > div {
-        border: 1px solid green !important; /* 调试：标记内部div */
-        background: transparent !important;
-        color: white !important;
-    }
-    
-    .stSelectbox > div > div > div[data-baseweb="select"] {
-        border: 1px solid yellow !important; /* 调试：标记select元素 */
-        background: transparent !important;
-        color: white !important;
-    }
-    
-    .stSelectbox > div > div > div[data-baseweb="select"] > div {
-        border: 1px solid orange !important; /* 调试：标记select内部div */
-        background: transparent !important;
-        color: white !important;
-    }
-    
-    .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
-        border: 1px solid purple !important; /* 调试：标记最深层div */
-        background: transparent !important;
-        color: white !important;
     }
     
     /* 移除选择框内部的白色背景 */
@@ -394,94 +302,6 @@ def load_custom_css():
         color: white !important;
     }
     
-    /* 使用JavaScript强制设置文字颜色和内容 */
-    </style>
-    <script>
-    // 强制显示选择框文字的函数
-    function forceSelectboxText() {
-        console.log('开始强制设置选择框文字');
-        
-        // 查找所有选择框
-        const selectboxes = document.querySelectorAll('.stSelectbox');
-        console.log('找到选择框数量:', selectboxes.length);
-        
-        selectboxes.forEach((selectbox, index) => {
-            console.log(`处理选择框 ${index + 1}`);
-            
-            // 查找选择框的值
-            const selectElement = selectbox.querySelector('[data-baseweb="select"]');
-            if (selectElement) {
-                console.log('找到select元素:', selectElement);
-                
-                // 获取当前选中的值
-                const selectedValue = selectElement.getAttribute('aria-label') || 
-                                   selectElement.textContent || 
-                                   selectElement.innerText;
-                console.log('选中值:', selectedValue);
-                
-                // 查找显示区域
-                const displayArea = selectElement.querySelector('div[role="combobox"]') || 
-                                  selectElement.querySelector('div') ||
-                                  selectElement;
-                
-                if (displayArea) {
-                    console.log('找到显示区域:', displayArea);
-                    
-                    // 强制设置文字颜色和内容
-                    displayArea.style.color = 'white';
-                    displayArea.style.background = 'transparent';
-                    displayArea.style.opacity = '1';
-                    displayArea.style.visibility = 'visible';
-                    
-                    // 如果显示区域有子元素，也设置它们
-                    const children = displayArea.querySelectorAll('*');
-                    children.forEach(child => {
-                        child.style.color = 'white';
-                        child.style.background = 'transparent';
-                        child.style.opacity = '1';
-                        child.style.visibility = 'visible';
-                    });
-                    
-                    // 尝试直接设置文字内容
-                    if (selectedValue && selectedValue.trim()) {
-                        displayArea.textContent = selectedValue;
-                        displayArea.innerHTML = selectedValue;
-                    }
-                }
-                
-                // 查找所有可能的文字元素
-                const allElements = selectElement.querySelectorAll('*');
-                allElements.forEach(element => {
-                    element.style.color = 'white';
-                    element.style.background = 'transparent';
-                    element.style.opacity = '1';
-                    element.style.visibility = 'visible';
-                });
-            }
-        });
-    }
-    
-    // 等待页面加载完成后执行
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('页面加载完成，开始设置选择框文字');
-        forceSelectboxText();
-    });
-    
-    // 监听Streamlit的重新渲染
-    const observer = new MutationObserver(function(mutations) {
-        console.log('检测到DOM变化，重新设置选择框文字');
-        setTimeout(forceSelectboxText, 100); // 延迟100ms确保DOM更新完成
-    });
-    
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-    
-    // 定期检查并设置文字
-    setInterval(forceSelectboxText, 1000);
-    </script>
-    <style>
     
     /* 对话容器 */
     .dialog-container {
@@ -822,65 +642,41 @@ def main():
     
     # 数据集选择
     with main_container:
-        st.write("🔍 [调试] 开始创建数据集选择框")
         col1, col2 = st.columns([1, 3])
         with col1:
-            st.write("🔍 [调试] 在col1中创建选择框")
-            # 使用placeholder确保选择框正确显示
-            dataset_placeholder = st.empty()
-            st.write("🔍 [调试] 创建了dataset_placeholder")
-            with dataset_placeholder.container():
-                st.write("🔍 [调试] 在placeholder容器中")
-                dataset = st.selectbox(
-                    "Select Dataset",
-                    ["Inspired", "Redial"],
-                    index=["Inspired", "Redial"].index(st.session_state.dataset),
-                    key="dataset_selector",
-                    label_visibility="visible"
-                )
-                st.write(f"🔍 [调试] 选择框创建完成，当前值: {dataset}")
+            dataset = st.selectbox(
+                "Select Dataset",
+                ["Inspired", "Redial"],
+                index=["Inspired", "Redial"].index(st.session_state.dataset),
+                key="dataset_selector",
+                label_visibility="visible"
+            )
             # 更新session state
             if dataset != st.session_state.dataset:
-                st.write(f"🔍 [调试] 数据集改变: {st.session_state.dataset} -> {dataset}")
                 st.session_state.dataset = dataset
                 st.session_state.selected_dialog = 0  # 重置对话选择
-            else:
-                st.write(f"🔍 [调试] 数据集未改变，保持: {dataset}")
     
     # 加载数据
     dialogs = load_dialog_data(dataset)
     
     # 对话选择
     with main_container:
-        st.write(f"🔍 [调试] 开始创建对话选择框，数据量: {len(dialogs) if dialogs else 0}")
         if dialogs:
-            st.write("🔍 [调试] 有对话数据，开始创建选择框")
             # 确保selected_dialog在有效范围内
             if st.session_state.selected_dialog >= len(dialogs):
-                st.write(f"🔍 [调试] 重置selected_dialog: {st.session_state.selected_dialog} -> 0")
                 st.session_state.selected_dialog = 0
             
-            st.write(f"🔍 [调试] 当前selected_dialog: {st.session_state.selected_dialog}")
-            # 使用placeholder确保选择框正确显示
-            dialog_placeholder = st.empty()
-            st.write("🔍 [调试] 创建了dialog_placeholder")
-            with dialog_placeholder.container():
-                st.write("🔍 [调试] 在dialog placeholder容器中")
-                st.write(f"🔍 [调试] 准备创建选择框，选项数量: {len(dialogs)}")
-                selected_dialog = st.selectbox(
-                    "Select Dialog",
-                    range(len(dialogs)),
-                    format_func=lambda x: f"Dialog {x+1}",
-                    index=st.session_state.selected_dialog,
-                    key="dialog_selector",
-                    label_visibility="visible"
-                )
-                st.write(f"🔍 [调试] 对话选择框创建完成，当前值: {selected_dialog}")
+            selected_dialog = st.selectbox(
+                "Select Dialog",
+                range(len(dialogs)),
+                format_func=lambda x: f"Dialog {x+1}",
+                index=st.session_state.selected_dialog,
+                key="dialog_selector",
+                label_visibility="visible"
+            )
             # 更新session state
-            st.write(f"🔍 [调试] 更新session state: {st.session_state.selected_dialog} -> {selected_dialog}")
             st.session_state.selected_dialog = selected_dialog
         else:
-            st.write("🔍 [调试] 没有对话数据，设置默认值")
             selected_dialog = 0
             st.session_state.selected_dialog = 0
             st.info("No dialogs found in the selected dataset.")
