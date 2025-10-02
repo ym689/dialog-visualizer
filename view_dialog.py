@@ -248,6 +248,21 @@ def load_custom_css():
         -webkit-text-fill-color: #ffffff !important;
         text-shadow: 0 1px 2px rgba(0,0,0,0.35) !important;
     }
+    /* 选中值可视化覆盖文本（不影响交互） */
+    .select-overlay-text {
+        position: relative;
+        top: -42px; /* 覆盖到选择框内 */
+        left: 12px;
+        height: 0; /* 不占据额外布局高度 */
+        overflow: visible;
+        pointer-events: none; /* 不阻挡点击 */
+        z-index: 5;
+        color: #ffffff;
+        -webkit-text-fill-color: #ffffff;
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+    }
     /* 为选中值区域添加对比叠加，不影响交互 */
     .stSelectbox [data-baseweb="select"] div[role="combobox"] {
         position: relative !important;
@@ -619,6 +634,11 @@ def main():
             if dataset != st.session_state.dataset:
                 st.session_state.dataset = dataset
                 st.session_state.selected_dialog = 0
+            # 覆盖文本（显示当前选中数据集）
+            st.markdown(
+                f"<div class='select-overlay-text'>{st.session_state.dataset}</div>",
+                unsafe_allow_html=True
+            )
 
         dialogs = load_dialog_data(st.session_state.dataset)
 
@@ -635,6 +655,11 @@ def main():
                     label_visibility="visible"
                 )
                 st.session_state.selected_dialog = selected_dialog
+                # 覆盖文本（显示当前选中对话）
+                st.markdown(
+                    f"<div class='select-overlay-text'>Dialog {st.session_state.selected_dialog + 1}</div>",
+                    unsafe_allow_html=True
+                )
             else:
                 st.session_state.selected_dialog = 0
                 st.info("No dialogs found in the selected dataset.")
