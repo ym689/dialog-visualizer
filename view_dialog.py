@@ -123,17 +123,17 @@ def load_custom_css():
     .selection-area {
         margin-bottom: 1.5rem;
         text-align: center;
-    }
-    
-    /* 选择框样式 */
-    .stSelectbox {
+        }
+        
+        /* 选择框样式 */
+        .stSelectbox {
         margin-bottom: 1rem;
-    }
-    
-    .stSelectbox > div > div {
+        }
+        
+        .stSelectbox > div > div {
         background: rgba(255,255,255,0.1);
         border: 1px solid rgba(255,255,255,0.3);
-        border-radius: 8px;
+            border-radius: 8px;
         padding: 0.5rem 0.75rem;
         font-size: 1rem;
         font-weight: 500;
@@ -467,7 +467,7 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             role_class = 'assistant'
             avatar = '🤖'
             role_name = 'Assistant'
-        else:
+            else:
             # 跳过其他角色类型
             continue
         
@@ -491,11 +491,25 @@ def main():
     with empty_container:
         st.markdown("""
         <style>
+            /* 针对第一个垂直块，完全移除空白 */
             div[data-testid="stVerticalBlock"]:first-child {
                 min-height: 0 !important;
                 height: 0 !important;
                 padding: 0 !important;
                 margin: 0 !important;
+                display: none !important;
+            }
+            
+            /* 确保主容器从顶部开始 */
+            .main-container {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+            
+            /* 确保头部区域没有顶部空白 */
+            .header {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
             }
         </style>
         """, unsafe_allow_html=True)
@@ -525,15 +539,15 @@ def main():
     dialogs = load_dialog_data(dataset)
     
     # 对话选择
-    if dialogs:
+                        if dialogs:
         selected_dialog = st.selectbox(
             "Select Dialog",
-            range(len(dialogs)),
-            format_func=lambda x: f"Dialog {x+1}",
+                                range(len(dialogs)),
+                                format_func=lambda x: f"Dialog {x+1}",
             key="dialog_selector",
             label_visibility="visible"
-        )
-    else:
+                            )
+                    else:
         selected_dialog = 0
         st.info("No dialogs found in the selected dataset.")
     
@@ -542,7 +556,7 @@ def main():
     
     if dialogs and selected_dialog < len(dialogs):
         display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
-    else:
+                        else:
         st.markdown("""
         <div class="empty-state">
             <div class="empty-state-icon">💬</div>
