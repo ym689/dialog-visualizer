@@ -142,69 +142,100 @@ def load_custom_css():
         text-align: center;
     }
     
-    /* 选择框样式 - 高级方框格式 */
+    /* 选择框样式 - 简洁现代风格 */
     .stSelectbox {
         margin-bottom: 1.5rem;
     }
     
+    /* 选择框主体 - 使用半透明白色背景 */
     .stSelectbox > div > div {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        border: none;
-        border-radius: 20px;
-        padding: 0.8rem 1.2rem;
-        font-size: 0.9rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        color: white;
-        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.15) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 1rem !important;
+        font-weight: 500 !important;
+        color: white !important;
+        backdrop-filter: blur(10px) !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
     }
     
-    /* 移除选择框内部的白色背景 */
+    /* 悬停效果 */
+    .stSelectbox > div > div:hover {
+        background: rgba(255, 255, 255, 0.25) !important;
+        border-color: rgba(255, 255, 255, 0.5) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        transform: translateY(-1px) !important;
+    }
+    
+    /* 聚焦效果 */
+    .stSelectbox > div > div:focus-within {
+        background: rgba(255, 255, 255, 0.3) !important;
+        border-color: rgba(255, 255, 255, 0.7) !important;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
+        transform: translateY(-1px) !important;
+    }
+    
+    /* 选择框标签样式 */
+    .stSelectbox > label {
+        color: white !important;
+        font-weight: 600 !important;
+        font-size: 0.9rem !important;
+        margin-bottom: 0.5rem !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    /* 选择框内部元素 */
     .stSelectbox > div > div > div {
         background: transparent !important;
         color: white !important;
         border: none !important;
     }
     
-    /* 选择框显示区域样式 */
     .stSelectbox > div > div > div[data-baseweb="select"] {
         background: transparent !important;
         color: white !important;
-        border: none !important;
     }
     
     .stSelectbox > div > div > div[data-baseweb="select"] > div {
         background: transparent !important;
         color: white !important;
-        border: none !important;
     }
     
-    /* 选择框占位符样式 */
     .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
         background: transparent !important;
         color: white !important;
-        border: none !important;
     }
     
-    /* 移除所有选择框内部元素的边框 */
+    /* 下拉选项容器 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 8px !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(20px) !important;
+    }
+    
+    /* 下拉选项样式 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] > div {
+        color: #2d3748 !important;
+        background: transparent !important;
+        border-radius: 6px !important;
+        margin: 2px !important;
+        padding: 0.5rem 0.75rem !important;
+        transition: background-color 0.2s ease !important;
+    }
+    
+    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] > div:hover {
+        background: rgba(102, 126, 234, 0.1) !important;
+    }
+    
+    /* 移除所有内部边框 */
     .stSelectbox * {
         border: none !important;
     }
     
-    .stSelectbox > div > div:hover {
-        background: linear-gradient(135deg, #5a67d8, #6b46c1);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        transform: translateY(-2px);
-    }
-    
-    .stSelectbox > div > div:focus-within {
-        background: linear-gradient(135deg, #4c51bf, #553c9a);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
-        transform: translateY(-2px);
-    }
     
     /* 选择框标签样式 */
     .stSelectbox > label {
