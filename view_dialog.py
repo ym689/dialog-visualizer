@@ -153,6 +153,7 @@ def load_custom_css():
         border-radius: 14px !important;
         padding: 0.6rem 0.85rem !important;
         color: #ffffff !important;
+        min-height: 44px !important; /* 统一高度，便于垂直居中覆盖文本 */
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18) !important;
         backdrop-filter: blur(8px) !important;
         transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease !important;
@@ -251,9 +252,12 @@ def load_custom_css():
     /* 选中值可视化覆盖文本（不影响交互） */
     .select-overlay-text {
         position: relative;
-        top: -42px; /* 覆盖到选择框内 */
-        left: 12px;
-        height: 0; /* 不占据额外布局高度 */
+        top: -44px; /* 精确覆盖选择框高度 */
+        left: 0;
+        width: 100%;
+        height: 44px; /* 与选择框高度一致 */
+        line-height: 44px; /* 垂直居中文本 */
+        text-align: center; /* 水平居中 */
         overflow: visible;
         pointer-events: none; /* 不阻挡点击 */
         z-index: 5;
@@ -262,6 +266,10 @@ def load_custom_css():
         font-weight: 800;
         letter-spacing: 0.03em;
         text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+    }
+    @media (max-width: 768px) {
+        .stSelectbox > div > div { min-height: 40px !important; }
+        .select-overlay-text { top: -40px; height: 40px; line-height: 40px; }
     }
     /* 为选中值区域添加对比叠加，不影响交互 */
     .stSelectbox [data-baseweb="select"] div[role="combobox"] {
