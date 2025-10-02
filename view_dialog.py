@@ -136,209 +136,9 @@ def load_custom_css():
         line-height: 1.6;
     }
     
-    /* 选择区域样式 */
-    .selection-area {
-        margin-bottom: 1.5rem;
-        text-align: center;
-    }
-    
-    /* 选择框样式 - 简洁现代风格 */
+    /* 精简选择器样式（使用默认外观，适当留白） */
     .stSelectbox {
-        margin-bottom: 1.5rem;
-    }
-    
-    /* 选择框主体 - 使用半透明白色背景 */
-    .stSelectbox > div > div {
-        background: rgba(255, 255, 255, 0.15) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        border-radius: 12px !important;
-        padding: 0.75rem 1rem !important;
-        font-size: 1rem !important;
-        font-weight: 500 !important;
-        color: white !important;
-        backdrop-filter: blur(10px) !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-    }
-    
-    /* 悬停效果 */
-    .stSelectbox > div > div:hover {
-        background: rgba(255, 255, 255, 0.25) !important;
-        border-color: rgba(255, 255, 255, 0.5) !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-        transform: translateY(-1px) !important;
-    }
-    
-    /* 聚焦效果 */
-    .stSelectbox > div > div:focus-within {
-        background: rgba(255, 255, 255, 0.3) !important;
-        border-color: rgba(255, 255, 255, 0.7) !important;
-        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
-        transform: translateY(-1px) !important;
-    }
-    
-    /* 选择框标签样式 */
-    .stSelectbox > label {
-        color: white !important;
-        font-weight: 600 !important;
-        font-size: 0.9rem !important;
-        margin-bottom: 0.5rem !important;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
-    }
-    
-    /* 选择框内部元素 */
-    .stSelectbox > div > div > div {
-        background: transparent !important;
-        color: white !important;
-        border: none !important;
-    }
-    
-    .stSelectbox > div > div > div[data-baseweb="select"] {
-        background: transparent !important;
-        color: white !important;
-    }
-    
-    .stSelectbox > div > div > div[data-baseweb="select"] > div {
-        background: transparent !important;
-        color: white !important;
-    }
-    
-    .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
-        background: transparent !important;
-        color: white !important;
-    }
-    
-    /* 下拉选项容器 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] {
-        background: rgba(255, 255, 255, 0.95) !important;
-        border-radius: 8px !important;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
-        border: 1px solid rgba(0, 0, 0, 0.1) !important;
-        backdrop-filter: blur(20px) !important;
-    }
-    
-    /* 下拉选项样式 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] > div {
-        color: #2d3748 !important;
-        background: transparent !important;
-        border-radius: 6px !important;
-        margin: 2px !important;
-        padding: 0.5rem 0.75rem !important;
-        transition: background-color 0.2s ease !important;
-    }
-    
-    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] > div:hover {
-        background: rgba(102, 126, 234, 0.1) !important;
-    }
-    
-    /* 移除所有内部边框 */
-    .stSelectbox * {
-        border: none !important;
-    }
-    
-    
-    /* 选择框标签样式 */
-    .stSelectbox > label {
-        color: white !important;
-        font-weight: 700;
-        font-size: 0.85rem;
-        margin-bottom: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-    }
-    
-    /* 下拉选项容器样式 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] {
-        background: rgba(255, 255, 255, 0.95) !important;
-        border-radius: 12px !important;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        backdrop-filter: blur(20px) !important;
-    }
-    
-    /* 下拉选项样式 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] > div {
-        color: #2d3748 !important;
-        background: transparent !important;
-        border-radius: 8px !important;
-        margin: 2px !important;
-        padding: 0.5rem 0.8rem !important;
-    }
-    
-    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] > div:hover {
-        background: rgba(102, 126, 234, 0.1) !important;
-    }
-    
-    /* 选择框下拉箭头样式 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div {
-        color: white !important;
-    }
-    
-    /* 强制显示选择框文字 - 使用更强的选择器 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
-        color: white !important;
-        background: transparent !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    
-    /* 针对Streamlit的特定选择器 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div {
-        color: white !important;
-        background: transparent !important;
-    }
-    
-    /* 使用通配符强制所有文字为白色 */
-    .stSelectbox * {
-        color: white !important;
-    }
-    
-    /* 调试：显示所有选择框元素的边框，帮助识别DOM结构 */
-    .stSelectbox * {
-        border: 1px solid lime !important;
-    }
-    
-    /* 特别针对可能包含文字的元素 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div > div > div {
-        color: white !important;
-        background: transparent !important;
-        border: 2px solid cyan !important;
-    }
-    
-    /* 针对可能的文本节点 */
-    .stSelectbox span {
-        color: white !important;
-        background: transparent !important;
-    }
-    
-    /* 强制显示所有文本内容 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div > div > div > span {
-        color: white !important;
-        background: transparent !important;
-        display: block !important;
-    }
-    
-    /* 特别针对选择框的显示值 */
-    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div > div {
-        color: white !important;
-        background: transparent !important;
-    }
-    
-    /* 使用更具体的选择器覆盖Streamlit默认样式 */
-    div[data-baseweb="select"] > div > div {
-        color: white !important;
-        background: transparent !important;
-    }
-    
-    /* 针对选择框的输入区域 */
-    .stSelectbox input {
-        color: white !important;
-        background: transparent !important;
-    }
-    
-    /* 针对选择框的占位符 */
-    .stSelectbox input::placeholder {
-        color: white !important;
+        margin-bottom: 0.75rem;
     }
     
     
@@ -679,51 +479,49 @@ def main():
         </div>
         """, unsafe_allow_html=True)
     
-    # 数据集选择
+    # 选择区域（精简：单行双列）
     with main_container:
-        col1, col2 = st.columns([1, 3])
+        col1, col2 = st.columns([1, 2])
         with col1:
             dataset = st.selectbox(
-                "Select Dataset",
+                "Dataset",
                 ["Inspired", "Redial"],
                 index=["Inspired", "Redial"].index(st.session_state.dataset),
                 key="dataset_selector",
                 label_visibility="visible"
             )
-            # 更新session state
             if dataset != st.session_state.dataset:
                 st.session_state.dataset = dataset
-                st.session_state.selected_dialog = 0  # 重置对话选择
-    
-    # 加载数据
-    dialogs = load_dialog_data(dataset)
-    
-    # 对话选择
-    with main_container:
-        if dialogs:
-            # 确保selected_dialog在有效范围内
-            if st.session_state.selected_dialog >= len(dialogs):
                 st.session_state.selected_dialog = 0
-            
-            selected_dialog = st.selectbox(
-                "Select Dialog",
-                range(len(dialogs)),
-                format_func=lambda x: f"Dialog {x+1}",
-                index=st.session_state.selected_dialog,
-                key="dialog_selector",
-                label_visibility="visible"
-            )
-            # 更新session state
-            st.session_state.selected_dialog = selected_dialog
-        else:
-            selected_dialog = 0
-            st.session_state.selected_dialog = 0
-            st.info("No dialogs found in the selected dataset.")
+
+        dialogs = load_dialog_data(st.session_state.dataset)
+
+        with col2:
+            if dialogs:
+                if st.session_state.selected_dialog >= len(dialogs):
+                    st.session_state.selected_dialog = 0
+                selected_dialog = st.selectbox(
+                    "Dialog",
+                    range(len(dialogs)),
+                    format_func=lambda x: f"Dialog {x+1}",
+                    index=st.session_state.selected_dialog,
+                    key="dialog_selector",
+                    label_visibility="visible"
+                )
+                st.session_state.selected_dialog = selected_dialog
+            else:
+                st.session_state.selected_dialog = 0
+                st.info("No dialogs found in the selected dataset.")
     
     # 对话展示区域
     with main_container:
-        if dialogs and selected_dialog < len(dialogs):
-            display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs),dataset=dataset)
+        if dialogs and st.session_state.selected_dialog < len(dialogs):
+            display_dialog(
+                dialogs[st.session_state.selected_dialog],
+                st.session_state.selected_dialog,
+                len(dialogs),
+                dataset=st.session_state.dataset
+            )
         else:
             st.markdown("""
             <div class="empty-state">
