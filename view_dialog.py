@@ -147,9 +147,9 @@ def load_custom_css():
     }
     
     .dialog-header {
-        display: flex;
+            display: flex;
         justify-content: space-between;
-        align-items: center;
+            align-items: center;
         margin-bottom: 2rem;
         padding-bottom: 1rem;
         border-bottom: 2px solid #f1f5f9;
@@ -362,8 +362,8 @@ def load_custom_css():
     
     ::-webkit-scrollbar-thumb:hover {
         background: linear-gradient(135deg, #5a67d8, #6b46c1);
-    }
-    </style>
+        }
+        </style>
     """, unsafe_allow_html=True)
 
 def load_dialog_data(dataset: str) -> List[Dict[str, Any]]:
@@ -392,7 +392,7 @@ def load_dialog_data(dataset: str) -> List[Dict[str, Any]]:
                     if isinstance(dialog, dict) and 'full_state' in dialog:
                         dialogs.append(dialog)
                         st.write(f"Debug: Successfully loaded dialog {len(dialogs)} from sample {i+1}")
-                    else:
+            else:
                         st.write(f"Debug: Sample {i+1} is not a valid dialog (missing full_state)")
                 except json.JSONDecodeError as e:
                     st.write(f"Debug: JSON decode error in sample {i+1}: {str(e)}")
@@ -413,10 +413,15 @@ def load_dialog_data(dataset: str) -> List[Dict[str, Any]]:
 
 def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int):
     """显示单个对话"""
+    st.write(f"🔍 Display dialog called with index {dialog_index}, total {total_dialogs}")
+    
     full_state = dialog.get('full_state', [])
     reward = dialog.get('reward', 0)
     
+    st.write(f"📊 Dialog data: {len(full_state)} messages, reward {reward}")
+    
     # 对话头部
+    st.write("📋 Creating dialog header...")
     st.markdown(f"""
     <div class="dialog-header">
         <div class="dialog-title">Dialog #{dialog_index + 1}</div>
@@ -426,11 +431,17 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
         </div>
     </div>
     """, unsafe_allow_html=True)
+    st.write("✅ Dialog header created!")
     
     # 显示消息
+    st.write(f"💬 Rendering {len(full_state)} messages...")
     for i, message in enumerate(full_state):
+        st.write(f"📝 Processing message {i+1}/{len(full_state)}")
+        
         role = message.get('role', '')
         content = message.get('content', '')
+        
+        st.write(f"👤 Role: {role}, Content length: {len(str(content))}")
         
         # 确定角色类型
         if role.lower() in ['seeker', 'user']:
@@ -442,6 +453,8 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             avatar = '🤖'
             role_name = 'Assistant'
         
+        st.write(f"🎭 Rendering as {role_name} with class {role_class}")
+        
         # 渲染消息
         st.markdown(f"""
         <div class="message">
@@ -452,13 +465,21 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             </div>
         </div>
         """, unsafe_allow_html=True)
+        st.write(f"✅ Message {i+1} rendered!")
+    
+    st.write("🎉 All messages rendered successfully!")
 
 def main():
+    # 添加页面加载调试信息
+    st.write("🚀 App started successfully!")
+    
     # 加载样式
     load_custom_css()
+    st.write("✅ CSS loaded successfully!")
     
     # 主容器
     st.markdown('<div class="main-container">', unsafe_allow_html=True)
+    st.write("✅ Main container created!")
     
     # 头部
     st.markdown("""
@@ -467,13 +488,17 @@ def main():
         <p>Explore high-quality conversational AI interactions across different datasets and scenarios</p>
     </div>
     """, unsafe_allow_html=True)
+    st.write("✅ Header rendered!")
     
     # 控制面板
+    st.write("🔧 Creating control panel...")
     st.markdown('<div class="control-panel">', unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
+    st.write("✅ Columns created!")
     
     with col1:
+        st.write("📊 Creating dataset selector...")
         st.markdown('<div class="control-item">', unsafe_allow_html=True)
         st.markdown('<label>Dataset</label>', unsafe_allow_html=True)
         dataset = st.selectbox(
@@ -482,17 +507,21 @@ def main():
             key="dataset_selector",
             label_visibility="collapsed"
         )
+        st.write(f"✅ Dataset selected: {dataset}")
         st.markdown('</div>', unsafe_allow_html=True)
     
     st.markdown('</div>', unsafe_allow_html=True)  # 控制面板结束
+    st.write("✅ Control panel completed!")
     
     # 加载数据
+    st.write("📂 Loading dialog data...")
     dialogs = load_dialog_data(dataset)
     
     # 调试信息
-    st.write(f"Debug: Dataset = {dataset}, Found {len(dialogs)} dialogs")
+    st.write(f"🔍 Debug: Dataset = {dataset}, Found {len(dialogs)} dialogs")
     
     # 对话选择
+    st.write("🎯 Creating dialog selector...")
     if dialogs:
         selected_dialog = st.selectbox(
             "Select Dialog",
@@ -501,16 +530,22 @@ def main():
             key="dialog_selector",
             label_visibility="visible"
         )
+        st.write(f"✅ Dialog {selected_dialog + 1} selected!")
     else:
         selected_dialog = 0
         st.info("No dialogs found in the selected dataset.")
+        st.write("⚠️ No dialogs available!")
     
     # 对话展示区域
+    st.write("💬 Creating dialog display area...")
     st.markdown('<div class="dialog-container">', unsafe_allow_html=True)
     
     if dialogs and selected_dialog < len(dialogs):
+        st.write(f"🎭 Displaying dialog {selected_dialog + 1}...")
         display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
+        st.write("✅ Dialog displayed successfully!")
     else:
+        st.write("📭 Showing empty state...")
         st.markdown("""
         <div class="empty-state">
             <div class="empty-state-icon">💬</div>
@@ -518,9 +553,11 @@ def main():
             <p>Please select a dataset and dialog to view the conversation.</p>
         </div>
         """, unsafe_allow_html=True)
+        st.write("✅ Empty state displayed!")
     
     st.markdown('</div>', unsafe_allow_html=True)  # 对话容器结束
     st.markdown('</div>', unsafe_allow_html=True)  # 主容器结束
+    st.write("🎉 App rendering completed!")
 
 if __name__ == "__main__":
     main()
