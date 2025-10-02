@@ -261,6 +261,48 @@ def load_custom_css():
         color: white !important;
     }
     
+    /* 强制显示选择框文字 - 使用更强的选择器 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
+        color: white !important;
+        background: transparent !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    /* 针对Streamlit的特定选择器 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div {
+        color: white !important;
+        background: transparent !important;
+    }
+    
+    /* 使用通配符强制所有文字为白色 */
+    .stSelectbox * {
+        color: white !important;
+    }
+    
+    /* 特别针对选择框的显示值 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div > div {
+        color: white !important;
+        background: transparent !important;
+    }
+    
+    /* 使用更具体的选择器覆盖Streamlit默认样式 */
+    div[data-baseweb="select"] > div > div {
+        color: white !important;
+        background: transparent !important;
+    }
+    
+    /* 针对选择框的输入区域 */
+    .stSelectbox input {
+        color: white !important;
+        background: transparent !important;
+    }
+    
+    /* 针对选择框的占位符 */
+    .stSelectbox input::placeholder {
+        color: white !important;
+    }
+    
     /* 对话容器 */
     .dialog-container {
         background: rgba(255,255,255,0.95);
