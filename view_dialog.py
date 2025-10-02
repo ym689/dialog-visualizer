@@ -501,7 +501,7 @@ def load_dialog_data(dataset: str) -> List[Dict[str, Any]]:
     
     return dialogs
 
-def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int):
+def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int, dataset: str):
     """显示单个对话"""
     full_state = dialog.get('full_state', [])
     reward = dialog.get('reward', 0)
@@ -512,14 +512,15 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
     # 对话头部
     st.markdown(f"""
     <div class="dialog-header">
-        <div class="dialog-title">Dialog #{dialog_index + 1}</div>
-        <div class="dialog-meta">
-            <div class="meta-badge">Reward: {reward:.2f}</div>
-            <div class="meta-badge">{len(filtered_messages)} Messages</div>
-        </div>
+        <div class="dialog-title">Dataset: {dataset}</div>
+        <div class="dialog-title">Dialog {dialog_index + 1}</div>
+
     </div>
     """, unsafe_allow_html=True)
-    
+        #     <div class="dialog-meta">
+        #     <div class="meta-badge">Reward: {reward:.2f}</div>
+        #     <div class="meta-badge">{len(filtered_messages)} Messages</div>
+        # </div>
     # 显示消息
     for message in filtered_messages:
         role = message.get('role', '')
@@ -625,7 +626,7 @@ def main():
     # 对话展示区域
     with main_container:
         if dialogs and selected_dialog < len(dialogs):
-            display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
+            display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs),dataset=dataset)
         else:
             st.markdown("""
             <div class="empty-state">
