@@ -601,7 +601,6 @@ def main():
     # 模块7: 对话展示区域
     with main_container:
         st.write("💬 [模块7开始] 创建对话展示区域")
-        st.markdown('<div class="dialog-container">', unsafe_allow_html=True)
         
         if dialogs and selected_dialog < len(dialogs):
             st.write("🎭 [模块7-1] 开始显示对话内容")
@@ -618,7 +617,6 @@ def main():
             """, unsafe_allow_html=True)
             st.write("✅ [模块7-2] 空状态显示完成")
         
-        st.markdown('</div>', unsafe_allow_html=True)  # 对话容器结束
         st.write("✅ [模块7结束] 对话展示区域完成")
     
     # 模块8: 结束
