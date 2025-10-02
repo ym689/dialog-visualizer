@@ -240,6 +240,16 @@ def load_custom_css():
     .stSelectbox [data-baseweb="select"] div[role="combobox"] > div {
         background: transparent !important;
     }
+    /* 还原显示值：BaseWeb常将显示值标为 aria-hidden，用于可访问性/测量。
+       之前隐藏导致选定后看不见，这里强制显示并设为白色 */
+    .stSelectbox [data-baseweb="select"] div[role="combobox"] div[aria-hidden="true"] {
+        display: contents !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.35) !important;
+    }
     
     
     /* 对话容器 */
