@@ -89,9 +89,26 @@ def load_custom_css():
     /* 主容器 */
     .main-container {
         max-width: 1200px;
-        margin: 0 auto;
-        padding: 0.5rem;
+        margin: 0 !important;
+        padding: 0.5rem !important;
         min-height: 100vh;
+    }
+    
+    /* 强制移除所有markdown元素的边距 */
+    .stMarkdown {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .stMarkdown > div {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* 特别针对主容器的markdown */
+    .stMarkdown:has(.main-container) {
+        margin: 0 !important;
+        padding: 0 !important;
     }
     
     /* 头部区域 */
@@ -529,7 +546,14 @@ def main():
     
     # 模块2: 主容器
     st.write("📦 [模块2开始] 创建主容器")
-    st.markdown('<div class="main-container">', unsafe_allow_html=True)
+    st.write("🔍 [模块2-1] 准备创建HTML div")
+    
+    # 尝试使用容器包装
+    main_container = st.container()
+    with main_container:
+        st.markdown('<div class="main-container">', unsafe_allow_html=True)
+    
+    st.write("🔍 [模块2-2] HTML div已创建")
     st.write("✅ [模块2结束] 主容器创建完成")
     
     # 模块3: 头部
