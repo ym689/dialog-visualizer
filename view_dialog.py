@@ -486,6 +486,20 @@ def main():
     # 加载样式
     load_custom_css()
     
+    # 在主要内容开始前插入一个空的容器来"吸收"多余的空白
+    empty_container = st.container()
+    with empty_container:
+        st.markdown("""
+        <style>
+            div[data-testid="stVerticalBlock"]:first-child {
+                min-height: 0 !important;
+                height: 0 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+        </style>
+        """, unsafe_allow_html=True)
+    
     # 主容器
     st.markdown('<div class="main-container">', unsafe_allow_html=True)
     
