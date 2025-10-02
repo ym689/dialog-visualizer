@@ -37,7 +37,7 @@ def load_custom_css():
     .stApp {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: 'Times New Roman', Times, serif;
     }
     
     /* 隐藏Streamlit默认元素 */
@@ -136,9 +136,65 @@ def load_custom_css():
         line-height: 1.6;
     }
     
-    /* 精简选择器样式（使用默认外观，适当留白） */
+    /* 选择器样式（与背景融合的渐变玻璃效果） */
     .stSelectbox {
         margin-bottom: 0.75rem;
+    }
+    .stSelectbox > label {
+        color: rgba(255,255,255,0.95) !important;
+        font-weight: 700 !important;
+        font-size: 0.95rem !important;
+        letter-spacing: 0.04em !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+    }
+    .stSelectbox > div > div {
+        background: linear-gradient(135deg, rgba(102,126,234,0.85), rgba(118,75,162,0.85)) !important;
+        border: 1px solid rgba(255, 255, 255, 0.35) !important;
+        border-radius: 14px !important;
+        padding: 0.6rem 0.85rem !important;
+        color: #ffffff !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18) !important;
+        backdrop-filter: blur(8px) !important;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease !important;
+    }
+    .stSelectbox > div > div:hover {
+        transform: translateY(-1px) !important;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22) !important;
+        border-color: rgba(255,255,255,0.55) !important;
+    }
+    .stSelectbox > div > div:focus-within {
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25) !important;
+        border-color: rgba(255,255,255,0.65) !important;
+    }
+    /* BaseWeb Select 内部元素调色为浅色文本 */
+    .stSelectbox [data-baseweb="select"] > div,
+    .stSelectbox [data-baseweb="select"] > div > div,
+    .stSelectbox [data-baseweb="select"] input {
+        background: transparent !important;
+        color: #ffffff !important;
+    }
+    .stSelectbox svg {
+        fill: #ffffff !important;
+        color: #ffffff !important;
+    }
+    /* 下拉菜单 */
+    .stSelectbox [data-baseweb="select"] > div[role="listbox"] {
+        background: rgba(255, 255, 255, 0.98) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.18) !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+        backdrop-filter: blur(10px) !important;
+    }
+    .stSelectbox [data-baseweb="select"] > div[role="listbox"] > div {
+        color: #2d3748 !important;
+        border-radius: 8px !important;
+        margin: 2px !important;
+        padding: 0.55rem 0.8rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.02em !important;
+    }
+    .stSelectbox [data-baseweb="select"] > div[role="listbox"] > div:hover {
+        background: rgba(102, 126, 234, 0.10) !important;
     }
     
     
@@ -481,7 +537,7 @@ def main():
     
     # 选择区域（精简：单行双列）
     with main_container:
-        col1, col2 = st.columns([1, 2])
+        col1, col2 = st.columns([1, 1])
         with col1:
             dataset = st.selectbox(
                 "Dataset",
