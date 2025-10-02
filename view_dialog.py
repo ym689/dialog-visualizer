@@ -141,14 +141,15 @@ def load_custom_css():
     .stSelectbox > label { color: #ffffff !important; font-weight: 700 !important; }
 
     
-    /* 对话容器 */
+    /* 对话容器 - 白底+渐变描边卡片 */
     .dialog-container {
-        background: rgba(255,255,255,0.95);
-        backdrop-filter: blur(20px);
         border-radius: 20px;
         padding: 2rem;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        border: 1px solid rgba(255,255,255,0.2);
+        box-shadow: 0 18px 36px rgba(0,0,0,0.12);
+        border: 1px solid transparent;
+        background: linear-gradient(0deg, rgba(255,255,255,0.98), rgba(255,255,255,0.98)) padding-box,
+                    linear-gradient(135deg, #8ea6ff, #c28bff) border-box;
+        backdrop-filter: blur(10px);
         min-height: 400px;
     }
     
@@ -225,6 +226,15 @@ def load_custom_css():
         position: relative;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
+    /* 渐变气泡（保持高可读性） */
+    .message-content.user {
+        background: linear-gradient(180deg, #f6f8ff 0%, #eef2ff 100%);
+        border-color: #e0e7ff;
+    }
+    .message-content.assistant {
+        background: linear-gradient(180deg, #fff5f7 0%, #fde8ef 100%);
+        border-color: #fbcfe8;
+    }
     
     .message-content::before {
         content: '';
@@ -236,6 +246,12 @@ def load_custom_css():
         border-top: 8px solid transparent;
         border-bottom: 8px solid transparent;
         border-right: 8px solid #f8fafc;
+    }
+    .message-content.user::before {
+        border-right-color: #eef2ff;
+    }
+    .message-content.assistant::before {
+        border-right-color: #fde8ef;
     }
     
     .message-content.user::before {
