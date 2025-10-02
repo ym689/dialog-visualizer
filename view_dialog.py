@@ -511,15 +511,15 @@ def main():
     dialogs = load_dialog_data(dataset)
     
     # 对话选择
-                        if dialogs:
+    if dialogs:
         selected_dialog = st.selectbox(
             "Select Dialog",
-                                range(len(dialogs)),
-                                format_func=lambda x: f"Dialog {x+1}",
+            range(len(dialogs)),
+            format_func=lambda x: f"Dialog {x+1}",
             key="dialog_selector",
             label_visibility="visible"
-                            )
-                    else:
+        )
+    else:
         selected_dialog = 0
         st.info("No dialogs found in the selected dataset.")
     
@@ -528,7 +528,7 @@ def main():
     
     if dialogs and selected_dialog < len(dialogs):
         display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
-                        else:
+    else:
         st.markdown("""
         <div class="empty-state">
             <div class="empty-state-icon">💬</div>
