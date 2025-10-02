@@ -162,6 +162,30 @@ def load_custom_css():
         backdrop-filter: blur(10px);
     }
     
+    /* 移除选择框内部的白色背景 */
+    .stSelectbox > div > div > div {
+        background: transparent !important;
+        color: white !important;
+        border: none !important;
+    }
+    
+    /* 选择框显示区域样式 */
+    .stSelectbox > div > div > div[data-baseweb="select"] {
+        background: transparent !important;
+        color: white !important;
+    }
+    
+    .stSelectbox > div > div > div[data-baseweb="select"] > div {
+        background: transparent !important;
+        color: white !important;
+    }
+    
+    /* 选择框占位符样式 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
+        background: transparent !important;
+        color: white !important;
+    }
+    
     .stSelectbox > div > div:hover {
         background: linear-gradient(135deg, #5a67d8, #6b46c1);
         box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
@@ -184,12 +208,26 @@ def load_custom_css():
         letter-spacing: 0.1em;
     }
     
-    /* 选择框下拉选项样式 */
-    .stSelectbox > div > div > div {
+    /* 下拉选项容器样式 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(20px) !important;
+    }
+    
+    /* 下拉选项样式 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] > div {
         color: #2d3748 !important;
-        background: white !important;
-        border-radius: 8px;
-        margin: 2px;
+        background: transparent !important;
+        border-radius: 8px !important;
+        margin: 2px !important;
+        padding: 0.5rem 0.8rem !important;
+    }
+    
+    .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] > div:hover {
+        background: rgba(102, 126, 234, 0.1) !important;
     }
     
     /* 选择框下拉箭头样式 */
