@@ -240,8 +240,11 @@ def load_custom_css():
         background: transparent !important;
         color: #ffffff !important;
     }
-    /* 选中值层（无论 aria-hidden 状态）强制可见且为白色 */
-    .stSelectbox [data-baseweb="select"] [aria-hidden="true"],
+    /* 隐藏测量层，确保只显示真实值层 */
+    .stSelectbox [data-baseweb="select"] [aria-hidden="true"] {
+        display: none !important;
+    }
+    /* 仅对可见值层与选项强制可见与白色 */
     .stSelectbox [data-baseweb="select"] [aria-hidden="false"],
     .stSelectbox [data-baseweb="select"] [role="option"],
     .stSelectbox [data-baseweb="select"] [data-baseweb="select-value"] {
@@ -260,6 +263,7 @@ def load_custom_css():
     .stSelectbox [data-baseweb="select"] div[role="combobox"] {
         position: relative !important;
         z-index: 5 !important;
+        isolation: isolate; /* 建立新的堆叠上下文，避免外部叠层影响 */
     }
     
     
