@@ -280,6 +280,31 @@ def load_custom_css():
         color: white !important;
     }
     
+    /* 调试：显示所有选择框元素的边框，帮助识别DOM结构 */
+    .stSelectbox * {
+        border: 1px solid lime !important;
+    }
+    
+    /* 特别针对可能包含文字的元素 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div > div > div {
+        color: white !important;
+        background: transparent !important;
+        border: 2px solid cyan !important;
+    }
+    
+    /* 针对可能的文本节点 */
+    .stSelectbox span {
+        color: white !important;
+        background: transparent !important;
+    }
+    
+    /* 强制显示所有文本内容 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div > div > div > span {
+        color: white !important;
+        background: transparent !important;
+        display: block !important;
+    }
+    
     /* 特别针对选择框的显示值 */
     .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div > div {
         color: white !important;
@@ -302,6 +327,73 @@ def load_custom_css():
     .stSelectbox input::placeholder {
         color: white !important;
     }
+    
+    /* 使用JavaScript强制设置文字颜色 */
+    </style>
+    <script>
+    // 等待页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('开始调试选择框文字颜色问题');
+        
+        // 查找所有选择框
+        const selectboxes = document.querySelectorAll('.stSelectbox');
+        console.log('找到选择框数量:', selectboxes.length);
+        
+        selectboxes.forEach((selectbox, index) => {
+            console.log(`选择框 ${index + 1}:`, selectbox);
+            
+            // 查找所有可能包含文字的元素
+            const textElements = selectbox.querySelectorAll('*');
+            console.log(`选择框 ${index + 1} 内部元素数量:`, textElements.length);
+            
+            textElements.forEach((element, elemIndex) => {
+                if (element.textContent && element.textContent.trim()) {
+                    console.log(`元素 ${elemIndex}:`, element, '文字内容:', element.textContent);
+                    element.style.color = 'white';
+                    element.style.background = 'transparent';
+                }
+            });
+            
+            // 特别针对Streamlit的选择框
+            const selectElements = selectbox.querySelectorAll('[data-baseweb="select"]');
+            selectElements.forEach(select => {
+                console.log('找到select元素:', select);
+                const allChildren = select.querySelectorAll('*');
+                allChildren.forEach(child => {
+                    child.style.color = 'white';
+                    child.style.background = 'transparent';
+                    if (child.textContent) {
+                        console.log('设置文字颜色:', child.textContent);
+                    }
+                });
+            });
+        });
+    });
+    
+    // 监听Streamlit的重新渲染
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                const selectboxes = document.querySelectorAll('.stSelectbox');
+                selectboxes.forEach(selectbox => {
+                    const textElements = selectbox.querySelectorAll('*');
+                    textElements.forEach(element => {
+                        if (element.textContent && element.textContent.trim()) {
+                            element.style.color = 'white';
+                            element.style.background = 'transparent';
+                        }
+                    });
+                });
+            }
+        });
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+    </script>
+    <style>
     
     /* 对话容器 */
     .dialog-container {
