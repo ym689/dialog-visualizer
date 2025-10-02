@@ -503,6 +503,12 @@ def main():
     # 加载样式
     load_custom_css()
     
+    # 初始化session state
+    if 'dataset' not in st.session_state:
+        st.session_state.dataset = "Inspired"
+    if 'selected_dialog' not in st.session_state:
+        st.session_state.selected_dialog = 0
+    
     # 主容器
     main_container = st.container()
     
@@ -519,13 +525,20 @@ def main():
     with main_container:
         col1, col2 = st.columns([1, 3])
         with col1:
-            dataset = st.selectbox(
-                "Select Dataset",
-                ["Inspired", "Redial"],
-                index=0,  # 默认选择第一个选项
-                key="dataset_selector",
-                label_visibility="visible"
-            )
+            # 使用placeholder确保选择框正确显示
+            dataset_placeholder = st.empty()
+            with dataset_placeholder.container():
+                dataset = st.selectbox(
+                    "Select Dataset",
+                    ["Inspired", "Redial"],
+                    index=["Inspired", "Redial"].index(st.session_state.dataset),
+                    key="dataset_selector",
+                    label_visibility="visible"
+                )
+            # 更新session state
+            if dataset != st.session_state.dataset:
+                st.session_state.dataset = dataset
+                st.session_state.selected_dialog = 0  # 重置对话选择
     
     # 加载数据
     dialogs = load_dialog_data(dataset)
@@ -533,16 +546,26 @@ def main():
     # 对话选择
     with main_container:
         if dialogs:
-            selected_dialog = st.selectbox(
-                "Select Dialog",
-                range(len(dialogs)),
-                format_func=lambda x: f"Dialog {x+1}",
-                index=0,  # 默认选择第一个对话
-                key="dialog_selector",
-                label_visibility="visible"
-            )
+            # 确保selected_dialog在有效范围内
+            if st.session_state.selected_dialog >= len(dialogs):
+                st.session_state.selected_dialog = 0
+            
+            # 使用placeholder确保选择框正确显示
+            dialog_placeholder = st.empty()
+            with dialog_placeholder.container():
+                selected_dialog = st.selectbox(
+                    "Select Dialog",
+                    range(len(dialogs)),
+                    format_func=lambda x: f"Dialog {x+1}",
+                    index=st.session_state.selected_dialog,
+                    key="dialog_selector",
+                    label_visibility="visible"
+                )
+            # 更新session state
+            st.session_state.selected_dialog = selected_dialog
         else:
             selected_dialog = 0
+            st.session_state.selected_dialog = 0
             st.info("No dialogs found in the selected dataset.")
     
     # 对话展示区域
