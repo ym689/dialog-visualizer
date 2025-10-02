@@ -392,7 +392,7 @@ def load_dialog_data(dataset: str) -> List[Dict[str, Any]]:
                     if isinstance(dialog, dict) and 'full_state' in dialog:
                         dialogs.append(dialog)
                         st.write(f"Debug: Successfully loaded dialog {len(dialogs)} from sample {i+1}")
-            else:
+                    else:
                         st.write(f"Debug: Sample {i+1} is not a valid dialog (missing full_state)")
                 except json.JSONDecodeError as e:
                     st.write(f"Debug: JSON decode error in sample {i+1}: {str(e)}")
