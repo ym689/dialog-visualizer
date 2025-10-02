@@ -173,17 +173,25 @@ def load_custom_css():
     .stSelectbox > div > div > div[data-baseweb="select"] {
         background: transparent !important;
         color: white !important;
+        border: none !important;
     }
     
     .stSelectbox > div > div > div[data-baseweb="select"] > div {
         background: transparent !important;
         color: white !important;
+        border: none !important;
     }
     
     /* 选择框占位符样式 */
     .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
         background: transparent !important;
         color: white !important;
+        border: none !important;
+    }
+    
+    /* 移除所有选择框内部元素的边框 */
+    .stSelectbox * {
+        border: none !important;
     }
     
     .stSelectbox > div > div:hover {
