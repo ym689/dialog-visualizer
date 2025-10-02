@@ -221,14 +221,12 @@ def load_custom_css():
     .stSelectbox input::placeholder {
         color: rgba(255,255,255,0.85) !important;
     }
-    /* 移除用于测量的隐藏节点，避免遮挡可见文本 */
-    .stSelectbox [data-baseweb="select"] div[aria-hidden="true"] {
-        display: none !important;
-    }
     /* 强制值容器完全可见，避免透明与裁剪 */
     .stSelectbox [data-baseweb="select"] div[role="combobox"] {
         opacity: 1 !important;
         visibility: visible !important;
+        position: relative !important;
+        z-index: 2 !important;
     }
     .stSelectbox [data-baseweb="select"] div[role="combobox"] * {
         opacity: 1 !important;
@@ -240,10 +238,10 @@ def load_custom_css():
     .stSelectbox [data-baseweb="select"] div[role="combobox"] > div {
         background: transparent !important;
     }
-    /* 还原显示值：BaseWeb常将显示值标为 aria-hidden，用于可访问性/测量。
-       之前隐藏导致选定后看不见，这里强制显示并设为白色 */
-    .stSelectbox [data-baseweb="select"] div[role="combobox"] div[aria-hidden="true"] {
-        display: contents !important;
+    /* 选中值层（无论 aria-hidden 状态）强制可见且为白色 */
+    .stSelectbox [data-baseweb="select"] [aria-hidden="true"],
+    .stSelectbox [data-baseweb="select"] [aria-hidden="false"] {
+        display: block !important;
         opacity: 1 !important;
         visibility: visible !important;
         color: #ffffff !important;
