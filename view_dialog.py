@@ -546,37 +546,36 @@ def main():
     
     # 模块2: 主容器
     st.write("📦 [模块2开始] 创建主容器")
-    st.write("🔍 [模块2-1] 准备创建HTML div")
+    st.write("🔍 [模块2-1] 准备创建主容器")
     
-    # 尝试使用容器包装
+    # 使用纯Streamlit容器，避免HTML div
     main_container = st.container()
-    with main_container:
-        st.markdown('<div class="main-container">', unsafe_allow_html=True)
-    
-    st.write("🔍 [模块2-2] HTML div已创建")
+    st.write("🔍 [模块2-2] Streamlit容器已创建")
     st.write("✅ [模块2结束] 主容器创建完成")
     
     # 模块3: 头部
-    st.write("🎯 [模块3开始] 创建头部")
-    st.markdown("""
-    <div class="header">
-        <h1>AI Dialog Showcase</h1>
-        <p>Explore high-quality conversational AI interactions across different datasets and scenarios</p>
-    </div>
-    """, unsafe_allow_html=True)
-    st.write("✅ [模块3结束] 头部创建完成")
+    with main_container:
+        st.write("🎯 [模块3开始] 创建头部")
+        st.markdown("""
+        <div class="header">
+            <h1>AI Dialog Showcase</h1>
+            <p>Explore high-quality conversational AI interactions across different datasets and scenarios</p>
+        </div>
+        """, unsafe_allow_html=True)
+        st.write("✅ [模块3结束] 头部创建完成")
     
     # 模块4: 数据集选择
-    st.write("📊 [模块4开始] 创建数据集选择")
-    col1, col2 = st.columns([1, 3])
-    with col1:
-        dataset = st.selectbox(
-            "Select Dataset",
-            ["Inspired", "Redial"],
-            key="dataset_selector",
-            label_visibility="visible"
-        )
-    st.write("✅ [模块4结束] 数据集选择完成")
+    with main_container:
+        st.write("📊 [模块4开始] 创建数据集选择")
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            dataset = st.selectbox(
+                "Select Dataset",
+                ["Inspired", "Redial"],
+                key="dataset_selector",
+                label_visibility="visible"
+            )
+        st.write("✅ [模块4结束] 数据集选择完成")
     
     # 模块5: 加载数据
     st.write("📂 [模块5开始] 加载数据")
@@ -584,45 +583,46 @@ def main():
     st.write(f"✅ [模块5结束] 数据加载完成，找到 {len(dialogs)} 个对话")
     
     # 模块6: 对话选择
-    st.write("🎯 [模块6开始] 创建对话选择")
-    if dialogs:
-        selected_dialog = st.selectbox(
-            "Select Dialog",
-            range(len(dialogs)),
-            format_func=lambda x: f"Dialog {x+1}",
-            key="dialog_selector",
-            label_visibility="visible"
-        )
-    else:
-        selected_dialog = 0
-        st.info("No dialogs found in the selected dataset.")
-    st.write("✅ [模块6结束] 对话选择完成")
+    with main_container:
+        st.write("🎯 [模块6开始] 创建对话选择")
+        if dialogs:
+            selected_dialog = st.selectbox(
+                "Select Dialog",
+                range(len(dialogs)),
+                format_func=lambda x: f"Dialog {x+1}",
+                key="dialog_selector",
+                label_visibility="visible"
+            )
+        else:
+            selected_dialog = 0
+            st.info("No dialogs found in the selected dataset.")
+        st.write("✅ [模块6结束] 对话选择完成")
     
     # 模块7: 对话展示区域
-    st.write("💬 [模块7开始] 创建对话展示区域")
-    st.markdown('<div class="dialog-container">', unsafe_allow_html=True)
+    with main_container:
+        st.write("💬 [模块7开始] 创建对话展示区域")
+        st.markdown('<div class="dialog-container">', unsafe_allow_html=True)
+        
+        if dialogs and selected_dialog < len(dialogs):
+            st.write("🎭 [模块7-1] 开始显示对话内容")
+            display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
+            st.write("✅ [模块7-1] 对话内容显示完成")
+        else:
+            st.write("📭 [模块7-2] 显示空状态")
+            st.markdown("""
+            <div class="empty-state">
+                <div class="empty-state-icon">💬</div>
+                <h3>No Dialog Selected</h3>
+                <p>Please select a dataset and dialog to view the conversation.</p>
+            </div>
+            """, unsafe_allow_html=True)
+            st.write("✅ [模块7-2] 空状态显示完成")
+        
+        st.markdown('</div>', unsafe_allow_html=True)  # 对话容器结束
+        st.write("✅ [模块7结束] 对话展示区域完成")
     
-    if dialogs and selected_dialog < len(dialogs):
-        st.write("🎭 [模块7-1] 开始显示对话内容")
-        display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
-        st.write("✅ [模块7-1] 对话内容显示完成")
-    else:
-        st.write("📭 [模块7-2] 显示空状态")
-        st.markdown("""
-        <div class="empty-state">
-            <div class="empty-state-icon">💬</div>
-            <h3>No Dialog Selected</h3>
-            <p>Please select a dataset and dialog to view the conversation.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        st.write("✅ [模块7-2] 空状态显示完成")
-    
-    st.markdown('</div>', unsafe_allow_html=True)  # 对话容器结束
-    st.write("✅ [模块7结束] 对话展示区域完成")
-    
-    # 模块8: 结束容器
-    st.write("🏁 [模块8开始] 结束主容器")
-    st.markdown('</div>', unsafe_allow_html=True)  # 主容器结束
+    # 模块8: 结束
+    st.write("🏁 [模块8开始] 应用完成")
     st.write("✅ [模块8结束] 主容器结束完成")
     st.write("🎉 [应用完成] 所有模块执行完毕")
 
