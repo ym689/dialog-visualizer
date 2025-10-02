@@ -51,15 +51,15 @@ def load_custom_css():
     .main-container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 2rem;
+        padding: 1rem;
         min-height: 100vh;
     }
     
     /* 头部区域 */
     .header {
         text-align: center;
-        margin-bottom: 3rem;
-        padding: 2rem 0;
+        margin-bottom: 2rem;
+        padding: 1rem 0;
     }
     
     .header h1 {
@@ -80,59 +80,43 @@ def load_custom_css():
         line-height: 1.6;
     }
     
-    /* 控制面板 */
-    .control-panel {
-        background: rgba(255,255,255,0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        border: 1px solid rgba(255,255,255,0.2);
-    }
-    
-    .control-row {
-        display: flex;
-        gap: 2rem;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-    
-    .control-item {
-        flex: 1;
-        min-width: 200px;
-    }
-    
-    .control-item label {
-        display: block;
-        font-weight: 600;
-        color: #2d3748;
-        margin-bottom: 0.5rem;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+    /* 选择区域样式 */
+    .selection-area {
+        margin-bottom: 1.5rem;
+        text-align: center;
     }
     
     /* 选择框样式 */
     .stSelectbox > div > div {
-        background: white;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 0.75rem 1rem;
+        background: rgba(255,255,255,0.9);
+        border: 1px solid rgba(255,255,255,0.3);
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
         font-size: 1rem;
         font-weight: 500;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        color: #2d3748;
     }
     
     .stSelectbox > div > div:hover {
         border-color: #667eea;
+        background: rgba(255,255,255,0.95);
         box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
     }
     
     .stSelectbox > div > div:focus-within {
         border-color: #667eea;
+        background: rgba(255,255,255,0.95);
         box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    /* 选择框标签样式 */
+    .stSelectbox > label {
+        color: white !important;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
     }
     
     /* 对话容器 */
@@ -464,23 +448,15 @@ def main():
     </div>
     """, unsafe_allow_html=True)
     
-    # 控制面板
-    st.markdown('<div class="control-panel">', unsafe_allow_html=True)
-    
-    col1, col2 = st.columns(2)
-    
+    # 数据集选择
+    col1, col2 = st.columns([1, 3])
     with col1:
-        st.markdown('<div class="control-item">', unsafe_allow_html=True)
-        st.markdown('<label>Dataset</label>', unsafe_allow_html=True)
         dataset = st.selectbox(
             "Select Dataset",
             ["Inspired", "Redial"],
             key="dataset_selector",
-            label_visibility="collapsed"
+            label_visibility="visible"
         )
-        st.markdown('</div>', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)  # 控制面板结束
     
     # 加载数据
     dialogs = load_dialog_data(dataset)
