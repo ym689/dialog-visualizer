@@ -510,8 +510,8 @@ def main():
     with main_container:
         st.markdown("""
         <div class="header">
-            <h1>AI Dialog Showcase</h1>
-            <p>Explore high-quality conversational AI interactions across different datasets and scenarios</p>
+            <h1>RSO Dialogue Demo</h1>
+            <p>Reinforced Strategy Optimization for Conversational Recommender Systems via Network-of-Experts</p>
         </div>
         """, unsafe_allow_html=True)
     
