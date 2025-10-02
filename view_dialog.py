@@ -368,38 +368,47 @@ def load_custom_css():
 
 def load_dialog_data(dataset: str) -> List[Dict[str, Any]]:
     """加载指定数据集的对话数据"""
-    data_dir = f"data/{dataset}"
+    file_path = f"data/{dataset}.txt"
     dialogs = []
     
-    if not os.path.exists(data_dir):
+    if not os.path.exists(file_path):
+        st.error(f"Data file {file_path} does not exist")
         return dialogs
     
     try:
-        files = [f for f in os.listdir(data_dir) if f.endswith('.txt')]
-        for file in files:
-            file_path = os.path.join(data_dir, file)
-            with open(file_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-                # 按空行分割，提取所有有效的对话
-                # 每个对话是一个多行JSON对象，用空行分隔
-                samples = [s.strip() for s in content.split('\n\n') if s.strip()]
-                for sample in samples:
+        st.write(f"Debug: Loading data from {file_path}")
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            # 按空行分割，提取所有有效的对话
+            # 每个对话是一个多行JSON对象，用空行分隔
+            samples = [s.strip() for s in content.split('\n\n') if s.strip()]
+            st.write(f"Debug: Found {len(samples)} samples in file")
+            
+            for i, sample in enumerate(samples):
+                try:
+                    # 尝试解析JSON
+                    dialog = json.loads(sample)
+                    if isinstance(dialog, dict) and 'full_state' in dialog:
+                        dialogs.append(dialog)
+                        st.write(f"Debug: Successfully loaded dialog {len(dialogs)} from sample {i+1}")
+                    else:
+                        st.write(f"Debug: Sample {i+1} is not a valid dialog (missing full_state)")
+                except json.JSONDecodeError as e:
+                    st.write(f"Debug: JSON decode error in sample {i+1}: {str(e)}")
+                    # 如果JSON解析失败，尝试eval（兼容旧格式）
                     try:
-                        # 尝试解析JSON
-                        dialog = json.loads(sample)
+                        dialog = eval(sample)
                         if isinstance(dialog, dict) and 'full_state' in dialog:
                             dialogs.append(dialog)
-                    except json.JSONDecodeError:
-                        # 如果JSON解析失败，尝试eval（兼容旧格式）
-                        try:
-                            dialog = eval(sample)
-                            if isinstance(dialog, dict) and 'full_state' in dialog:
-                                dialogs.append(dialog)
-                        except:
-                            continue
+                            st.write(f"Debug: Successfully loaded dialog {len(dialogs)} from sample {i+1} using eval")
+                    except Exception as eval_error:
+                        st.write(f"Debug: Eval error in sample {i+1}: {str(eval_error)}")
+                        continue
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
     
+    st.write(f"Debug: Total dialogs loaded: {len(dialogs)}")
     return dialogs
 
 def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int):
@@ -475,29 +484,26 @@ def main():
         )
         st.markdown('</div>', unsafe_allow_html=True)
     
-    with col2:
-        st.markdown('<div class="control-item">', unsafe_allow_html=True)
-        st.markdown('<label>Dialog</label>', unsafe_allow_html=True)
-        
-        # 加载数据
-        dialogs = load_dialog_data(dataset)
-        
-        if dialogs:
-            dialog_options = [f"Dialog {i+1}" for i in range(len(dialogs))]
-            selected_dialog = st.selectbox(
-                "Select Dialog",
-                range(len(dialogs)),
-                format_func=lambda x: f"Dialog {x+1}",
-                key="dialog_selector",
-                label_visibility="collapsed"
-            )
-        else:
-            selected_dialog = 0
-            st.info("No dialogs found in the selected dataset.")
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-    
     st.markdown('</div>', unsafe_allow_html=True)  # 控制面板结束
+    
+    # 加载数据
+    dialogs = load_dialog_data(dataset)
+    
+    # 调试信息
+    st.write(f"Debug: Dataset = {dataset}, Found {len(dialogs)} dialogs")
+    
+    # 对话选择
+    if dialogs:
+        selected_dialog = st.selectbox(
+            "Select Dialog",
+            range(len(dialogs)),
+            format_func=lambda x: f"Dialog {x+1}",
+            key="dialog_selector",
+            label_visibility="visible"
+        )
+    else:
+        selected_dialog = 0
+        st.info("No dialogs found in the selected dataset.")
     
     # 对话展示区域
     st.markdown('<div class="dialog-container">', unsafe_allow_html=True)
