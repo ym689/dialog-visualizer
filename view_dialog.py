@@ -142,47 +142,59 @@ def load_custom_css():
         text-align: center;
     }
     
-    /* 选择框样式 */
+    /* 选择框样式 - 高级方框格式 */
     .stSelectbox {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
     }
     
     .stSelectbox > div > div {
-        background: rgba(255,255,255,0.1);
-        border: 1px solid rgba(255,255,255,0.3);
-        border-radius: 8px;
-        padding: 0.5rem 0.75rem;
-        font-size: 1rem;
-        font-weight: 500;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        border-radius: 20px;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
         transition: all 0.3s ease;
-        box-shadow: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         color: white;
         backdrop-filter: blur(10px);
     }
     
     .stSelectbox > div > div:hover {
-        border-color: rgba(255,255,255,0.6);
-        background: rgba(255,255,255,0.2);
+        background: linear-gradient(135deg, #5a67d8, #6b46c1);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        transform: translateY(-2px);
     }
     
     .stSelectbox > div > div:focus-within {
-        border-color: rgba(255,255,255,0.8);
-        background: rgba(255,255,255,0.25);
-        box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+        background: linear-gradient(135deg, #4c51bf, #553c9a);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        transform: translateY(-2px);
     }
     
     /* 选择框标签样式 */
     .stSelectbox > label {
         color: white !important;
-        font-weight: 600;
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
+        font-weight: 700;
+        font-size: 0.85rem;
+        margin-bottom: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
     }
     
     /* 选择框下拉选项样式 */
     .stSelectbox > div > div > div {
         color: #2d3748 !important;
         background: white !important;
+        border-radius: 8px;
+        margin: 2px;
+    }
+    
+    /* 选择框下拉箭头样式 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div {
+        color: white !important;
     }
     
     /* 对话容器 */
@@ -463,6 +475,10 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
     st.markdown(f"""
     <div class="dialog-header">
         <div class="dialog-title">Dialog #{dialog_index + 1}</div>
+        <div class="dialog-meta">
+            <div class="meta-badge">Reward: {reward:.2f}</div>
+            <div class="meta-badge">{len(filtered_messages)} Messages</div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
     
