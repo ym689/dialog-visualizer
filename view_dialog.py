@@ -142,90 +142,98 @@ def load_custom_css():
         text-align: center;
     }
     
-    /* 选择框样式 - 确保文字显示 */
+    /* 选择框样式 - 简洁现代风格 */
     .stSelectbox {
         margin-bottom: 1.5rem;
     }
     
-    /* 选择框主体 - 深色背景确保对比度 */
+    /* 选择框主体 - 使用半透明白色背景 */
     .stSelectbox > div > div {
-        background: rgba(0, 0, 0, 0.3) !important;
-        border: 2px solid rgba(255, 255, 255, 0.5) !important;
-        border-radius: 8px !important;
-        padding: 0.5rem 1rem !important;
+        background: rgba(255, 255, 255, 0.15) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 1rem !important;
         font-size: 1rem !important;
-        font-weight: 600 !important;
+        font-weight: 500 !important;
         color: white !important;
+        backdrop-filter: blur(10px) !important;
         transition: all 0.3s ease !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
     }
     
     /* 悬停效果 */
     .stSelectbox > div > div:hover {
-        background: rgba(0, 0, 0, 0.4) !important;
-        border-color: rgba(255, 255, 255, 0.8) !important;
+        background: rgba(255, 255, 255, 0.25) !important;
+        border-color: rgba(255, 255, 255, 0.5) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        transform: translateY(-1px) !important;
     }
     
     /* 聚焦效果 */
     .stSelectbox > div > div:focus-within {
-        background: rgba(0, 0, 0, 0.5) !important;
-        border-color: white !important;
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3) !important;
+        background: rgba(255, 255, 255, 0.3) !important;
+        border-color: rgba(255, 255, 255, 0.7) !important;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
+        transform: translateY(-1px) !important;
     }
     
     /* 选择框标签样式 */
     .stSelectbox > label {
         color: white !important;
-        font-weight: 700 !important;
+        font-weight: 600 !important;
         font-size: 0.9rem !important;
         margin-bottom: 0.5rem !important;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
     }
     
-    /* 强制显示所有文字内容 */
-    .stSelectbox * {
-        color: white !important;
+    /* 选择框内部元素 */
+    .stSelectbox > div > div > div {
         background: transparent !important;
+        color: white !important;
         border: none !important;
     }
     
-    /* 特别针对选择框显示区域 */
-    .stSelectbox > div > div > div {
-        color: white !important;
-        background: transparent !important;
-    }
-    
     .stSelectbox > div > div > div[data-baseweb="select"] {
-        color: white !important;
         background: transparent !important;
+        color: white !important;
     }
     
     .stSelectbox > div > div > div[data-baseweb="select"] > div {
-        color: white !important;
         background: transparent !important;
+        color: white !important;
     }
     
     .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
-        color: white !important;
         background: transparent !important;
+        color: white !important;
     }
     
     /* 下拉选项容器 */
     .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] {
-        background: white !important;
+        background: rgba(255, 255, 255, 0.95) !important;
         border-radius: 8px !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(20px) !important;
     }
     
     /* 下拉选项样式 */
     .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] > div {
         color: #2d3748 !important;
         background: transparent !important;
+        border-radius: 6px !important;
+        margin: 2px !important;
         padding: 0.5rem 0.75rem !important;
+        transition: background-color 0.2s ease !important;
     }
     
     .stSelectbox > div > div > div[data-baseweb="select"] > div[role="listbox"] > div:hover {
-        background: #f7fafc !important;
+        background: rgba(102, 126, 234, 0.1) !important;
+    }
+    
+    /* 移除所有内部边框 */
+    .stSelectbox * {
+        border: none !important;
     }
     
     
@@ -561,69 +569,9 @@ def load_custom_css():
     
     ::-webkit-scrollbar-thumb:hover {
         background: linear-gradient(135deg, #5a67d8, #6b46c1);
-             }
-             </style>
-             
-             <script>
-             // 强制显示选择框文字
-             function forceSelectboxText() {
-                 const selectboxes = document.querySelectorAll('.stSelectbox');
-                 selectboxes.forEach(selectbox => {
-                     // 查找所有可能包含文字的div
-                     const textElements = selectbox.querySelectorAll('div');
-                     textElements.forEach(div => {
-                         // 强制设置文字颜色和可见性
-                         div.style.color = 'white';
-                         div.style.background = 'transparent';
-                         div.style.opacity = '1';
-                         div.style.visibility = 'visible';
-                         div.style.display = 'block';
-                         
-                         // 如果div有文字内容，确保显示
-                         if (div.textContent && div.textContent.trim() !== '') {
-                             div.style.color = 'white';
-                             div.style.fontWeight = '600';
-                         }
-                     });
-                     
-                     // 特别处理选择框的显示区域
-                     const selectDiv = selectbox.querySelector('[data-baseweb="select"]');
-                     if (selectDiv) {
-                         selectDiv.style.color = 'white';
-                         selectDiv.style.background = 'transparent';
-                         
-                         const innerDivs = selectDiv.querySelectorAll('div');
-                         innerDivs.forEach(div => {
-                             div.style.color = 'white';
-                             div.style.background = 'transparent';
-                             div.style.opacity = '1';
-                             div.style.visibility = 'visible';
-                         });
-                     }
-                 });
-             }
-             
-             // 页面加载完成后执行
-             document.addEventListener('DOMContentLoaded', forceSelectboxText);
-             
-             // 监听Streamlit的重新渲染
-             const observer = new MutationObserver(function(mutations) {
-                 mutations.forEach(function(mutation) {
-                     if (mutation.type === 'childList') {
-                         setTimeout(forceSelectboxText, 100);
-                     }
-                 });
-             });
-             
-             observer.observe(document.body, {
-                 childList: true,
-                 subtree: true
-             });
-             
-             // 定期检查并修复
-             setInterval(forceSelectboxText, 1000);
-             </script>
-             """, unsafe_allow_html=True)
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
 def load_dialog_data(dataset: str) -> List[Dict[str, Any]]:
     """加载指定数据集的对话数据"""
