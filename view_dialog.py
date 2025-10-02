@@ -196,6 +196,20 @@ def load_custom_css():
     .stSelectbox [data-baseweb="select"] > div[role="listbox"] > div:hover {
         background: rgba(102, 126, 234, 0.10) !important;
     }
+    /* 确保选中值与输入文字可见（BaseWeb结构覆盖）*/
+    .stSelectbox [data-baseweb="select"] * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+    .stSelectbox [data-baseweb="select"] div[role="combobox"],
+    .stSelectbox [data-baseweb="select"] div[aria-hidden="true"],
+    .stSelectbox [data-baseweb="select"] span,
+    .stSelectbox [data-baseweb="select"] div {
+        color: #ffffff !important;
+    }
+    .stSelectbox input::placeholder {
+        color: rgba(255,255,255,0.85) !important;
+    }
     
     
     /* 对话容器 */
