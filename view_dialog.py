@@ -28,6 +28,12 @@ def load_custom_css():
         box-sizing: border-box;
     }
     
+    /* 强制移除所有顶部空白 */
+    .stApp, .stApp > div, .stApp > div > div, .stApp > div > div > div {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+    
     .stApp {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
@@ -47,19 +53,52 @@ def load_custom_css():
         display: none;
     }
     
+    /* 隐藏Streamlit默认的空白区域 */
+    .stApp > div[data-testid="stAppViewContainer"] {
+        padding-top: 0 !important;
+    }
+    
+    .stApp > div[data-testid="stAppViewContainer"] > div {
+        padding-top: 0 !important;
+    }
+    
+    /* 移除所有Streamlit默认边距 */
+    .stApp > div[data-testid="stAppViewContainer"] > div > div {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+    
+    /* 移除Streamlit默认的block-container样式 */
+    .stApp > div[data-testid="stAppViewContainer"] > div > div > div {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+    
+    /* 强制移除所有默认边距 */
+    .stApp > div[data-testid="stAppViewContainer"] > div > div > div > div {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+    
+    /* 移除Streamlit默认的空白区域 */
+    .stApp > div[data-testid="stAppViewContainer"] > div > div > div > div > div {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+    
     /* 主容器 */
     .main-container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 1rem;
+        padding: 0.5rem;
         min-height: 100vh;
     }
     
     /* 头部区域 */
     .header {
         text-align: center;
-        margin-bottom: 2rem;
-        padding: 1rem 0;
+        margin-bottom: 1rem;
+        padding: 0.5rem 0;
     }
     
     .header h1 {
@@ -87,28 +126,32 @@ def load_custom_css():
     }
     
     /* 选择框样式 */
+    .stSelectbox {
+        margin-bottom: 1rem;
+    }
+    
     .stSelectbox > div > div {
-        background: rgba(255,255,255,0.9);
+        background: rgba(255,255,255,0.1);
         border: 1px solid rgba(255,255,255,0.3);
         border-radius: 8px;
         padding: 0.5rem 0.75rem;
         font-size: 1rem;
         font-weight: 500;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        color: #2d3748;
+        box-shadow: none;
+        color: white;
+        backdrop-filter: blur(10px);
     }
     
     .stSelectbox > div > div:hover {
-        border-color: #667eea;
-        background: rgba(255,255,255,0.95);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        border-color: rgba(255,255,255,0.6);
+        background: rgba(255,255,255,0.2);
     }
     
     .stSelectbox > div > div:focus-within {
-        border-color: #667eea;
-        background: rgba(255,255,255,0.95);
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        border-color: rgba(255,255,255,0.8);
+        background: rgba(255,255,255,0.25);
+        box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
     }
     
     /* 选择框标签样式 */
@@ -117,6 +160,12 @@ def load_custom_css():
         font-weight: 600;
         font-size: 0.9rem;
         margin-bottom: 0.5rem;
+    }
+    
+    /* 选择框下拉选项样式 */
+    .stSelectbox > div > div > div {
+        color: #2d3748 !important;
+        background: white !important;
     }
     
     /* 对话容器 */
@@ -401,7 +450,7 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             <div class="meta-badge">Reward: {reward:.2f}</div>
             <div class="meta-badge">{len(filtered_messages)} Messages</div>
         </div>
-    </div>
+        </div>
     """, unsafe_allow_html=True)
     
     # 显示消息
@@ -418,7 +467,7 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             role_class = 'assistant'
             avatar = '🤖'
             role_name = 'Assistant'
-        else:
+            else:
             # 跳过其他角色类型
             continue
         
@@ -462,15 +511,15 @@ def main():
     dialogs = load_dialog_data(dataset)
     
     # 对话选择
-    if dialogs:
+                        if dialogs:
         selected_dialog = st.selectbox(
             "Select Dialog",
-            range(len(dialogs)),
-            format_func=lambda x: f"Dialog {x+1}",
+                                range(len(dialogs)),
+                                format_func=lambda x: f"Dialog {x+1}",
             key="dialog_selector",
             label_visibility="visible"
-        )
-    else:
+                            )
+                    else:
         selected_dialog = 0
         st.info("No dialogs found in the selected dataset.")
     
@@ -479,7 +528,7 @@ def main():
     
     if dialogs and selected_dialog < len(dialogs):
         display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
-    else:
+                        else:
         st.markdown("""
         <div class="empty-state">
             <div class="empty-state-icon">💬</div>
