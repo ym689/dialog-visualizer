@@ -197,9 +197,6 @@ def load_custom_css():
     }
     
     .dialog-header {
-            display: flex;
-        justify-content: space-between;
-            align-items: center;
         margin-bottom: 2rem;
         padding-bottom: 1rem;
         border-bottom: 2px solid #f1f5f9;
@@ -211,22 +208,6 @@ def load_custom_css():
         color: #2d3748;
     }
     
-    .dialog-meta {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-    }
-    
-    .meta-badge {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
     
     /* 消息样式 */
     .message {
@@ -463,10 +444,6 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
     st.markdown(f"""
     <div class="dialog-header">
         <div class="dialog-title">Dialog #{dialog_index + 1}</div>
-        <div class="dialog-meta">
-            <div class="meta-badge">Reward: {reward:.2f}</div>
-            <div class="meta-badge">{len(filtered_messages)} Messages</div>
-        </div>
     </div>
     """, unsafe_allow_html=True)
     
