@@ -145,11 +145,12 @@ def load_custom_css():
     /* 选择框样式 - 高级方框格式 */
     .stSelectbox {
         margin-bottom: 1.5rem;
+        border: 2px solid red !important; /* 调试：标记选择框容器 */
     }
     
     .stSelectbox > div > div {
         background: linear-gradient(135deg, #667eea, #764ba2);
-        border: none;
+        border: 2px solid blue !important; /* 调试：标记选择框主体 */
         border-radius: 20px;
         padding: 0.8rem 1.2rem;
         font-size: 0.9rem;
@@ -158,8 +159,33 @@ def load_custom_css():
         letter-spacing: 0.05em;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        color: white;
+        color: white !important; /* 强制白色文字 */
         backdrop-filter: blur(10px);
+    }
+    
+    /* 调试：标记所有选择框内部元素 */
+    .stSelectbox > div > div > div {
+        border: 1px solid green !important; /* 调试：标记内部div */
+        background: transparent !important;
+        color: white !important;
+    }
+    
+    .stSelectbox > div > div > div[data-baseweb="select"] {
+        border: 1px solid yellow !important; /* 调试：标记select元素 */
+        background: transparent !important;
+        color: white !important;
+    }
+    
+    .stSelectbox > div > div > div[data-baseweb="select"] > div {
+        border: 1px solid orange !important; /* 调试：标记select内部div */
+        background: transparent !important;
+        color: white !important;
+    }
+    
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
+        border: 1px solid purple !important; /* 调试：标记最深层div */
+        background: transparent !important;
+        color: white !important;
     }
     
     /* 移除选择框内部的白色背景 */
@@ -573,16 +599,16 @@ def main():
         """, unsafe_allow_html=True)
     
     # 数据集选择
-    #  <div class="dialog-meta">
-    #         <div class="meta-badge">Reward: {reward:.2f}</div>
-    #         <div class="meta-badge">{len(filtered_messages)} Messages</div>
-    #     </div>
     with main_container:
+        st.write("🔍 [调试] 开始创建数据集选择框")
         col1, col2 = st.columns([1, 3])
         with col1:
+            st.write("🔍 [调试] 在col1中创建选择框")
             # 使用placeholder确保选择框正确显示
             dataset_placeholder = st.empty()
+            st.write("🔍 [调试] 创建了dataset_placeholder")
             with dataset_placeholder.container():
+                st.write("🔍 [调试] 在placeholder容器中")
                 dataset = st.selectbox(
                     "Select Dataset",
                     ["Inspired", "Redial"],
@@ -590,24 +616,35 @@ def main():
                     key="dataset_selector",
                     label_visibility="visible"
                 )
+                st.write(f"🔍 [调试] 选择框创建完成，当前值: {dataset}")
             # 更新session state
             if dataset != st.session_state.dataset:
+                st.write(f"🔍 [调试] 数据集改变: {st.session_state.dataset} -> {dataset}")
                 st.session_state.dataset = dataset
                 st.session_state.selected_dialog = 0  # 重置对话选择
+            else:
+                st.write(f"🔍 [调试] 数据集未改变，保持: {dataset}")
     
     # 加载数据
     dialogs = load_dialog_data(dataset)
     
     # 对话选择
     with main_container:
+        st.write(f"🔍 [调试] 开始创建对话选择框，数据量: {len(dialogs) if dialogs else 0}")
         if dialogs:
+            st.write("🔍 [调试] 有对话数据，开始创建选择框")
             # 确保selected_dialog在有效范围内
             if st.session_state.selected_dialog >= len(dialogs):
+                st.write(f"🔍 [调试] 重置selected_dialog: {st.session_state.selected_dialog} -> 0")
                 st.session_state.selected_dialog = 0
             
+            st.write(f"🔍 [调试] 当前selected_dialog: {st.session_state.selected_dialog}")
             # 使用placeholder确保选择框正确显示
             dialog_placeholder = st.empty()
+            st.write("🔍 [调试] 创建了dialog_placeholder")
             with dialog_placeholder.container():
+                st.write("🔍 [调试] 在dialog placeholder容器中")
+                st.write(f"🔍 [调试] 准备创建选择框，选项数量: {len(dialogs)}")
                 selected_dialog = st.selectbox(
                     "Select Dialog",
                     range(len(dialogs)),
@@ -616,9 +653,12 @@ def main():
                     key="dialog_selector",
                     label_visibility="visible"
                 )
+                st.write(f"🔍 [调试] 对话选择框创建完成，当前值: {selected_dialog}")
             # 更新session state
+            st.write(f"🔍 [调试] 更新session state: {st.session_state.selected_dialog} -> {selected_dialog}")
             st.session_state.selected_dialog = selected_dialog
         else:
+            st.write("🔍 [调试] 没有对话数据，设置默认值")
             selected_dialog = 0
             st.session_state.selected_dialog = 0
             st.info("No dialogs found in the selected dataset.")
