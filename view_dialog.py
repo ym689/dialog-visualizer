@@ -28,14 +28,9 @@ def load_custom_css():
         box-sizing: border-box;
     }
     
-    /* 强制移除所有顶部空白 */
-    .stApp, .stApp > div, .stApp > div > div, .stApp > div > div > div {
-        padding-top: 0 !important;
-        margin-top: 0 !important;
-    }
-    
+    /* 彻底重置 Streamlit 默认布局 */
     .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         min-height: 100vh;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -53,35 +48,59 @@ def load_custom_css():
         display: none;
     }
     
-    /* 隐藏Streamlit默认的空白区域 */
-    .stApp > div[data-testid="stAppViewContainer"] {
-        padding-top: 0 !important;
-    }
-    
-    .stApp > div[data-testid="stAppViewContainer"] > div {
-        padding-top: 0 !important;
-    }
-    
-    /* 移除所有Streamlit默认边距 */
-    .stApp > div[data-testid="stAppViewContainer"] > div > div {
-        padding-top: 0 !important;
-        margin-top: 0 !important;
-    }
-    
-    /* 移除Streamlit默认的block-container样式 */
-    .stApp > div[data-testid="stAppViewContainer"] > div > div > div {
-        padding-top: 0 !important;
-        margin-top: 0 !important;
-    }
-    
-    /* 强制移除所有默认边距 */
-    .stApp > div[data-testid="stAppViewContainer"] > div > div > div > div {
-        padding-top: 0 !important;
-        margin-top: 0 !important;
-    }
-    
-    /* 移除Streamlit默认的空白区域 */
+    /* 强制移除所有顶部填充 */
+    .stApp > div[data-testid="stAppViewContainer"],
+    .stApp > div[data-testid="stAppViewContainer"] > div,
+    .stApp > div[data-testid="stAppViewContainer"] > div > div,
+    .stApp > div[data-testid="stAppViewContainer"] > div > div > div,
+    .stApp > div[data-testid="stAppViewContainer"] > div > div > div > div,
     .stApp > div[data-testid="stAppViewContainer"] > div > div > div > div > div {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+    
+    /* 移除 block-container 的所有默认边距 */
+    .block-container {
+        padding: 0rem 1rem 0rem 1rem !important;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    /* 确保垂直块没有额外填充 */
+    div[data-testid="stVerticalBlock"] {
+        gap: 0rem;
+    }
+    
+    /* 修复选择框的布局 */
+    .stSelectbox {
+        margin-top: 0 !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* 确保列布局紧凑 */
+    .stColumn {
+        margin-bottom: 0 !important;
+    }
+    
+    /* 强制移除所有可能的空白源 */
+    .stApp > div[data-testid="stAppViewContainer"] > div > div > div > div > div > div {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+    
+    /* 移除所有Streamlit默认的空白区域 */
+    .stApp > div[data-testid="stAppViewContainer"] > div > div > div > div > div > div > div {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+    
+    /* 确保所有元素都从顶部开始 */
+    .stApp > div[data-testid="stAppViewContainer"] * {
+        margin-top: 0 !important;
+    }
+    
+    /* 特别针对第一个元素 */
+    .stApp > div[data-testid="stAppViewContainer"] > div > div > div > div > div > div:first-child {
         padding-top: 0 !important;
         margin-top: 0 !important;
     }
@@ -90,14 +109,14 @@ def load_custom_css():
     .main-container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0.5rem;
+        padding: 0;
         min-height: 100vh;
     }
     
     /* 头部区域 */
     .header {
         text-align: center;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
         padding: 0.5rem 0;
     }
     
