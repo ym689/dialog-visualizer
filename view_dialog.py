@@ -163,6 +163,72 @@ def load_custom_css():
         backdrop-filter: blur(10px);
     }
     
+    /* 强制覆盖Streamlit的所有默认样式 */
+    .stSelectbox > div > div * {
+        color: white !important;
+        background: transparent !important;
+    }
+    
+    /* 特别针对Streamlit的选择框内容 */
+    .stSelectbox > div > div > div[data-baseweb="select"] {
+        color: white !important;
+        background: transparent !important;
+    }
+    
+    .stSelectbox > div > div > div[data-baseweb="select"] * {
+        color: white !important;
+        background: transparent !important;
+    }
+    
+    /* 针对可能的文本内容 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div {
+        color: white !important;
+        background: transparent !important;
+    }
+    
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
+        color: white !important;
+        background: transparent !important;
+    }
+    
+    /* 使用更通用的选择器 */
+    .stSelectbox [data-baseweb="select"] {
+        color: white !important;
+    }
+    
+    .stSelectbox [data-baseweb="select"] * {
+        color: white !important;
+    }
+    
+    /* 使用伪元素强制显示文字内容 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div::before {
+        content: attr(data-value) !important;
+        color: white !important;
+        background: transparent !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 0 1rem !important;
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+    }
+    
+    /* 隐藏原始内容，显示伪元素 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
+        position: relative !important;
+        color: transparent !important;
+    }
+    
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > * {
+        color: transparent !important;
+    }
+    
     /* 调试：标记所有选择框内部元素 */
     .stSelectbox > div > div > div {
         border: 1px solid green !important; /* 调试：标记内部div */
