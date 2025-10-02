@@ -238,56 +238,28 @@ def load_custom_css():
     }
     .stSelectbox [data-baseweb="select"] div[role="combobox"] > div {
         background: transparent !important;
+        color: #ffffff !important;
     }
     /* 选中值层（无论 aria-hidden 状态）强制可见且为白色 */
     .stSelectbox [data-baseweb="select"] [aria-hidden="true"],
-    .stSelectbox [data-baseweb="select"] [aria-hidden="false"] {
+    .stSelectbox [data-baseweb="select"] [aria-hidden="false"],
+    .stSelectbox [data-baseweb="select"] [role="option"],
+    .stSelectbox [data-baseweb="select"] [data-baseweb="select-value"] {
         display: block !important;
         opacity: 1 !important;
         visibility: visible !important;
         color: #ffffff !important;
         -webkit-text-fill-color: #ffffff !important;
         text-shadow: 0 1px 2px rgba(0,0,0,0.35) !important;
-    }
-    /* 选中值可视化覆盖文本（不影响交互） */
-    .select-overlay-text {
-        position: relative;
-        top: -44px; /* 精确覆盖选择框高度 */
-        left: 0;
-        width: 100%;
-        height: 44px; /* 与选择框高度一致 */
-        line-height: 44px; /* 垂直居中文本 */
-        text-align: center; /* 水平居中 */
-        overflow: visible;
-        pointer-events: none; /* 不阻挡点击 */
-        z-index: 5;
-        color: #ffffff;
-        -webkit-text-fill-color: #ffffff;
-        font-weight: 800;
-        letter-spacing: 0.03em;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+        mix-blend-mode: normal !important;
     }
     @media (max-width: 768px) {
         .stSelectbox > div > div { min-height: 40px !important; }
-        .select-overlay-text { top: -40px; height: 40px; line-height: 40px; }
     }
-    /* 为选中值区域添加对比叠加，不影响交互 */
+    /* 将值容器置顶，避免被任何叠加层遮挡 */
     .stSelectbox [data-baseweb="select"] div[role="combobox"] {
         position: relative !important;
-    }
-    .stSelectbox [data-baseweb="select"] div[role="combobox"]::before {
-        content: '';
-        position: absolute;
-        inset: 4px 6px; /* 留一点内边距，避免覆盖边框圆角 */
-        background: rgba(0, 0, 0, 0.18);
-        border-radius: 10px;
-        pointer-events: none; /* 不阻挡点击 */
-        z-index: 1;
-    }
-    /* 确保文本在叠加层之上 */
-    .stSelectbox [data-baseweb="select"] div[role="combobox"] > * {
-        position: relative;
-        z-index: 2;
+        z-index: 5 !important;
     }
     
     
@@ -642,11 +614,6 @@ def main():
             if dataset != st.session_state.dataset:
                 st.session_state.dataset = dataset
                 st.session_state.selected_dialog = 0
-            # 覆盖文本（显示当前选中数据集）
-            st.markdown(
-                f"<div class='select-overlay-text'>{st.session_state.dataset}</div>",
-                unsafe_allow_html=True
-            )
 
         dialogs = load_dialog_data(st.session_state.dataset)
 
@@ -663,11 +630,6 @@ def main():
                     label_visibility="visible"
                 )
                 st.session_state.selected_dialog = selected_dialog
-                # 覆盖文本（显示当前选中对话）
-                st.markdown(
-                    f"<div class='select-overlay-text'>Dialog {st.session_state.selected_dialog + 1}</div>",
-                    unsafe_allow_html=True
-                )
             else:
                 st.session_state.selected_dialog = 0
                 st.info("No dialogs found in the selected dataset.")
