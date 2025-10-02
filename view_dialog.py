@@ -148,12 +148,12 @@ def load_custom_css():
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
     }
     .stSelectbox > div > div {
-        background: linear-gradient(135deg, rgba(102,126,234,0.95), rgba(118,75,162,0.95)) !important;
+        background: rgba(255, 255, 255, 0.96) !important; /* 实心浅色底，确保文字对比 */
         border: 1px solid rgba(255, 255, 255, 0.35) !important;
         border-radius: 14px !important;
         padding: 0.6rem 0.85rem !important;
-        color: #ffffff !important;
-        min-height: 44px !important; /* 统一高度，便于垂直居中覆盖文本 */
+        color: #2d3748 !important; /* 深灰文本 */
+        min-height: 44px !important;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18) !important;
         transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease !important;
     }
@@ -174,8 +174,8 @@ def load_custom_css():
         color: #ffffff !important;
     }
     .stSelectbox svg {
-        fill: #ffffff !important;
-        color: #ffffff !important;
+        fill: #5b6bd5 !important; /* 箭头采用与背景协调的颜色 */
+        color: #5b6bd5 !important;
     }
     /* 下拉菜单 */
     .stSelectbox [data-baseweb="select"] > div[role="listbox"] {
@@ -196,22 +196,23 @@ def load_custom_css():
     .stSelectbox [data-baseweb="select"] > div[role="listbox"] > div:hover {
         background: rgba(102, 126, 234, 0.10) !important;
     }
-    /* 确保选中值与输入文字可见（BaseWeb结构覆盖）*/
+    /* 重置内部文字颜色为继承，避免覆盖导致不可见 */
     .stSelectbox [data-baseweb="select"] * {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
+        color: inherit !important;
+        -webkit-text-fill-color: inherit !important;
         opacity: 1 !important;
+        mix-blend-mode: normal !important;
+        text-shadow: none !important;
     }
     .stSelectbox [data-baseweb="select"] div[role="combobox"],
     .stSelectbox [data-baseweb="select"] div[aria-hidden="true"],
     .stSelectbox [data-baseweb="select"] span,
     .stSelectbox [data-baseweb="select"] div {
-        color: #ffffff !important;
+        color: inherit !important;
     }
     .stSelectbox [data-baseweb="select"] div[role="combobox"] * {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.35) !important;
+        color: inherit !important;
+        -webkit-text-fill-color: inherit !important;
         opacity: 1 !important;
         mix-blend-mode: normal !important;
     }
@@ -219,7 +220,7 @@ def load_custom_css():
         caret-color: #ffffff !important;
     }
     .stSelectbox input::placeholder {
-        color: rgba(255,255,255,0.85) !important;
+        color: rgba(45,55,72,0.6) !important;
     }
     /* 强制值容器完全可见，避免透明与裁剪 */
     .stSelectbox [data-baseweb="select"] div[role="combobox"] {
@@ -244,20 +245,19 @@ def load_custom_css():
         background: transparent !important;
         color: #ffffff !important;
     }
-    /* 隐藏测量层，确保只显示真实值层 */
+    /* 恢复测量层显示（保持默认行为），仅确保可见层正常显示 */
     .stSelectbox [data-baseweb="select"] [aria-hidden="true"] {
-        display: none !important;
+        display: unset !important;
     }
-    /* 仅对可见值层与选项强制可见与白色 */
+    /* 保证可见层正常显示 */
     .stSelectbox [data-baseweb="select"] [aria-hidden="false"],
     .stSelectbox [data-baseweb="select"] [role="option"],
     .stSelectbox [data-baseweb="select"] [data-baseweb="select-value"] {
         display: block !important;
         opacity: 1 !important;
         visibility: visible !important;
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.35) !important;
+        color: inherit !important;
+        -webkit-text-fill-color: inherit !important;
         mix-blend-mode: normal !important;
     }
     @media (max-width: 768px) {
