@@ -200,12 +200,23 @@ def load_custom_css():
     .stSelectbox [data-baseweb="select"] * {
         color: #ffffff !important;
         -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
     }
     .stSelectbox [data-baseweb="select"] div[role="combobox"],
     .stSelectbox [data-baseweb="select"] div[aria-hidden="true"],
     .stSelectbox [data-baseweb="select"] span,
     .stSelectbox [data-baseweb="select"] div {
         color: #ffffff !important;
+    }
+    .stSelectbox [data-baseweb="select"] div[role="combobox"] * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.35) !important;
+        opacity: 1 !important;
+        mix-blend-mode: normal !important;
+    }
+    .stSelectbox [data-baseweb="select"] input {
+        caret-color: #ffffff !important;
     }
     .stSelectbox input::placeholder {
         color: rgba(255,255,255,0.85) !important;
