@@ -113,7 +113,7 @@ def load_custom_css():
     
     /* 头部区域 */
     .header {
-        text-align: center;
+            text-align: center;
         margin-bottom: 1rem;
         padding: 0.5rem 0;
     }
@@ -143,11 +143,11 @@ def load_custom_css():
     }
     
     /* 选择框样式 - 高级方框格式 */
-    .stSelectbox {
+        .stSelectbox {
         margin-bottom: 1.5rem;
-    }
-    
-    .stSelectbox > div > div {
+        }
+        
+        .stSelectbox > div > div {
         background: linear-gradient(135deg, #667eea, #764ba2);
         border: none;
         border-radius: 20px;
@@ -162,7 +162,7 @@ def load_custom_css():
         backdrop-filter: blur(10px);
     }
     
-    /* 移除选择框内部的白色背景 */
+    /* 移除选择框内部的白色背景，确保文字可见 */
     .stSelectbox > div > div > div {
         background: transparent !important;
         color: white !important;
@@ -180,8 +180,26 @@ def load_custom_css():
         color: white !important;
     }
     
-    /* 选择框占位符样式 */
+    /* 选择框占位符和选中值样式 */
     .stSelectbox > div > div > div[data-baseweb="select"] > div > div {
+        background: transparent !important;
+        color: white !important;
+    }
+    
+    /* 确保选择框内的所有文字都是白色 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div {
+        background: transparent !important;
+        color: white !important;
+    }
+    
+    /* 选择框输入区域 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div > div {
+        background: transparent !important;
+        color: white !important;
+    }
+    
+    /* 选择框文字内容 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div > div > div {
         background: transparent !important;
         color: white !important;
     }
@@ -189,7 +207,7 @@ def load_custom_css():
     .stSelectbox > div > div:hover {
         background: linear-gradient(135deg, #5a67d8, #6b46c1);
         box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        transform: translateY(-2px);
+            transform: translateY(-2px);
     }
     
     .stSelectbox > div > div:focus-within {
@@ -235,6 +253,23 @@ def load_custom_css():
         color: white !important;
     }
     
+    /* 通用选择框文字颜色 - 确保所有文字都是白色 */
+    .stSelectbox * {
+        color: white !important;
+    }
+    
+    /* 特别针对选择框的值显示 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div > div > div > div {
+        color: white !important;
+        background: transparent !important;
+    }
+    
+    /* 选择框占位符文字 */
+    .stSelectbox > div > div > div[data-baseweb="select"] > div > div > div > div > div > div > div {
+        color: white !important;
+        background: transparent !important;
+    }
+    
     /* 对话容器 */
     .dialog-container {
         background: rgba(255,255,255,0.95);
@@ -262,9 +297,9 @@ def load_custom_css():
     }
     
     .dialog-meta {
-        display: flex;
+            display: flex;
         gap: 1rem;
-        align-items: center;
+            align-items: center;
     }
     
     .meta-badge {
@@ -295,7 +330,7 @@ def load_custom_css():
         align-items: center;
         justify-content: center;
         font-size: 1.5rem;
-        font-weight: 600;
+            font-weight: 600;
         flex-shrink: 0;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
@@ -370,7 +405,7 @@ def load_custom_css():
     
     .empty-state h3 {
         font-size: 1.5rem;
-        font-weight: 600;
+            font-weight: 600;
         margin-bottom: 0.5rem;
         color: #4a5568;
     }
@@ -462,10 +497,10 @@ def load_custom_css():
     
     ::-webkit-scrollbar-thumb:hover {
         background: linear-gradient(135deg, #5a67d8, #6b46c1);
-        }
+            }
         </style>
     """, unsafe_allow_html=True)
-
+    
 def load_dialog_data(dataset: str) -> List[Dict[str, Any]]:
     """加载指定数据集的对话数据"""
     file_path = f"data/{dataset}.txt"
@@ -536,8 +571,8 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             role_name = 'Assistant'
         else:
             # 跳过其他角色类型
-            continue
-        
+                    continue
+
         # 渲染消息
         st.markdown(f"""
         <div class="message">
@@ -599,7 +634,7 @@ def main():
     
     # 对话选择
     with main_container:
-        if dialogs:
+                        if dialogs:
             # 确保selected_dialog在有效范围内
             if st.session_state.selected_dialog >= len(dialogs):
                 st.session_state.selected_dialog = 0
@@ -609,15 +644,15 @@ def main():
             with dialog_placeholder.container():
                 selected_dialog = st.selectbox(
                     "Select Dialog",
-                    range(len(dialogs)),
-                    format_func=lambda x: f"Dialog {x+1}",
+                                range(len(dialogs)),
+                                format_func=lambda x: f"Dialog {x+1}",
                     index=st.session_state.selected_dialog,
                     key="dialog_selector",
                     label_visibility="visible"
-                )
+                            )
             # 更新session state
             st.session_state.selected_dialog = selected_dialog
-        else:
+                    else:
             selected_dialog = 0
             st.session_state.selected_dialog = 0
             st.info("No dialogs found in the selected dataset.")
@@ -626,7 +661,7 @@ def main():
     with main_container:
         if dialogs and selected_dialog < len(dialogs):
             display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
-        else:
+                        else:
             st.markdown("""
             <div class="empty-state">
                 <div class="empty-state-icon">💬</div>
