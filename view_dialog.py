@@ -522,6 +522,7 @@ def main():
             dataset = st.selectbox(
                 "Select Dataset",
                 ["Inspired", "Redial"],
+                index=0,  # 默认选择第一个选项
                 key="dataset_selector",
                 label_visibility="visible"
             )
@@ -536,6 +537,7 @@ def main():
                 "Select Dialog",
                 range(len(dialogs)),
                 format_func=lambda x: f"Dialog {x+1}",
+                index=0,  # 默认选择第一个对话
                 key="dialog_selector",
                 label_visibility="visible"
             )
