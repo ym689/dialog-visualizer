@@ -148,14 +148,13 @@ def load_custom_css():
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
     }
     .stSelectbox > div > div {
-        background: linear-gradient(135deg, rgba(102,126,234,0.85), rgba(118,75,162,0.85)) !important;
+        background: linear-gradient(135deg, rgba(102,126,234,0.95), rgba(118,75,162,0.95)) !important;
         border: 1px solid rgba(255, 255, 255, 0.35) !important;
         border-radius: 14px !important;
         padding: 0.6rem 0.85rem !important;
         color: #ffffff !important;
         min-height: 44px !important; /* 统一高度，便于垂直居中覆盖文本 */
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18) !important;
-        backdrop-filter: blur(8px) !important;
         transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease !important;
     }
     .stSelectbox > div > div:hover {
@@ -228,6 +227,11 @@ def load_custom_css():
         visibility: visible !important;
         position: relative !important;
         z-index: 2 !important;
+        mix-blend-mode: normal !important;
+        filter: none !important;
+        -webkit-filter: none !important;
+        transform: translateZ(0) !important; /* 强制独立合成层 */
+        will-change: transform !important;
     }
     .stSelectbox [data-baseweb="select"] div[role="combobox"] * {
         opacity: 1 !important;
