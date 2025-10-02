@@ -401,48 +401,79 @@ def load_custom_css():
 
 def load_dialog_data(dataset: str) -> List[Dict[str, Any]]:
     """加载指定数据集的对话数据"""
+    st.write(f"📂 [load_dialog_data开始] 加载数据集: {dataset}")
+    
     file_path = f"data/{dataset}.txt"
     dialogs = []
     
+    st.write(f"🔍 [load_dialog_data-1] 检查文件: {file_path}")
     if not os.path.exists(file_path):
         st.error(f"Data file {file_path} does not exist")
+        st.write("❌ [load_dialog_data结束] 文件不存在")
         return dialogs
     
+    st.write("✅ [load_dialog_data-1] 文件存在")
+    
     try:
+        st.write("📖 [load_dialog_data-2] 开始读取文件内容")
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
-            # 按空行分割，提取所有有效的对话
-            # 每个对话是一个多行JSON对象，用空行分隔
-            samples = [s.strip() for s in content.split('\n\n') if s.strip()]
+        
+        st.write(f"✅ [load_dialog_data-2] 文件读取完成，内容长度: {len(content)} 字符")
+        
+        # 按空行分割，提取所有有效的对话
+        st.write("✂️ [load_dialog_data-3] 按空行分割内容")
+        samples = [s.strip() for s in content.split('\n\n') if s.strip()]
+        st.write(f"✅ [load_dialog_data-3] 分割完成，找到 {len(samples)} 个样本")
+        
+        st.write("🔄 [load_dialog_data-4] 开始解析每个样本")
+        for i, sample in enumerate(samples):
+            st.write(f"🔍 [load_dialog_data-4-{i+1}] 解析第 {i+1} 个样本")
             
-            for sample in samples:
+            try:
+                # 尝试解析JSON
+                dialog = json.loads(sample)
+                if isinstance(dialog, dict) and 'full_state' in dialog:
+                    dialogs.append(dialog)
+                    st.write(f"✅ [load_dialog_data-4-{i+1}] JSON解析成功")
+                else:
+                    st.write(f"⚠️ [load_dialog_data-4-{i+1}] 样本格式不正确，跳过")
+            except json.JSONDecodeError:
+                # 如果JSON解析失败，尝试eval（兼容旧格式）
                 try:
-                    # 尝试解析JSON
-                    dialog = json.loads(sample)
+                    dialog = eval(sample)
                     if isinstance(dialog, dict) and 'full_state' in dialog:
                         dialogs.append(dialog)
-                except json.JSONDecodeError:
-                    # 如果JSON解析失败，尝试eval（兼容旧格式）
-                    try:
-                        dialog = eval(sample)
-                        if isinstance(dialog, dict) and 'full_state' in dialog:
-                            dialogs.append(dialog)
-                    except:
-                        continue
+                        st.write(f"✅ [load_dialog_data-4-{i+1}] eval解析成功")
+                    else:
+                        st.write(f"⚠️ [load_dialog_data-4-{i+1}] eval结果格式不正确，跳过")
+                except:
+                    st.write(f"❌ [load_dialog_data-4-{i+1}] 解析失败，跳过")
+                    continue
+        
+        st.write(f"✅ [load_dialog_data-4] 解析完成，成功加载 {len(dialogs)} 个对话")
+        
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
+        st.write(f"❌ [load_dialog_data结束] 发生错误: {str(e)}")
     
+    st.write(f"✅ [load_dialog_data结束] 数据加载完成，返回 {len(dialogs)} 个对话")
     return dialogs
 
 def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int):
     """显示单个对话"""
+    st.write(f"🔍 [display_dialog开始] 显示对话 {dialog_index + 1}/{total_dialogs}")
+    
     full_state = dialog.get('full_state', [])
     reward = dialog.get('reward', 0)
     
     # 过滤掉critic消息，只保留Seeker和Recommender
+    st.write(f"🔍 [display_dialog-1] 过滤消息，原始: {len(full_state)} 条")
     filtered_messages = [msg for msg in full_state if msg.get('role', '').lower() not in ['critic']]
+    st.write(f"✅ [display_dialog-1] 过滤完成，剩余: {len(filtered_messages)} 条")
     
     # 对话头部
+    st.write("📋 [display_dialog-2] 创建对话头部")
     st.markdown(f"""
     <div class="dialog-header">
         <div class="dialog-title">Dialog #{dialog_index + 1}</div>
@@ -450,11 +481,15 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             <div class="meta-badge">Reward: {reward:.2f}</div>
             <div class="meta-badge">{len(filtered_messages)} Messages</div>
         </div>
-        </div>
+    </div>
     """, unsafe_allow_html=True)
+    st.write("✅ [display_dialog-2] 对话头部创建完成")
     
     # 显示消息
-    for message in filtered_messages:
+    st.write(f"💬 [display_dialog-3] 开始渲染 {len(filtered_messages)} 条消息")
+    for i, message in enumerate(filtered_messages):
+        st.write(f"📝 [display_dialog-3-{i+1}] 渲染第 {i+1} 条消息")
+        
         role = message.get('role', '')
         content = message.get('content', '')
         
@@ -469,6 +504,7 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             role_name = 'Assistant'
         else:
             # 跳过其他角色类型
+            st.write(f"⏭️ [display_dialog-3-{i+1}] 跳过角色: {role}")
             continue
         
         # 渲染消息
@@ -481,23 +517,33 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             </div>
         </div>
         """, unsafe_allow_html=True)
+        st.write(f"✅ [display_dialog-3-{i+1}] 第 {i+1} 条消息渲染完成")
+    
+    st.write("✅ [display_dialog结束] 对话显示完成")
 
 def main():
-    # 加载样式
+    # 模块1: 加载样式
+    st.write("🔧 [模块1开始] 加载样式")
     load_custom_css()
+    st.write("✅ [模块1结束] 样式加载完成")
     
-    # 主容器
+    # 模块2: 主容器
+    st.write("📦 [模块2开始] 创建主容器")
     st.markdown('<div class="main-container">', unsafe_allow_html=True)
+    st.write("✅ [模块2结束] 主容器创建完成")
     
-    # 头部
+    # 模块3: 头部
+    st.write("🎯 [模块3开始] 创建头部")
     st.markdown("""
     <div class="header">
         <h1>AI Dialog Showcase</h1>
         <p>Explore high-quality conversational AI interactions across different datasets and scenarios</p>
     </div>
     """, unsafe_allow_html=True)
+    st.write("✅ [模块3结束] 头部创建完成")
     
-    # 数据集选择
+    # 模块4: 数据集选择
+    st.write("📊 [模块4开始] 创建数据集选择")
     col1, col2 = st.columns([1, 3])
     with col1:
         dataset = st.selectbox(
@@ -506,11 +552,15 @@ def main():
             key="dataset_selector",
             label_visibility="visible"
         )
+    st.write("✅ [模块4结束] 数据集选择完成")
     
-    # 加载数据
+    # 模块5: 加载数据
+    st.write("📂 [模块5开始] 加载数据")
     dialogs = load_dialog_data(dataset)
+    st.write(f"✅ [模块5结束] 数据加载完成，找到 {len(dialogs)} 个对话")
     
-    # 对话选择
+    # 模块6: 对话选择
+    st.write("🎯 [模块6开始] 创建对话选择")
     if dialogs:
         selected_dialog = st.selectbox(
             "Select Dialog",
@@ -522,13 +572,18 @@ def main():
     else:
         selected_dialog = 0
         st.info("No dialogs found in the selected dataset.")
+    st.write("✅ [模块6结束] 对话选择完成")
     
-    # 对话展示区域
+    # 模块7: 对话展示区域
+    st.write("💬 [模块7开始] 创建对话展示区域")
     st.markdown('<div class="dialog-container">', unsafe_allow_html=True)
     
     if dialogs and selected_dialog < len(dialogs):
+        st.write("🎭 [模块7-1] 开始显示对话内容")
         display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
+        st.write("✅ [模块7-1] 对话内容显示完成")
     else:
+        st.write("📭 [模块7-2] 显示空状态")
         st.markdown("""
         <div class="empty-state">
             <div class="empty-state-icon">💬</div>
@@ -536,9 +591,16 @@ def main():
             <p>Please select a dataset and dialog to view the conversation.</p>
         </div>
         """, unsafe_allow_html=True)
+        st.write("✅ [模块7-2] 空状态显示完成")
     
     st.markdown('</div>', unsafe_allow_html=True)  # 对话容器结束
+    st.write("✅ [模块7结束] 对话展示区域完成")
+    
+    # 模块8: 结束容器
+    st.write("🏁 [模块8开始] 结束主容器")
     st.markdown('</div>', unsafe_allow_html=True)  # 主容器结束
+    st.write("✅ [模块8结束] 主容器结束完成")
+    st.write("🎉 [应用完成] 所有模块执行完毕")
 
 if __name__ == "__main__":
     main()
