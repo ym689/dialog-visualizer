@@ -394,70 +394,92 @@ def load_custom_css():
         color: white !important;
     }
     
-    /* 使用JavaScript强制设置文字颜色 */
+    /* 使用JavaScript强制设置文字颜色和内容 */
     </style>
     <script>
-    // 等待页面加载完成后执行
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('开始调试选择框文字颜色问题');
+    // 强制显示选择框文字的函数
+    function forceSelectboxText() {
+        console.log('开始强制设置选择框文字');
         
         // 查找所有选择框
         const selectboxes = document.querySelectorAll('.stSelectbox');
         console.log('找到选择框数量:', selectboxes.length);
         
         selectboxes.forEach((selectbox, index) => {
-            console.log(`选择框 ${index + 1}:`, selectbox);
+            console.log(`处理选择框 ${index + 1}`);
             
-            // 查找所有可能包含文字的元素
-            const textElements = selectbox.querySelectorAll('*');
-            console.log(`选择框 ${index + 1} 内部元素数量:`, textElements.length);
-            
-            textElements.forEach((element, elemIndex) => {
-                if (element.textContent && element.textContent.trim()) {
-                    console.log(`元素 ${elemIndex}:`, element, '文字内容:', element.textContent);
+            // 查找选择框的值
+            const selectElement = selectbox.querySelector('[data-baseweb="select"]');
+            if (selectElement) {
+                console.log('找到select元素:', selectElement);
+                
+                // 获取当前选中的值
+                const selectedValue = selectElement.getAttribute('aria-label') || 
+                                   selectElement.textContent || 
+                                   selectElement.innerText;
+                console.log('选中值:', selectedValue);
+                
+                // 查找显示区域
+                const displayArea = selectElement.querySelector('div[role="combobox"]') || 
+                                  selectElement.querySelector('div') ||
+                                  selectElement;
+                
+                if (displayArea) {
+                    console.log('找到显示区域:', displayArea);
+                    
+                    // 强制设置文字颜色和内容
+                    displayArea.style.color = 'white';
+                    displayArea.style.background = 'transparent';
+                    displayArea.style.opacity = '1';
+                    displayArea.style.visibility = 'visible';
+                    
+                    // 如果显示区域有子元素，也设置它们
+                    const children = displayArea.querySelectorAll('*');
+                    children.forEach(child => {
+                        child.style.color = 'white';
+                        child.style.background = 'transparent';
+                        child.style.opacity = '1';
+                        child.style.visibility = 'visible';
+                    });
+                    
+                    // 尝试直接设置文字内容
+                    if (selectedValue && selectedValue.trim()) {
+                        displayArea.textContent = selectedValue;
+                        displayArea.innerHTML = selectedValue;
+                    }
+                }
+                
+                // 查找所有可能的文字元素
+                const allElements = selectElement.querySelectorAll('*');
+                allElements.forEach(element => {
                     element.style.color = 'white';
                     element.style.background = 'transparent';
-                }
-            });
-            
-            // 特别针对Streamlit的选择框
-            const selectElements = selectbox.querySelectorAll('[data-baseweb="select"]');
-            selectElements.forEach(select => {
-                console.log('找到select元素:', select);
-                const allChildren = select.querySelectorAll('*');
-                allChildren.forEach(child => {
-                    child.style.color = 'white';
-                    child.style.background = 'transparent';
-                    if (child.textContent) {
-                        console.log('设置文字颜色:', child.textContent);
-                    }
+                    element.style.opacity = '1';
+                    element.style.visibility = 'visible';
                 });
-            });
+            }
         });
+    }
+    
+    // 等待页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('页面加载完成，开始设置选择框文字');
+        forceSelectboxText();
     });
     
     // 监听Streamlit的重新渲染
     const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'childList') {
-                const selectboxes = document.querySelectorAll('.stSelectbox');
-                selectboxes.forEach(selectbox => {
-                    const textElements = selectbox.querySelectorAll('*');
-                    textElements.forEach(element => {
-                        if (element.textContent && element.textContent.trim()) {
-                            element.style.color = 'white';
-                            element.style.background = 'transparent';
-                        }
-                    });
-                });
-            }
-        });
+        console.log('检测到DOM变化，重新设置选择框文字');
+        setTimeout(forceSelectboxText, 100); // 延迟100ms确保DOM更新完成
     });
     
     observer.observe(document.body, {
         childList: true,
         subtree: true
     });
+    
+    // 定期检查并设置文字
+    setInterval(forceSelectboxText, 1000);
     </script>
     <style>
     
