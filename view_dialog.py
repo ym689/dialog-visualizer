@@ -221,6 +221,25 @@ def load_custom_css():
     .stSelectbox input::placeholder {
         color: rgba(255,255,255,0.85) !important;
     }
+    /* 移除用于测量的隐藏节点，避免遮挡可见文本 */
+    .stSelectbox [data-baseweb="select"] div[aria-hidden="true"] {
+        display: none !important;
+    }
+    /* 强制值容器完全可见，避免透明与裁剪 */
+    .stSelectbox [data-baseweb="select"] div[role="combobox"] {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    .stSelectbox [data-baseweb="select"] div[role="combobox"] * {
+        opacity: 1 !important;
+        visibility: visible !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+    }
+    .stSelectbox [data-baseweb="select"] div[role="combobox"] > div {
+        background: transparent !important;
+    }
     
     
     /* 对话容器 */
