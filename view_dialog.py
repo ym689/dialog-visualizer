@@ -467,7 +467,7 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             role_class = 'assistant'
             avatar = '🤖'
             role_name = 'Assistant'
-            else:
+        else:
             # 跳过其他角色类型
             continue
         
