@@ -512,8 +512,8 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
     # 对话头部
     st.markdown(f"""
     <div class="dialog-header">
-        <div class="dialog-title">Dataset: {dataset}</div>
-        <div class="dialog-title">Dialog {dialog_index + 1}</div>
+        <div class="dialog-title">Dataset - {dataset}</div>
+        <div class="dialog-title">Dialog - {dialog_index + 1}</div>
 
     </div>
     """, unsafe_allow_html=True)
