@@ -248,6 +248,24 @@ def load_custom_css():
         -webkit-text-fill-color: #ffffff !important;
         text-shadow: 0 1px 2px rgba(0,0,0,0.35) !important;
     }
+    /* 为选中值区域添加对比叠加，不影响交互 */
+    .stSelectbox [data-baseweb="select"] div[role="combobox"] {
+        position: relative !important;
+    }
+    .stSelectbox [data-baseweb="select"] div[role="combobox"]::before {
+        content: '';
+        position: absolute;
+        inset: 4px 6px; /* 留一点内边距，避免覆盖边框圆角 */
+        background: rgba(0, 0, 0, 0.18);
+        border-radius: 10px;
+        pointer-events: none; /* 不阻挡点击 */
+        z-index: 1;
+    }
+    /* 确保文本在叠加层之上 */
+    .stSelectbox [data-baseweb="select"] div[role="combobox"] > * {
+        position: relative;
+        z-index: 2;
+    }
     
     
     /* 对话容器 */
