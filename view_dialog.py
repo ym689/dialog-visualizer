@@ -470,94 +470,134 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
     st.write("🎉 All messages rendered successfully!")
 
 def main():
-    # 添加页面加载调试信息
-    st.write("🚀 App started successfully!")
+    try:
+        # 添加页面加载调试信息
+        st.write("🚀 App started successfully!")
+        
+        # 加载样式
+        try:
+            load_custom_css()
+            st.write("✅ CSS loaded successfully!")
+        except Exception as e:
+            st.error(f"❌ CSS loading failed: {str(e)}")
+            return
+        
+        # 主容器
+        try:
+            st.markdown('<div class="main-container">', unsafe_allow_html=True)
+            st.write("✅ Main container created!")
+        except Exception as e:
+            st.error(f"❌ Main container creation failed: {str(e)}")
+            return
+        
+        # 头部
+        try:
+            st.markdown("""
+            <div class="header">
+                <h1>AI Dialog Showcase</h1>
+                <p>Explore high-quality conversational AI interactions across different datasets and scenarios</p>
+            </div>
+            """, unsafe_allow_html=True)
+            st.write("✅ Header rendered!")
+        except Exception as e:
+            st.error(f"❌ Header rendering failed: {str(e)}")
+            return
     
-    # 加载样式
-    load_custom_css()
-    st.write("✅ CSS loaded successfully!")
+        # 控制面板
+        try:
+            st.write("🔧 Creating control panel...")
+            st.markdown('<div class="control-panel">', unsafe_allow_html=True)
+            
+            col1, col2 = st.columns(2)
+            st.write("✅ Columns created!")
+            
+            with col1:
+                st.write("📊 Creating dataset selector...")
+                st.markdown('<div class="control-item">', unsafe_allow_html=True)
+                st.markdown('<label>Dataset</label>', unsafe_allow_html=True)
+                dataset = st.selectbox(
+                    "Select Dataset",
+                    ["Inspired", "Redial"],
+                    key="dataset_selector",
+                    label_visibility="collapsed"
+                )
+                st.write(f"✅ Dataset selected: {dataset}")
+                st.markdown('</div>', unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)  # 控制面板结束
+            st.write("✅ Control panel completed!")
+        except Exception as e:
+            st.error(f"❌ Control panel creation failed: {str(e)}")
+            return
     
-    # 主容器
-    st.markdown('<div class="main-container">', unsafe_allow_html=True)
-    st.write("✅ Main container created!")
-    
-    # 头部
-    st.markdown("""
-    <div class="header">
-        <h1>AI Dialog Showcase</h1>
-        <p>Explore high-quality conversational AI interactions across different datasets and scenarios</p>
-    </div>
-    """, unsafe_allow_html=True)
-    st.write("✅ Header rendered!")
-    
-    # 控制面板
-    st.write("🔧 Creating control panel...")
-    st.markdown('<div class="control-panel">', unsafe_allow_html=True)
-    
-    col1, col2 = st.columns(2)
-    st.write("✅ Columns created!")
-    
-    with col1:
-        st.write("📊 Creating dataset selector...")
-        st.markdown('<div class="control-item">', unsafe_allow_html=True)
-        st.markdown('<label>Dataset</label>', unsafe_allow_html=True)
-        dataset = st.selectbox(
-            "Select Dataset",
-            ["Inspired", "Redial"],
-            key="dataset_selector",
-            label_visibility="collapsed"
-        )
-        st.write(f"✅ Dataset selected: {dataset}")
-        st.markdown('</div>', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)  # 控制面板结束
-    st.write("✅ Control panel completed!")
-    
-    # 加载数据
-    st.write("📂 Loading dialog data...")
-    dialogs = load_dialog_data(dataset)
-    
-    # 调试信息
-    st.write(f"🔍 Debug: Dataset = {dataset}, Found {len(dialogs)} dialogs")
-    
-    # 对话选择
-    st.write("🎯 Creating dialog selector...")
-    if dialogs:
-        selected_dialog = st.selectbox(
-            "Select Dialog",
-            range(len(dialogs)),
-            format_func=lambda x: f"Dialog {x+1}",
-            key="dialog_selector",
-            label_visibility="visible"
-        )
-        st.write(f"✅ Dialog {selected_dialog + 1} selected!")
-    else:
-        selected_dialog = 0
-        st.info("No dialogs found in the selected dataset.")
-        st.write("⚠️ No dialogs available!")
-    
-    # 对话展示区域
-    st.write("💬 Creating dialog display area...")
-    st.markdown('<div class="dialog-container">', unsafe_allow_html=True)
-    
-    if dialogs and selected_dialog < len(dialogs):
-        st.write(f"🎭 Displaying dialog {selected_dialog + 1}...")
-        display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
-        st.write("✅ Dialog displayed successfully!")
-    else:
-        st.write("📭 Showing empty state...")
-        st.markdown("""
-        <div class="empty-state">
-            <div class="empty-state-icon">💬</div>
-            <h3>No Dialog Selected</h3>
-            <p>Please select a dataset and dialog to view the conversation.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        st.write("✅ Empty state displayed!")
-    
-    st.markdown('</div>', unsafe_allow_html=True)  # 对话容器结束
-    st.markdown('</div>', unsafe_allow_html=True)  # 主容器结束
-    st.write("🎉 App rendering completed!")
+        # 加载数据
+        try:
+            st.write("📂 Loading dialog data...")
+            dialogs = load_dialog_data(dataset)
+            
+            # 调试信息
+            st.write(f"🔍 Debug: Dataset = {dataset}, Found {len(dialogs)} dialogs")
+        except Exception as e:
+            st.error(f"❌ Data loading failed: {str(e)}")
+            return
+        
+        # 对话选择
+        try:
+            st.write("🎯 Creating dialog selector...")
+            if dialogs:
+                selected_dialog = st.selectbox(
+                    "Select Dialog",
+                    range(len(dialogs)),
+                    format_func=lambda x: f"Dialog {x+1}",
+                    key="dialog_selector",
+                    label_visibility="visible"
+                )
+                st.write(f"✅ Dialog {selected_dialog + 1} selected!")
+            else:
+                selected_dialog = 0
+                st.info("No dialogs found in the selected dataset.")
+                st.write("⚠️ No dialogs available!")
+        except Exception as e:
+            st.error(f"❌ Dialog selector creation failed: {str(e)}")
+            return
+        
+        # 对话展示区域
+        try:
+            st.write("💬 Creating dialog display area...")
+            st.markdown('<div class="dialog-container">', unsafe_allow_html=True)
+            
+            if dialogs and selected_dialog < len(dialogs):
+                st.write(f"🎭 Displaying dialog {selected_dialog + 1}...")
+                display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
+                st.write("✅ Dialog displayed successfully!")
+            else:
+                st.write("📭 Showing empty state...")
+                st.markdown("""
+                <div class="empty-state">
+                    <div class="empty-state-icon">💬</div>
+                    <h3>No Dialog Selected</h3>
+                    <p>Please select a dataset and dialog to view the conversation.</p>
+                </div>
+                """, unsafe_allow_html=True)
+                st.write("✅ Empty state displayed!")
+            
+            st.markdown('</div>', unsafe_allow_html=True)  # 对话容器结束
+            st.markdown('</div>', unsafe_allow_html=True)  # 主容器结束
+            st.write("🎉 App rendering completed!")
+        except Exception as e:
+            st.error(f"❌ Dialog display failed: {str(e)}")
+            return
+        
+    except Exception as e:
+        st.error(f"❌ Critical error in main function: {str(e)}")
+        st.error(f"Error type: {type(e).__name__}")
+        import traceback
+        st.error(f"Traceback: {traceback.format_exc()}")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        st.error(f"❌ Fatal error: {str(e)}")
+        import traceback
+        st.error(f"Traceback: {traceback.format_exc()}")
