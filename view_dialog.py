@@ -140,17 +140,17 @@ def load_custom_css():
     .selection-area {
         margin-bottom: 1.5rem;
         text-align: center;
-    }
-    
-    /* 选择框样式 */
-    .stSelectbox {
+        }
+        
+        /* 选择框样式 */
+        .stSelectbox {
         margin-bottom: 1rem;
-    }
-    
-    .stSelectbox > div > div {
+        }
+        
+        .stSelectbox > div > div {
         background: rgba(255,255,255,0.1);
         border: 1px solid rgba(255,255,255,0.3);
-        border-radius: 8px;
+            border-radius: 8px;
         padding: 0.5rem 0.75rem;
         font-size: 1rem;
         font-weight: 500;
@@ -467,7 +467,7 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             <div class="meta-badge">Reward: {reward:.2f}</div>
             <div class="meta-badge">{len(filtered_messages)} Messages</div>
         </div>
-    </div>
+        </div>
     """, unsafe_allow_html=True)
     
     # 显示消息
@@ -484,7 +484,7 @@ def display_dialog(dialog: Dict[str, Any], dialog_index: int, total_dialogs: int
             role_class = 'assistant'
             avatar = '🤖'
             role_name = 'Assistant'
-        else:
+            else:
             # 跳过其他角色类型
             continue
         
@@ -503,12 +503,6 @@ def main():
     # 加载样式
     load_custom_css()
     
-    # 初始化session state
-    if 'dataset' not in st.session_state:
-        st.session_state.dataset = "Inspired"
-    if 'selected_dialog' not in st.session_state:
-        st.session_state.selected_dialog = 0
-    
     # 主容器
     main_container = st.container()
     
@@ -521,58 +515,43 @@ def main():
         </div>
         """, unsafe_allow_html=True)
     
-    # 数据集选择
-    with main_container:
-        col1, col2 = st.columns([1, 3])
-        with col1:
-            # 使用placeholder确保选择框正确显示
-            dataset_placeholder = st.empty()
-            with dataset_placeholder.container():
-                dataset = st.selectbox(
-                    "Select Dataset",
-                    ["Inspired", "Redial"],
-                    index=["Inspired", "Redial"].index(st.session_state.dataset),
-                    key="dataset_selector",
-                    label_visibility="visible"
-                )
-            # 更新session state
-            if dataset != st.session_state.dataset:
-                st.session_state.dataset = dataset
-                st.session_state.selected_dialog = 0  # 重置对话选择
+    # 使用列布局
+    col1, col2 = st.columns([1, 3])
+    
+    # 数据集选择 - 使用简单的selectbox
+    with col1:
+        dataset_options = ["Inspired", "Redial"]
+        dataset = st.selectbox(
+            "Select Dataset",
+            dataset_options,
+            index=0,
+            key="dataset_selector"
+        )
     
     # 加载数据
     dialogs = load_dialog_data(dataset)
     
-    # 对话选择
-    with main_container:
-        if dialogs:
-            # 确保selected_dialog在有效范围内
-            if st.session_state.selected_dialog >= len(dialogs):
-                st.session_state.selected_dialog = 0
-            
-            # 使用placeholder确保选择框正确显示
-            dialog_placeholder = st.empty()
-            with dialog_placeholder.container():
-                selected_dialog = st.selectbox(
-                    "Select Dialog",
-                    range(len(dialogs)),
-                    format_func=lambda x: f"Dialog {x+1}",
-                    index=st.session_state.selected_dialog,
-                    key="dialog_selector",
-                    label_visibility="visible"
-                )
-            # 更新session state
-            st.session_state.selected_dialog = selected_dialog
-        else:
+    # 对话选择 - 动态创建选项
+    with col1:
+        if dialogs and len(dialogs) > 0:
+            dialog_options = [f"Dialog {i+1}" for i in range(len(dialogs))]
+            selected_dialog_name = st.selectbox(
+                "Select Dialog",
+                dialog_options,
+                index=0,
+                key="dialog_selector"
+            )
+            # 从选择的名字中提取索引
+            selected_dialog = int(selected_dialog_name.split()[1]) - 1
+            else:
             selected_dialog = 0
-            st.session_state.selected_dialog = 0
             st.info("No dialogs found in the selected dataset.")
     
     # 对话展示区域
-    with main_container:
+    with col2:
         if dialogs and selected_dialog < len(dialogs):
             display_dialog(dialogs[selected_dialog], selected_dialog, len(dialogs))
-        else:
+                else:
             st.markdown("""
             <div class="empty-state">
                 <div class="empty-state-icon">💬</div>
