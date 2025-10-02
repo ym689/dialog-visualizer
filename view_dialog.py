@@ -197,6 +197,9 @@ def load_custom_css():
     }
     
     .dialog-header {
+            display: flex;
+        justify-content: space-between;
+            align-items: center;
         margin-bottom: 2rem;
         padding-bottom: 1rem;
         border-bottom: 2px solid #f1f5f9;
@@ -208,6 +211,22 @@ def load_custom_css():
         color: #2d3748;
     }
     
+    .dialog-meta {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    .meta-badge {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
     
     /* 消息样式 */
     .message {
@@ -499,6 +518,10 @@ def main():
         """, unsafe_allow_html=True)
     
     # 数据集选择
+    #  <div class="dialog-meta">
+    #         <div class="meta-badge">Reward: {reward:.2f}</div>
+    #         <div class="meta-badge">{len(filtered_messages)} Messages</div>
+    #     </div>
     with main_container:
         col1, col2 = st.columns([1, 3])
         with col1:
