@@ -38,6 +38,7 @@ def load_custom_css():
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         font-family: 'Times New Roman', Times, serif;
+        font-size: 18px;
     }
     
     /* 隐藏Streamlit默认元素 */
@@ -119,7 +120,7 @@ def load_custom_css():
     }
     
     .header h1 {
-        font-size: 3.5rem;
+        font-size: 3.8rem;
         font-weight: 700;
         color: white;
         margin-bottom: 1rem;
@@ -128,7 +129,7 @@ def load_custom_css():
     }
     
     .header p {
-        font-size: 1.2rem;
+        font-size: 1.35rem;
         color: rgba(255,255,255,0.9);
         font-weight: 400;
         max-width: 600px;
@@ -138,7 +139,7 @@ def load_custom_css():
     
     /* 选择器样式（恢复默认白色外观，仅保留间距与标签可读性） */
     .stSelectbox { margin-bottom: 0.75rem; }
-    .stSelectbox > label { color: #ffffff !important; font-weight: 700 !important; }
+    .stSelectbox > label { color: #ffffff !important; font-weight: 700 !important; font-size: 1rem !important; }
 
     
     /* 对话容器 - 白底+渐变描边卡片 */
@@ -163,7 +164,7 @@ def load_custom_css():
     }
     
     .dialog-title {
-        font-size: 1.5rem;
+        font-size: 1.7rem;
         font-weight: 700;
         color: #2d3748;
     }
@@ -266,7 +267,7 @@ def load_custom_css():
         font-weight: 600;
         color: #4a5568;
         margin-bottom: 0.5rem;
-        font-size: 0.9rem;
+        font-size: 1rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
@@ -274,7 +275,7 @@ def load_custom_css():
     .message-text {
         color: #2d3748;
         line-height: 1.6;
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
     
     /* 空状态 */
